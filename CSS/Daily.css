@@ -1,0 +1,1821 @@
+div.logo{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    transform: translate(25% , -10%);
+    width: 100px;
+    z-index: 6;
+    opacity: 0.5;
+}
+
+/* Start Day-Date */
+#time{
+    position: absolute;
+    direction: ltr;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 9px;
+    right: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    border-bottom-right-radius: 10px;
+}
+h1.day-date{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--main-color);
+    font-size: 25px;
+}
+/* End day-date */
+/* Start Up-dwon */
+.up-down-holder{
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    width: 50px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+}
+.up-down-holder div{
+    width: 40px;
+    height: 50px;
+    background-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: var(--main-transition);
+}
+.up-down-holder div:hover{
+    border: 1px var(--main-color) solid;
+    background-color: transparent;
+}
+.up-down-holder div i{
+    color: white;
+    font-size: 20px;
+    transition: var(--main-transition);
+}
+.up-down-holder div:hover i{
+    color: var(--main-color);
+}
+
+.up-down-holder div:first-of-type{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.up-down-holder div:nth-child(2){
+    height: 30px;
+}
+.up-down-holder div:last-of-type{
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.up-down-holder div:last-of-type i{
+    transform: rotate(180deg);
+}
+/* End Up-dwon */
+/* Start Go Back Arrow */
+.back{
+    font-size: 40px;
+    color: var(--main-color);
+    position: absolute;
+    right: 0px;
+    transform: rotateY(180deg);
+    cursor: pointer;
+    transition: var(--main-transition);
+    width: 60px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.back:hover{
+    color: #2e8871a8;
+}
+.back:hover::after,
+.back:hover::before{
+    display: flex;
+    opacity: 1;
+    animation: Fadgein 0.2s linear 0s;
+}
+.back::after{
+    content: "رجوع";
+    position: absolute;
+    top: 0px;
+    right: 50%;
+    transform: rotateY(180deg) translate(-50% , -115%);
+    padding: 5px;
+    background-color: #2e8871a8;
+    color: white;
+    display: none;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    border-radius: 10px;
+    transition: var(--main-transition);
+}
+.back::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    transform: translate(-4% , -46%);
+    border: 10px transparent solid;
+    border-top-color: #2e8871a8;
+    display: none;
+    opacity: 0;
+    transition: var(--main-transition);
+}
+/* End Go Back Arrow */
+/* Start memo-rev control */
+.memo-rev-control-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.memo-rev-control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1150px;
+    position: relative;
+    height: 30px;
+    direction: rtl;
+    margin-bottom: 10px;
+    padding: 0 100px;
+}
+@media (max-width: 1200px){
+    .memo-rev-control{
+        width: 750px;
+    }
+}
+@media (max-width: 600px){
+    .back{
+        right: 40px;
+    }
+}
+
+.memo-rev-control div{
+    width: 120px;
+    height: 50px;
+    color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--main-transition);
+    border: 2px var(--main-color) solid;
+}
+.memo-rev-control div:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+.memo-rev-control div.active{
+    background-color: var(--main-color);
+    color: white;
+}
+
+.memo-rev-control div:nth-of-type(1){
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.memo-rev-control div:nth-of-type(2){
+    position: relative;
+    margin-right: 15px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.memo-rev-control div:nth-of-type(2)::after{
+    content: "";
+    position:absolute;
+    background-color: var(--main-color);
+    width: 3px;
+    height: 100%;
+    top: 50%;
+    right: 0%;
+    transform: translate(11px,-50%);
+}
+
+/* End memo-rev control */
+/* Start Contorol */
+.control{
+    direction: rtl;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.control .container{
+    position: relative;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    padding: 10px 20px 30px 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+/* Start Studint Info */
+.control .container .state{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    margin-bottom: 7px;
+}
+
+.control .container .state .name{
+    color: white;
+    font-size: 25px;
+    flex-basis: 80%;
+    background-color: #2e8871a8;
+    padding: 0 10px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-align: center;
+}
+
+.control .container .state .holder{
+    flex-basis: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    color: var(--main-color);
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;    
+}
+
+.control .container .state .holder::after{
+    content: "";
+    position: absolute;
+    height: 90%;
+    width: 3px;
+    background-color: var(--main-color);
+    top: 5%;
+}
+.control .container .state .holder .box{
+    padding: 5px;
+    width: 50%;
+    transition: var(--main-transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+}
+.control .container .state .holder .box .bar{
+    position: absolute;
+    background-color: transparent;
+    padding: 5px;
+    width: 150%;
+    height: fit-content;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px var(--main-color) dashed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    background-color: white;
+    z-index: 5;
+}
+.control .container .state .holder .box .bar.show{
+    display: flex;
+    animation: Fadgein 150ms linear 0s forwards;
+}
+.control .container .state .holder .box .bar button{
+    background-color: transparent;
+    border: 3px var(--red-color) solid;
+    margin: 5px 0;
+    width: 95%;
+    height: 45px;
+    transition: var(--main-transition);
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--red-color);
+    font-size: 25px;
+    font-family: "Cairo" , sans-serif;
+    
+
+}
+.control .container .state .holder .box .bar button:hover{
+    background-color: var(--red-color);
+    color: white;
+}
+.control .container .state .holder .box .bar .at-state{
+    appearance: none;
+    background-color: transparent;
+    margin: 5px 0;
+    width: 95%;
+    height: 45px;
+    transition: var(--main-transition);
+    border-radius: 5px;
+    border: 3px var(--red-color) solid;
+    position: relative;
+    cursor: pointer;
+}
+.control .container .state .holder .box .bar .at-state:first-child,
+.control .container .state .holder .box .bar .at-state:nth-child(2),
+.control .container .state .holder .box .bar .at-state:nth-child(3){
+    border: 3px var(--main-color) solid;
+}
+.control .container .state .holder .box .bar .at-state:first-child:hover,
+.control .container .state .holder .box .bar .at-state:first-child:checked,
+.control .container .state .holder .box .bar .at-state:nth-child(2):hover,
+.control .container .state .holder .box .bar .at-state:nth-child(2):checked,
+.control .container .state .holder .box .bar .at-state:nth-child(3):hover,
+.control .container .state .holder .box .bar .at-state:nth-child(3):checked{
+    background-color: var(--main-color);
+}
+.control .container .state .holder .box .bar .at-state:checked,
+.control .container .state .holder .box .bar .at-state:hover{
+    background-color: var(--red-color);
+}
+.control .container .state .holder .box .bar .at-state::after{
+    content: attr(contnet);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--red-color);
+    font-size: 25px;
+    font-family: "Cairo" , sans-serif;
+}
+.control .container .state .holder .box .bar .at-state:first-child::after,
+.control .container .state .holder .box .bar .at-state:nth-child(2)::after,
+.control .container .state .holder .box .bar .at-state:nth-child(3)::after{
+    color: var(--main-color);
+}
+.control .container .state .holder .box .bar .at-state:hover::after ,
+.control .container .state .holder .box .bar .at-state:checked::after{
+    color: white;
+}
+.control .container .state .holder .box:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+/* End Studint Info */
+/* Start Memoraiztion And Review */
+.memo-rev{
+    display: flex;
+    flex-direction: column;
+    flex-basis: calc(80% - 20px);
+}
+/* Start Memoriztion */
+.memoriztion{
+    display: none;
+    border: #77777762 2px dashed;
+    border-radius: 10px;
+    padding: 10px 10px 10px 20px;
+    position: relative;   
+}
+.memoriztion.active{
+    display:flex ;
+}
+.memoriztion.false{
+    pointer-events: none;
+    opacity: 0.8;
+}
+.memoriztion.false .title{
+    width: calc(100% + 4px);
+    background-color: white;
+    color: var(--main-color);
+    border : var(--main-color) 3px solid;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    writing-mode: horizontal-tb;
+    z-index: 2;
+    opacity: 1;
+    font-size: 30px;
+}
+.memoriztion.false .title:hover{
+    color: white;
+}
+.memoriztion .title{
+    pointer-events: auto;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    filter: grayscale(0%);
+    background-color: var(--main-color);
+    height: calc(100% + 4px);
+    width: 40px;
+    writing-mode: vertical-rl;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.memoriztion .title:hover{
+    background-color: #2e8885;
+}
+/* Start Control Of Memo */
+.memoriztion .info{
+    color: #777;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 50px;
+    width: 80%;
+    flex-basis: 80%;
+    padding-left: 10px;    
+}
+.memoriztion .info .surah-box,
+.a-box{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+.memoriztion .info .surah-box input{
+    width: 100%;
+    height: 45px;
+    margin-right: 10px;
+    padding-right: 10px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;
+}
+.a-box{
+    margin-top: 10px;
+}
+.a-box input{
+    width: 90%;
+    height: 45px;
+    margin-right: 10px;
+    padding-right: 10px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;
+
+}
+.memoriztion .info .surah-box input:focus,
+.a-box input:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}
+.memoriztion .info .surah-box .result-box.memo,
+.a-box .result-box.memo-listener{
+    position: absolute;
+    background-color: white;
+    width: 75%;
+    margin-right: 94px;
+    z-index: 5;
+    bottom: 0;
+    transform: translate(0,100%);
+}
+.memoriztion .info .surah-box .result-box.memo ul,
+.a-box .result-box.memo-listener ul{
+    box-shadow: 0px 5px 7px -2px var(--main-color);
+}
+.memoriztion .info .surah-box .result-box.memo ul li,
+.a-box .result-box.memo-listener ul li{
+    padding-right: 10px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.memoriztion .info .surah-box .result-box.memo ul li:not(:first-of-type),
+.a-box .result-box.memo-listener ul li:not(:first-of-type){
+    border-top: 1px #2673705c dashed;
+}
+.memoriztion .info .surah-box .result-box.memo ul li:hover ,
+.memoriztion .info .surah-box .result-box.memo ul li.selected,
+.a-box .result-box.memo-listener ul li:hover,
+.a-box .result-box.memo-listener ul li.selected{
+    background-color: #e9f3ff;
+}
+.memoriztion .info .from-to{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+.memoriztion .info .from-to label{
+    margin-left: 10px;
+    width: 100px;
+}
+.memoriztion .info .from-to label:not(:first-of-type){
+    margin-right: 10px;
+}
+.memoriztion .info .from-to input[type="text"]{
+    width: 50%;
+    height: 45px;
+    padding-right: 10px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;   
+}
+.memoriztion .info .from-to input[type="text"]:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}
+.memoriztion .decisiveness{
+    flex-basis: 20%;
+    width: 24%;
+}
+.memoriztion .failed{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 50px;
+    margin-right: 10px;
+}
+.memoriztion .failed .add,
+.memoriztion .failed .remove{
+    appearance: none;
+    background-color: var(--main-color);
+    color: white;
+    width: 30px;
+    height: 35px;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    font-family:'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.memoriztion .failed .add{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-bottom: 2px;
+}
+.memoriztion .failed .remove{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
+.memoriztion .failed .add:hover,
+.memoriztion .failed .remove:hover,
+.memoriztion .failed .add.selected,
+.memoriztion .failed .remove.selected{
+    background-color: white;
+    color: var(--main-color);
+    border: 1px var(--main-color) solid;
+}
+
+.memoriztion .decisiveness .try{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   
+    height: 70px;
+}
+.memoriztion .decisiveness .try button{
+    width: 50%;
+    border: none;
+    color: white;
+    font-family: "Cairo" , sans-serif;
+    font-weight: bold;
+    margin-left: 5px;
+    border-radius: 7px;
+    background-color: var(--main-color);
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.memoriztion .decisiveness .try button:hover{
+    background-color: transparent;
+    border: 1px var(--main-color) solid;
+    color: var(--main-color);
+}
+.memoriztion .decisiveness .try .memo-list-holder{
+    height: 32px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+    border: 1.5px var(--main-color) solid;
+    border-radius: 10px;
+    color: var(--main-color);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.memoriztion .decisiveness .try .memo-list-holder:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+
+.memoriztion .decisiveness .try .memo-list-holder ul{
+    position: absolute;
+    bottom: -5px;
+    transform: translateY(100%);
+    background-color: white;
+    border: 0.5px  var(--main-color) dashed;
+    padding: 5px 5px 0px 5px;
+    width: 100%;
+    z-index: 6;
+    display: none;
+}
+.memoriztion .decisiveness .try .memo-list-holder ul.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: Fadgein 150ms linear 0s forwards;
+}
+.memoriztion .decisiveness .try .memo-list-holder ul li{
+    height: 35px;
+    width: 100%;
+}
+.memoriztion .decisiveness .try .memo-list-holder ul li input{
+    width: 100%;
+}
+
+
+.memoriztion .decisiveness .try #firstTime,
+#rememo{
+    background-color: var(--main-color);   
+}
+.memoriztion .decisiveness .try #firstTime:hover,
+#rememo:hover{
+    background-color: transparent;
+}
+.memoriztion .decisiveness .try #firstTime:hover::after,
+#rememo:hover::after{
+    color: var(--main-color);
+}
+.memoriztion .decisiveness .try #firstTime:checked,
+#rememo:checked{
+    background-color: var(--red-color);
+    border: 1px var(--red-color) solid;
+}
+.memoriztion .decisiveness .try #firstTime:checked::after{
+    content: "محاولة ثانية";
+    color: white;
+}
+#rememo:checked::after{
+    content: "عليه إعادة";
+}
+.memoriztion .decisiveness .try #firstTime:checked:hover,
+#rememo:checked:hover{
+    background-color: transparent;
+    color: white;
+}
+.memoriztion .decisiveness .try #firstTime:checked:hover::after,
+#rememo:checked:hover::after{
+    color: var(--red-color);
+}
+.memoriztion .decisiveness .try #firstTime::after{
+    content:"محاولة أولى";
+}
+#rememo::after{
+    content: "إعادة غدًا";
+}
+.memoriztion .decisiveness .try #firstTime::after,
+#rememo::after{
+    color: white;
+}
+.memoriztion .decisiveness .try #timecalc{
+    width: 100%;
+    background-color: transparent;
+}
+.memoriztion .decisiveness .try #timecalc::after{
+    content:"اعتمد";
+    font-size: 20px;
+    font-weight: bold;
+}
+.memoriztion .decisiveness .try #timecalc:checked{
+    background-color: var(--main-color);
+    border: 1px var(--main-color) solid;
+}
+.memoriztion .decisiveness .try #timecalc:checked::after{
+    content: "تم";
+    color: white;
+}
+.memoriztion .decisiveness .try #timecalc:hover{
+    background-color: var(--main-color);
+}
+.memoriztion .decisiveness .try #timecalc:hover::after{
+    color: white;
+}
+.memoriztion .decisiveness .try input[type="checkbox"]{
+    appearance: none;
+    border: 1px var(--main-color) solid;
+    width: 50%;
+    height: 30px;
+    border-radius: 7px;
+    margin: auto;
+    transition: var(--main-transition);
+    position: relative;
+    cursor: pointer;
+}   
+.memoriztion .decisiveness .try input[type="checkbox"]::after{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    padding: 1px;
+    transform: translate(-50% , -50%);
+    color: var(--main-color);
+    font-size: 13px;
+    font-family: "Cairo" , sans-serif;
+    text-align: center;
+    font-weight: bold ;
+}
+.memoriztion .decisiveness .try input[type="checkbox"]:first-of-type{
+    margin-left: 5px;
+}
+.memoriztion .decisiveness .dec-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.memoriztion .decisiveness .dec-holder span:first-of-type{
+        color: #777;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-left: 10px;
+}
+.memoriztion .decisiveness .dec-holder span:last-of-type{
+        margin-right: 10px;
+        color: #777;
+        font-size: 1.5em;
+        font-weight: bold;
+}
+.memoriztion .decisiveness .dec-holder .add,
+.memoriztion .decisiveness .dec-holder .remove{
+    appearance: none;
+    background-color: var(--main-color);
+    color: white;
+    width: 35px;
+    height: 25px;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    font-family:'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.memoriztion .decisiveness .dec-holder .add:hover,
+.memoriztion .decisiveness .dec-holder .remove:hover{
+        background-color: transparent;
+        border: 1px var(--main-color) solid;
+        color: var(--main-color);
+}
+.memoriztion .decisiveness .dec-holder .add{
+    border-top-right-radius: 35%;
+    border-bottom-right-radius: 35%;
+    margin-left: 1px;
+}
+.memoriztion .decisiveness .dec-holder .remove{
+    border-top-left-radius: 35%;
+    border-bottom-left-radius: 35%;
+}
+/* End Memoriztion */
+/* Start Review */
+.review{
+    display: none;
+    justify-content: space-between;
+    border: #77777762 2px dashed;
+    border-radius: 10px;
+    margin-top: 0px;
+    padding: 10px 10px 10px 20px;
+    min-height:100px ;
+    position: relative;
+}
+.review.active{
+    display: flex;
+}    
+.review.false{
+    pointer-events: none;
+    opacity: 0.8;
+}
+.review.false .title{
+    width: calc(100% + 4px);
+    background-color: white;
+    color: var(--main-color);
+    border : var(--main-color) 3px solid;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    writing-mode: horizontal-tb;
+    z-index: 2;
+    opacity: 1;
+    font-size: 30px;
+}
+.review.false .title:hover{
+    color: white;
+}
+
+.review .title{
+    pointer-events: auto;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: var(--main-color);
+    height: calc(100% + 4px);
+    width: 40px;
+    writing-mode: vertical-rl;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.review .title:hover{
+    background-color: #2e8885;
+}
+
+.review .info{
+    flex-basis: 80%;
+    width: 80%;
+    
+}
+.review .info .holder{
+    margin-right: 40px;
+    display: flex;
+    width: 90%;
+}
+.review .info .holder:not(:first-of-type){
+    margin-top: 10px;
+}
+
+.review .info .holder .handel{
+    width: 100%;
+    position: relative;
+}
+.review .info .holder .handel input[type="text"]{
+    width: calc(100% - 50px);
+    height: 45px;
+    padding-right: 10px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;
+}
+.review .info .holder .handel input[type="text"]#listener1 , 
+.review .info .holder .handel input[type="text"]#listener2{
+    font-size: 1.4em;
+}
+.review .info .holder .handel input[type="text"]:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}
+
+.review .info .holder .handel .result-box.rev{
+    position: absolute;
+    background-color: white;
+    width: 75%;
+    margin-right: 50px;
+    z-index: 5;
+    bottom: 0;
+    transform: translate(0,100%);
+}
+.review .info .holder .handel .result-box.rev ul{
+    box-shadow: 0px 5px 7px -2px var(--main-color);
+}
+.review .info .holder .handel .result-box.rev ul li{
+    padding-right: 10px;
+    font-size: 20px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.review .info .holder .handel .result-box.rev ul li:not(:first-of-type){
+    border-top: 1px #2673705c dashed;
+}
+.review .info .holder .handel .result-box.rev ul li:hover ,
+.review .info .holder .handel .result-box.rev ul li.selected{
+    background-color: #e9f3ff;
+}
+
+.review .info .holder .handel .result-box.rev.listener1 ul li ,
+.review .info .holder .handel .result-box.rev.listener2 ul li{
+            font-size: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+}
+
+.review .info .holder.listen input[type="text"]{
+        width: calc(100% - 50px);
+        height: 45px;
+        padding-right: 10px;
+        border: 1px #77777762 solid;
+        border-radius: 15px;
+        background-color: transparent;
+        color: #777;
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: "Cairo" , sans-serif;
+        transition: 0.1s;
+}
+.review .info .holder.listen input[type="text"]:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}
+
+.review .info .holder label{
+    color: #777;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    width: fit-content;
+}
+.review .info .holder label:not(:first-of-type){
+    margin-right: 10px;
+}
+.review .decisiveness-rev{
+    flex-basis: 20%;
+    width: 24%;
+}
+.review .decisiveness-rev .dec-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.review .decisiveness-rev .dec-holder span:first-of-type{
+    color: #777;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.review .decisiveness-rev .dec-holder span:last-of-type{
+    margin-right: 10px;
+    color: #777;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.review .decisiveness-rev .dec-holder .add,
+.review .decisiveness-rev .dec-holder .remove{
+    appearance: none;
+    background-color: var(--main-color);
+    color: white;
+    width: 35px;
+    height: 25px;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    font-family:'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.review .decisiveness-rev .dec-holder .add:hover,
+.review .decisiveness-rev .dec-holder .remove:hover{
+    background-color: transparent;
+    border: 1px var(--main-color) solid;
+    color: var(--main-color);
+}
+.review .decisiveness-rev .dec-holder .add{
+    border-top-right-radius: 35%;
+    border-bottom-right-radius: 35%;
+    margin-left: 1px;
+}
+.review .decisiveness-rev .dec-holder .remove{
+    border-top-left-radius: 35%;
+    border-bottom-left-radius: 35%;
+}
+.review  .decisiveness-rev .try{
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+}
+.review .decisiveness-rev .try .rev-list-holder{
+    height: 32px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+    border: 1.5px var(--main-color) solid;
+    border-radius: 10px;
+    color: var(--main-color);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.review .decisiveness-rev .try .rev-list-holder:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+
+.review .decisiveness-rev .try .rev-list-holder ul{
+    position: absolute;
+    bottom: -5px;
+    transform: translateY(100%);
+    background-color: white;
+    border: 0.5px  var(--main-color) dashed;
+    padding: 5px 5px 0px 5px;
+    width: 100%;
+    z-index: 6;
+    display: none;
+}
+.review .decisiveness-rev .try .rev-list-holder ul.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: Fadgein 150ms linear 0s forwards;
+}
+.review .decisiveness-rev .try .rev-list-holder ul li{
+    height: 35px;
+    width: 100%;
+}
+.review .decisiveness-rev .try .rev-list-holder ul li input{
+    width: 100%;
+}
+
+
+.review .decisiveness-rev .try #firstTime-rev,
+#rereview{
+    background-color: var(--main-color);   
+}
+.review .decisiveness-rev .try #firstTime-rev:hover,
+#rereview:hover{
+    background-color: transparent;
+}
+.review .decisiveness-rev .try #firstTime-rev:hover::after,
+#rereview:hover::after{
+    color: var(--main-color);
+}
+.review .decisiveness-rev .try #firstTime-rev:checked,
+#rereview:checked{
+    background-color: var(--red-color);
+    border: 1px var(--red-color) solid;
+}
+.review .decisiveness-rev .try #firstTime-rev:checked::after{
+    content: "محاولة ثانية";
+    color: white;
+}
+#rereview:checked::after{
+    content: "عليه إعادة";
+}
+.review .decisiveness-rev .try #firstTime-rev:checked:hover,
+#rereview:checked:hover{
+    background-color: transparent;
+    color: white;
+}
+.review .decisiveness-rev .try #firstTime-rev:checked:hover::after,
+#rereview:checked:hover::after{
+    color: var(--red-color);
+}
+.review .decisiveness-rev .try #firstTime-rev::after{
+    content:"محاولة أولى";
+}
+#rereview::after{
+    content: "إعادة غدًا";
+}
+.review .decisiveness-rev .try #firstTime-rev::after,
+#rereview::after{
+    color: white;
+}
+
+.review .decisiveness-rev .try input[type="checkbox"]{
+    appearance: none;
+    border: 1px var(--main-color) solid;
+    width: 80%;
+    height: 30px;
+    border-radius: 7px;
+    margin: auto;
+    transition: var(--main-transition);
+    position: relative;
+    cursor: pointer;
+}   
+.review .decisiveness-rev .try input[type="checkbox"]:hover{
+    background-color: var(--main-color);
+}
+.review .decisiveness-rev .try input[type="checkbox"]:checked{
+    border: 1px var(--red-color) solid;
+    background-color: var(--red-color);
+}
+.review .decisiveness-rev .try input[type="checkbox"]:checked:hover{
+background-color: transparent;
+}
+.review .decisiveness-rev .try input[type="checkbox"]::after{
+    content: "بدون إعادة";
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    padding: 1px;
+    transform: translate(-50% , -50%);
+    color: var(--main-color);
+    font-size: 13px;
+    font-family: "Cairo" , sans-serif;
+    text-align: center;
+    font-weight: bold ;
+}
+.review .decisiveness-rev .try input[type="checkbox"]:hover::after{
+    color: white;
+}
+.review .decisiveness-rev .try input[type="checkbox"]:checked::after{
+    content: "إعادة";
+    color: white;
+}
+.review .decisiveness-rev .try input[type="checkbox"]:checked:hover::after{
+    color: var(--red-color);
+}
+
+
+.review .decisiveness-rev .try input[type="checkbox"]:first-of-type{
+    margin: auto;
+}
+
+
+/* End Review */
+
+
+
+/* Start Grade */
+.grades{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 20px);
+    bottom: 0;
+    left: 10px;
+    transform: translateY(100%);
+    padding-right: 10px;
+}
+.grades .box{
+    height: fit-content;
+    padding: 0 10px;
+    margin-left: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--main-color);
+    color: white;
+    font-size: 22.5px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    letter-spacing: 1.6;
+    overflow: hidden;
+    white-space: nowrap;
+    display: none;
+    position: relative;
+}
+.grades .box span{
+    font-size: 22.5px;
+    margin-right: 5px;
+}
+.grades .box.active{
+    display: flex;
+}
+/* End Grade */
+/* Start Table Control */
+.table-control > .container{
+    width: 100%;
+    border: none;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    bottom: -45px;
+    padding: 0 !important;
+}
+.table-control .container .box{
+    width: 40px;
+    height: 40px;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--main-transition);
+}
+.table-control .container .box:hover,
+.table-control .container .box.active{
+    background-color: var(--main-hover);
+}
+.table-control .container .box:hover i,
+.table-control .container .box.active i{
+    color: white;
+}
+
+.table-control .container .box i{
+    font-size: 17px;
+    color: white;
+    transition: var(--main-transition);
+}
+
+@media (max-width: 1200px){
+    .control .container .state .name{
+        font-size: 25px;
+    }
+    .memoriztion .info .result-box.memo{
+        width: 340px;
+    }
+    .memo-rev .holder .handel .result-box.rev{
+        margin-right: 40px;
+    }
+    .memo-rev .review .info .holder .handel .result-box.rev{
+        margin-right: 40px;
+    }
+    .review .info .holder .handel input[type="text"]#listener1 , 
+    .review .info .holder .handel input[type="text"]#listener2{
+        font-size: 1.1em;
+    }
+    
+}
+
+@media (max-width: 1000px){
+#time{
+    top: 6px;
+}
+.control .container {
+    flex-direction: column;
+    padding-top: 7px;
+}
+.control .container .state{
+    
+    flex-direction: row;
+}
+.control .container .logo{
+    display: none;
+}
+.control .container .state .name{
+    flex-basis: 70%;
+    text-align: center;
+    font-size: 25px;
+}
+.control .container .state .holder{
+    flex-basis: 30%;
+}
+.control .container .state .holder .box.bar{
+    background-color: white;
+    z-index: 5;
+}
+.control .container .memo-rev .memoriztion .info .result-box.memo{
+width: 280px;
+}
+.review .info .holder .handel input[type="text"]{
+    font-size: 1.4em;
+}
+.review .info .holder .handel input[type="text"]#listener1 , 
+.review .info .holder .handel input[type="text"]#listener2{
+    font-size: 14px;
+}
+
+
+}
+
+@media (max-width: 800px){
+    .up-down-holder{
+        display: none;
+    }
+}
+@media (max-width: 650px){
+    #time{
+        display: none;
+    }
+    
+.control .container{
+    padding: 0;
+
+}
+.control .container .memoriztion{
+    padding: 0;
+}
+
+}
+
+/* phone mode */
+@media (max-width: 580px){
+.control .container{
+    max-width: 390px;
+}
+.table-control{
+    display: none;
+}
+.control .container .state{
+    margin: 5px;
+}
+.control .container .state .name{
+    font-size: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.control .container .state .holder .box{
+    margin: 0px 5px;
+}
+.control .container .state .holder .box .bar .at-state::after{
+    font-size: 15px;
+    font-weight: bold;
+}
+.control .container .state .holder .box .bar button{
+    font-size: 15px;
+    font-weight: bold;
+}
+.control .container .memo-rev .memoriztion{
+    flex-direction: column;
+}
+.control .container .memo-rev .memoriztion .info{
+    margin-top: 5px;
+    width: 87%;
+}
+.control .container .memo-rev .memoriztion .info .surah-box,
+.a-box{
+    font-size:20px;
+}
+.control .container .memo-rev .memoriztion .info .surah-box #surah,
+.a-box input{
+    height: 35px;
+    font-size:20px;
+}
+.control .container .memo-rev .memoriztion .info .surah-box .result-box.memo{
+    left: 5px;
+}
+.control .container .memo-rev .memoriztion .info .surah-box .result-box.memo ul li{
+    font-size: 20px;
+}
+.control .container .memo-rev .memoriztion .info .from-to{
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.control .container .memo-rev .memoriztion .info .from-to input[type="text"]{
+    font-size: 20px;
+    height: 35px;
+}
+.control .container .memo-rev .memoriztion .info .from-to label{
+    margin-left: 5px;
+}
+.control .container .memo-rev .memoriztion .info .from-to label:not(:first-of-type){
+    margin-right: 5px;
+}
+.control .container .memo-rev .memoriztion .info .result-box.memo{
+    width: 225px;
+}
+.control .container .memo-rev .memoriztion .decisiveness{
+    display: flex;
+    flex-wrap: wrap;
+    width: 87%;
+    margin-top: 10px;
+    margin-right: 35px;
+    justify-content: space-around;
+}                         
+.control .container .memo-rev .memoriztion .decisiveness .dec-holder span{
+    font-size: 20px;
+}
+.control .container .memo-rev .memoriztion .decisiveness .dec-holder span:first-of-type{
+    font-size: 20px;
+}
+.control .container .memo-rev .memoriztion .decisiveness .dec-holder .add,
+.control .container .memo-rev .memoriztion .decisiveness .dec-holder .remove{
+    width: 35px;
+    height: 35px;
+}
+.control .container .memo-rev .memoriztion .decisiveness .try{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 10px;
+    margin-right: 15px ;
+    margin-top: 15px;
+}
+.control .container .memo-rev .memoriztion .decisiveness .try #firstTime::after{
+    content: "أولى";
+}
+.control .container .memo-rev .memoriztion .decisiveness .try #firstTime:checked::after{
+content: "ثانية";
+}
+.control .container .memo-rev .memoriztion .decisiveness .try #timecalc{
+margin-bottom: 5px;
+}
+
+.control .container .memo-rev .review{
+    padding: 10px 0;
+    flex-direction: column;
+}
+.control .container .memo-rev .review .info{
+width: 100%;
+}
+.control .container .memo-rev .review .info .holder .handel{
+    display: flex;
+}
+.control .container .memo-rev .review .info .holder .handel label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0px;
+    font-size: 20px;
+    width: 90%;
+    flex-basis: 20%;
+
+}
+.control .container .memo-rev .review .info .holder .handel input[type="text"] {
+    height: 35px;
+    font-size: 1em;
+    width: 100%;
+    flex-basis: 75%;
+}
+.control .container .memo-rev .review .info .holder .handel .result-box.rev{
+    margin-right: 2%;
+    width: 90%;
+
+}            
+.control .container .memo-rev .review .info .holder.listen{
+    margin-top: 10px;
+}
+.control .container .memo-rev .review .decisiveness-rev{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-right: 0px;
+}      
+.control .container .memo-rev .review .decisiveness-rev .dec-holder{
+    margin-right: 20px;
+}                   
+.control .container .memo-rev .review .decisiveness-rev .dec-holder span{
+    font-size: 20px;
+}
+.control .container .memo-rev .review .decisiveness-rev .dec-holder span:first-of-type{
+    font-size: 20px;
+}
+.control .container .memo-rev .review .decisiveness-rev .dec-holder .add,
+.control .container .memo-rev .review .decisiveness-rev .dec-holder .remove{
+    width: 35px;
+    height: 35px;
+}
+.control .container .memo-rev .review .decisiveness-rev .try{
+    margin-top: 10px;
+    margin-right: 20px;
+    flex-basis: 80%;
+}
+.control .container .grades .box{
+    height: 29px;
+    font-size: 14.5px;
+}
+.grades .box span{
+    font-size: 14.5px;
+}
+}
+/* End of control section */
+
+/* Start Studint taple */
+
+.studint-taple{
+    margin-top: 60px;
+    padding-bottom: 20px;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.studint-taple > .container{
+    padding: 0;
+}
+.studint-taple .container table{
+    width: 100%;
+    direction: rtl;
+}
+.studint-taple .container table thead{
+    background-color: var(--main-color);
+    color: white;
+}
+.studint-taple .container table thead tr{
+    height: 45px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+.studint-taple .container table thead tr .number{
+    width: 40px;
+    padding: 0 2px;
+}
+.studint-taple .container table thead tr .name{
+    width: 250px;
+}
+.studint-taple .container table thead tr .surah{
+    width: 100px;
+}
+.studint-taple .container table thead tr:first-of-type td:first-of-type {
+    border-top-right-radius: 10px;
+}
+.studint-taple .container table thead tr:first-of-type td:last-of-type{ 
+    border-top-left-radius: 10px;
+}     
+.studint-taple .container table tbody tr{
+    height: 45px;
+    font-weight: bold;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.studint-taple .container table tbody tr td.number-body .delete-day{
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--red-color);;
+    color: white;
+    z-index: 5;
+    animation: Fadgein 0.3s linear 0s 1 forwards ;
+}
+.studint-taple .container table tbody tr:hover ,
+.studint-taple .container table tbody tr.active{
+    transform: scale(1.02);
+
+}
+.studint-taple .container table tbody tr:hover td ,
+.studint-taple .container table tbody tr.active td{
+    background-color: #2e8871a8; 
+    color: white;   
+}
+.memo-try-body .active{
+    display: none;
+}
+
+.studint-taple .container table tbody td:not(:nth-child(2)){
+     text-align: center;
+}
+.studint-taple .container table tbody tr td{
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 0px #777;
+    color: #777;
+    transition: var(--main-transition);
+}
+.studint-taple .container table tbody tr td.number-body{
+    position: relative;
+}
+.studint-taple .container table tbody tr td.number-body .dot-holder{
+    width: 100%;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 4px;
+    overflow: hidden;
+}
+.studint-taple .container table tbody tr td.number-body .dot-holder span{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 2px;
+    background-color: #f7931e;
+}
+
+.studint-taple .container table tbody tr td.name-body{
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+}
+.studint-taple .container table tbody tr td.timer-rev{
+    font-size: 18px;
+    transition: var(--main-transition);
+}
+.studint-taple .container table tbody tr td.timer-rev:hover{
+    transform: scale(1.05);
+}
+
+.studint-taple .container table tbody tr td div:first-of-type{
+    min-height: 31.60px;
+    border-bottom: 1px #77777762 solid;
+}
+.studint-taple .container table tbody tr td .space{
+     min-height: 30px;
+}
+.studint-taple .container table tbody tr td .catagory{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.studint-taple .container table tbody tr td .memo-listener {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: none  !important;
+}
+
+
+@media (max-width: 1000px){
+.studint-taple .container table tbody tr td.listener-body {
+    padding: 0 5px;
+    height: 60px;
+    width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.studint-taple .container table tbody tr td.listener-body .listener1{
+    max-width: 91px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.studint-taple .container table tbody tr td.listener-body .listener2{
+    max-width: 91px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+}
+/* Phone Mode Tor Table */
+@media (max-width: 580px){
+.studint-taple{
+margin-top: 60px;
+}
+.studint-taple .container{
+max-width: 400px;
+}
+.studint-taple .container table thead tr{
+font-size: 15px;
+}
+.studint-taple .container table thead tr .name{
+width: 200px;
+}
+.studint-taple .container table thead tr .surah{
+width: 70px;
+}
+.studint-taple .container table thead tr .memo-try,
+.studint-taple .container table thead tr .rate-rev,
+.studint-taple .container table thead tr .time-rev,
+.studint-taple .container table thead tr .listener,
+.studint-taple .container table thead tr .rate{
+display: none;
+}
+.studint-taple .container table thead tr .surah-rev{
+border-top-left-radius:10px ;
+}
+
+.studint-taple .container table tbody tr td{
+font-size: 14px;
+
+}
+.studint-taple .container table tbody tr td.memo-try-body,
+.studint-taple .container table tbody tr td.rate-body,
+.studint-taple .container table tbody tr td.listener-body,
+.studint-taple .container table tbody tr td.rate-rev-body,
+.studint-taple .container table tbody tr td.timer-rev{
+display: none;
+}
+}
+/* Extra small */
+@media (max-width: 780px){
+.studint-taple .container table{
+overflow: hidden;
+}
+
+}
+/* End Studint-Table */
+/* Start Footer */
+footer{
+    background-color: transparent;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px ;
+    border-top: 2px var(--main-color) dashed;
+}
+footer .container{
+    display: flex;
+    justify-content: center;
+}
+footer .container div{
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+}
+footer .container div span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color);
+    width: 200px;
+    height: 50px;
+    padding: 7px;
+    border: 3px var(--main-color) solid;
+    border-radius: 10px;
+    z-index: 5;
+    position: relative;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+footer .container div span:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+footer .container div ul{
+    display: none;
+    direction: rtl;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    transform: translateY(-100%);
+    top: 0px;
+    z-index: 4;
+    border: 1px #777 dashed;
+}
+footer .container div ul li{
+    padding: 5px;
+    transition: var(--main-transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #777;
+}
+footer .container div ul li:hover{
+    background-color: #e9f3ff;
+}
+footer .container div ul li:not(:first-of-type){
+    border-top: 1px #777 dashed;
+}
+::-webkit-scrollbar{
+    width: 15px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: var(--main-color);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: #2e8885;
+    cursor: pointer;
+}
+::-webkit-scrollbar-track{
+    background-color: #b6b6b64d;
+    border-radius: 10px;
+    margin-block: 50px;
+}

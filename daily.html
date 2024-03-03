@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" title="خيركم من تعلم القرآن وعلمه"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="CSS/all.min.css">
+    <!-- Main Css Style Sheet -->
+    <link rel="stylesheet" href="CSS/Daily.css">
+     <!-- Components Css Style Sheet -->
+     <link rel="stylesheet" href="CSS/Components.css">
+     <!-- GoogleFonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+     <!-- Icon -->
+    <link rel="icon" href="IMG/SilverLogo.svg">
+    <title>الرصد اليومي</title>
+    
+</head>
+<body>
+    <!-- Start BackGround -->
+    <div class="no-overflow">
+        <div class="pointed-groub">
+            <img src="IMG/Decoration.png">
+        </div>
+    </div>
+    <div class="logo">
+        <img src="IMG/Logo.svg" alt="">
+    </div>
+    <!-- End BackGround -->
+    
+    
+    <!-- Start Controling of Input's -->
+    <h1 class="day-date">الاثنين 08 / 08 / 1445</h1>
+    <div class="up-down-holder">
+        <div class="up"><i class="fa-solid fa-caret-up"></i></div>
+        <div class="center"><i class="fa-solid fa-minus"></i></div>
+        <div class="down"><i class="fa-solid fa-caret-up"></i></div>
+    </div>
+    <div class="memo-rev-control-holder">
+        <div class="memo-rev-control">
+            <span class="back" id="back"><i class="fa-solid fa-reply-all"></i></span>
+            <div class="memo-control" id="memo-show">الدرس</div>
+            <div class="rev-control" id="rev-show">المراجعة</div>
+        </div>    
+    </div>
+    <div class="control">
+        <div class="container">
+            <!-- Start Status -->
+            <div class="state">
+                <span id="time">00:00:00</span>
+                <h2 class="name">الرجاء تحديد طالب</h2>
+
+                <div class="holder">
+
+                    <div class="attendance box">الحضور
+                        <div class="attenbar bar">
+                            <input contnet="حاضر" name="attendance" class="at-state zero" type="radio" value="0">
+                            <input contnet="معذور" name="attendance" class="at-state five" type="radio" value="5">
+                            <input contnet="إجازة" name="attendance" class="at-state one" type="radio" value="1">
+                            <input contnet="غائب" name="attendance" class="at-state two" type="radio" value="2">
+                            <input contnet="متأخر" name="attendance" class="at-state three" type="radio" value="3">
+                            <input contnet="مستأذن" name="attendance" class="at-state four" type="radio" value="4">
+                        </div>
+                    </div>
+
+                    <div class="behavior box">السلوك
+                        <div class="behavbar bar">
+                            <button id="talk" value="talk">التحدث</button>
+                            <button id="sleep" value="sleep">النوم</button>
+                            <button id="no-pirmission" value="no-pirmission">استئذان</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+             <!-- End Status -->
+
+             <!-- Start Memoriziton & Review -->
+                <div class="memo-rev">
+
+                    <!-- Start Memoriztion -->
+                    <div class="memoriztion active" id="memo-box">
+                        <div class="title">الدرس</div>
+                        <div class="info">
+                            <div class="surah-box a-box">
+                                <label for="surah">السورة</label>
+                                <input type="text" id="surah" autocomplete="off">
+                                <div class="result-box memo">
+                                </div>
+                            </div>
+                            <div class="from-to">
+                                    <label for="from-memo">من</label>
+                                    <input type="text" id="from-memo">        
+                                    <label for="to-memo">الى</label>
+                                    <input type="text" id="to-memo">
+                                    <label for="counter-memo">الأسطر</label>
+                                    <input type="text" id="counter-memo">
+                            </div>
+                            <div class="memo-listener-holder a-box">
+                                    <label for="memo-listener">التجربة</label>
+                                    <input type="text" id="memo-listener" autocomplete="off">
+                                    <div class="result-box memo-listener">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="decisiveness">
+                            <div class="hesitated dec-holder">
+                                <span>تردد</span>
+                                <button class="add hesitated">+</button>
+                                <button class="remove hesitated">-</button>
+                                <span class="counter hesitated" id="hesitateds">0</span>
+                            </div>
+                            <div class="mistake dec-holder">
+                                <span>خطأ</span>
+                                <button class="add mistake">+</button>
+                                <button class="remove mistake">-</button>
+                                <span class="counter mistake" id="mistakes">0</span>
+                            </div>
+                            <div class="try">
+                                <input type="checkbox" name="timecalc" id="timecalc">
+                                <div class="memo-list-holder">
+                                    خيارات
+                                    <ul class="memo-list">
+                                        <li><input type="checkbox" name="howmany" id="firstTime"></li>
+                                        <li><input type="checkbox" name="rememo" id="rememo"></li>
+                                    </ul>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>    
+
+                    <!-- End Memoriztion -->
+                    
+                    <!-- Start Review -->
+                    <div class="review active" id="rev-box">
+                        <div class="title">المراجعة</div>
+                        <div class="info">
+                            <div class="from-to holder">
+                                    <div class="handel">
+                                        <label for="from-review" >من</label>
+                                        <input type="text" id="from-review" autocomplete="off"> 
+                                        <div class="result-box rev from">
+                                        </div>    
+                                    </div>
+
+                                    <div class="handel">
+                                        <label for="to-review">الى</label>
+                                        <input type="text" id="to-review" autocomplete="off">
+                                        <div class="result-box rev to">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="listen holder">
+                                <div class="handel">
+                                    <label for="listener1">م 1</label>
+                                    <input type="text" id="listener1" autocomplete="off"> 
+                                    <div class="result-box rev listener1">
+                                    </div>    
+                                </div>
+
+                                <div class="handel">
+                                    <label for="listener2">م 2</label>
+                                    <input type="text" id="listener2" autocomplete="off">
+                                    <div class="result-box rev listener2">
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="decisiveness-rev">
+                            <div class="hesitated dec-holder">
+                                <span>تردد</span>
+                                <button class="add hesitated rev">+</button>
+                                <button class="remove hesitated rev">-</button>
+                                <span class="counter hesitated rev" id="hesitateds-rev">0</span>
+                            </div>
+                            <div class="mistake dec-holder">
+                                <span>خطأ</span>
+                                <button class="add mistake rev">+</button>
+                                <button class="remove mistake rev">-</button>
+                                <span class="counter mistake rev" id="hesitateds-rev">0</span>
+                            </div>
+                            <div class="try">
+                                <div class="rev-list-holder">
+                                    خيارات
+                                    <ul class="rev-list">
+                                        <li><input type="checkbox" name="firstTime-rev" id="firstTime-rev"></li>
+                                        <li><input type="checkbox" name="rereview" id="rereview"></li>
+                                    </ul>
+                                </div>                               
+                            </div>
+
+                        </div>
+                    </div>    
+                    <!-- End Review -->
+
+                </div>
+                <div class="grades">
+                    <div class="box daily-grade" id="memo-grade"> درجة الدرس : <span>اختر طالب</span></div>
+                    <div class="box review-grade" id="review-grade"> درجة المراجعة : <span>اختر طالب</span></div>
+                    <div class="box total-grade"> الشامل : <span>10</span></div>
+                </div>
+                <div class="table-control">
+                    <div class="container">
+                        <div class="hidememolisener box active"><i class="fa-solid fa-user"></i></div>
+                        <div class="hiderevtimer box active"><i class="fa-solid fa-clock"></i></div>
+                        <div class="hiderevlisener box"><i class="fa-solid fa-user-group"></i></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+<!-- End of control section -->
+<!-- Start Studint Table -->
+<div class="studint-taple">
+    <div class="container">
+        <table>
+            <thead>
+                    <tr>
+                        <td  class="number">العدد</td>
+                        <td  class="name">اسم الطالب</td>
+                        <td class="surah">السورة</td>
+                        <td class="memo-try active">التجربة</td>
+                        <td class="rate">التقييم</td>
+                        <td class="surah-rev">السور</td>
+                        <td class="time-rev active">الوقت</td>
+                        <td class="listener">المستمع</td>
+                        <td class="rate-rev">التقييم</td>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!-- End Studint Table -->
+<!-- Start Footer -->
+<footer>
+    <div class="container">
+        <div>
+            <span class="more-option">حالة الطلاب</span>
+            <ul class="list">
+                <li id="all-1">إجازة</li>
+                <li id="all-2">غياب بعذر</li>
+                <li id="all-3">غياب بدون عذر</li>
+                <li id="all-4">حضور</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->
+
+    <script type="module" src="JS/Daily.js"></script>
+    <script type="module" src="JS/Hijri.js"></script>
+    <script type="module" src="JS/Eshada.js"></script>
+    <script type="module" src="JS/surah.js"></script>
+    <script>
+        function seInputmemo(list){
+            let surahInput = document.getElementById("surah");
+            let resultBoxMemo = document.querySelector(".result-box.memo");
+            surahInput.value = list.innerHTML
+            resultBoxMemo.innerHTML = ""
+            surahInput.focus()
+            surahInput.blur()
+            let selectedMT = document.getElementById("from-memo")
+            selectedMT.focus()
+        }
+        function seInputmemolistener(list){
+            let listener = document.getElementById("memo-listener");
+            let resultBoxlistener = document.querySelector(".result-box.memo-listener");
+            console.log(resultBoxlistener);
+            listener.value = list.innerHTML
+            resultBoxlistener.innerHTML = ""
+            listener.focus()
+            listener.blur()
+            let memoHesi = document.querySelector(".add.hesitated")
+            memoHesi.focus()
+        }
+        function seInputRevFrom(list){
+            let revFrom = document.getElementById("from-review")
+            let resultBox = document.querySelector(".result-box.rev.from")
+            revFrom.value = list.innerHTML
+            resultBox.innerHTML = ""
+            revFrom.focus()
+            revFrom.blur()
+            let revTo = document.getElementById("to-review")
+            revTo.focus()
+        }
+        function seInputRevTo(list){
+            let revTo = document.getElementById("to-review")
+            let resultBox = document.querySelector(".result-box.rev.to")
+            revTo.value = list.innerHTML
+            resultBox.innerHTML = ""
+            revTo.focus()
+            revTo.blur()
+            let listener = document.getElementById("listener1")
+            listener.focus()
+        }
+        function seInputRevL1(list){
+            let revl1 = document.getElementById("listener1")
+            let resultBox = document.querySelector(".result-box.rev.listener1")
+            revl1.value = list.innerHTML
+            resultBox.innerHTML = ""
+            revl1.focus()
+            revl1.blur()
+            let listener2 = document.getElementById("listener2")
+            listener2.focus()
+        }
+        function seInputRevL2(list){
+            let revL2 = document.getElementById("listener2")
+            let resultBox = document.querySelector(".result-box.rev.listener2")
+            revL2.value = list.innerHTML
+            resultBox.innerHTML = ""
+            revL2.focus()
+            revL2.blur()
+            let dis = document.querySelector(".add.hesitated.rev")
+            dis.focus()
+        }
+    </script>
+</body>
+</html>

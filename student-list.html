@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" title="خيركم من تعلم القرآن وعلمه"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="CSS/all.min.css">
+    <!-- Main Css Style Sheet -->
+    <link rel="stylesheet" href="CSS/Student-list.css">
+     <!-- Components Css Style Sheet -->
+     <link rel="stylesheet" href="CSS/Components.css">
+     <!-- GoogleFonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+     <!-- Icon -->
+    <link rel="icon" href="IMG/SilverLogo.svg">
+    <title>سجل المتابعة</title>
+    
+</head>
+<body>
+    <!-- Start BackGround -->
+    <div class="no-overflow">
+        <div class="pointed-groub">
+            <img src="IMG/Pointed.png">
+        </div>
+    </div>
+    <!-- End BackGround -->
+    
+    <!-- Start Header -->
+    <header class="main-header">
+        <img src="IMG/Logo.svg" alt="">
+        <div id="user-welcome">مرحبا</div>
+    </header>
+    <!-- End Header -->
+    <div class="up-down-holder">
+        <div class="up"><i class="fa-solid fa-caret-up"></i></div>
+        <div class="center"><i class="fa-solid fa-minus"></i></div>
+        <div class="down"><i class="fa-solid fa-caret-up"></i></div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="studint-taple">
+                <h1>كشف بأسماء الطلاب</h1>
+                <div class="container">
+                    <span id="goback">                   
+                        <i class="fa-solid fa-reply-all fa-flip-horizontal"></i>
+                    </span>
+                    <table>
+                        <thead>
+                                <tr>
+                                    <th  class="number col-sticky">العدد</td>
+                                    <th  class="name col-sticky">اسم الطالب</td>
+                                    <td class="age-head">
+                                        <div class="holder">
+                                            <span>العمر</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="parent-phone-head">
+                                        <div class="holder">
+                                            <span>جوال ولي الأمر</span>
+                                        </div>
+                                    </td>
+                                    <td class="student-phone-head">
+                                        <div class="holder">
+                                            <span>جوال الطالب</span>
+                                        </div>
+                                    </td>
+                                    <td class="student-surah-head">
+                                        <div class="holder">
+                                            <span>السورة</span>
+                                        </div>
+                                    </td>
+                                    <td class="student-state-head">
+                                        <div class="holder">
+                                            <span>تاريخ التسجيل</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>     
+                <div class="control">
+                    <button id="next-week">التالي</button>
+                    <button id="pre-week">السابق</button>
+                </div>       
+        </div>
+    </div>
+    <!-- End Html Code's -->
+    <script type="module" src="JS/StudentList.js"></script>
+    <script type="module" src="JS/Hijri.js"></script>
+    <script type="module" src="JS/Eshada.js"></script>
+    <script type="module" src="JS/surah.js"></script>
+</body>
+</html>

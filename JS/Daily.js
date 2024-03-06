@@ -3,7 +3,6 @@ import * as surahData from "./surah.js";
 import * as components from "./Eshada.js";
 
 let users = [];
-let myheader = document.getElementById("main-header");
 // GitHub
 fetch("https://thfid.github.io/DataBase/Teatchers.json")
   // // fetch("../DataBase/Teatchers.JSON")
@@ -106,31 +105,48 @@ document.onclick = (eve) => {
   }
 };
 // Start memo-rate-control
+let firstShow = document.getElementById("first-show");
 let memoShow = document.getElementById("memo-show");
 let revShow = document.getElementById("rev-show");
+let firstBox = document.getElementById("first-box");
 let memoBox = document.getElementById("memo-box");
 let revBox = document.getElementById("rev-box");
 let memoGrade = document.getElementById("memo-grade");
 let revGrade = document.getElementById("review-grade");
 window.onload = () => {
   memoShow.classList.add("active");
-  hiderev();
-  hidememo();
+  hideForMemo();
+  hideForRev();
+  hideForFirst()
 };
-function hiderev() {
-  if (memoShow.classList.contains("active")) {
-    memoBox.classList.add("active");
-    memoGrade.classList.add("active");
-    revBox.classList.remove("active");
-    revGrade.classList.remove("active");
-  }
-}
-function hidememo() {
+function hideForRev() {
   if (revShow.classList.contains("active")) {
     revBox.classList.add("active");
     revGradeclassList.add("active");
     memoBox.classList.remove("active");
     memoGrade.classList.remove("active");
+    firstShow.classList.remove("active")
+    firstBox.classList.remove("active")
+  }
+}
+function hideForFirst(){
+  if(firstBox.classList.contains("active")){
+  memoBox.classList.remove("active");
+  memoGrade.classList.remove("active");
+  revBox.classList.remove("active");
+  revGrade.classList.remove("active");
+  firstShow.classList.add("active")
+  firstBox.classList.add("active")
+  }
+}
+function hideForMemo() {
+  if (memoShow.classList.contains("active")) {
+    memoBox.classList.add("active");
+    memoGrade.classList.add("active");
+    revBox.classList.remove("active");
+    revGrade.classList.remove("active");
+    firstShow.classList.remove("active")
+    firstBox.classList.remove("active")
   }
 }
 memoShow.onclick = () => {
@@ -140,7 +156,20 @@ memoShow.onclick = () => {
   revShow.classList.remove("active");
   revBox.classList.remove("active");
   revGrade.classList.remove("active");
+  firstBox.classList.remove("active");
+  firstShow.classList.remove("active");
 };
+firstShow.onclick = () => {
+  memoShow.classList.remove("active");
+  memoBox.classList.remove("active");
+  memoGrade.classList.remove("active");
+  revShow.classList.remove("active");
+  revBox.classList.remove("active");
+  revGrade.classList.remove("active");
+  firstBox.classList.add("active");
+  firstShow.classList.add("active");
+
+}
 revShow.onclick = () => {
   revShow.classList.add("active");
   revBox.classList.add("active");
@@ -148,6 +177,8 @@ revShow.onclick = () => {
   memoShow.classList.remove("active");
   memoBox.classList.remove("active");
   memoGrade.classList.remove("active");
+  firstBox.classList.remove("active");
+  firstShow.classList.remove("active");
 };
 
 // Start AutoComplete
@@ -156,7 +187,11 @@ let availableReviews = [];
 let availableStudint = [];
 surahData.surah.reverse().map((e) => availableResult.push(Object.keys(e).join("")));
 surahData.reviews.map((e) => availableReviews.push(e));
+availableStudint.push("الاستاذ عبد الله" , "الاستاذ عصام")
 
+let firstMemo = document.getElementById("first-surah");
+let firstListener = document.getElementById("first-listener");
+let firstFrom = document.getElementById("from-first")
 let surahInput = document.getElementById("surah");
 let surahFromI = document.getElementById("from-memo");
 let memolistener = document.getElementById("memo-listener")
@@ -166,6 +201,8 @@ let revToInput = document.getElementById("to-review");
 let revL1Input = document.getElementById("listener1");
 let revL2Input = document.getElementById("listener2");
 let addhesiRevB = document.querySelector(".add.hesitated.rev");
+let resultBoxFS = document.querySelector(".result-box.first-surah-r")
+let resultBoxFL = document.querySelector(".result-box.first-listener")
 let resultBoxMemo = document.querySelector(".result-box.memo");
 let resutlBoxMemoListener = document.querySelector(".result-box.memo-listener")
 let resultBoxRevFrom = document.querySelector(".result-box.rev.from");
@@ -197,7 +234,7 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
       autobox.innerHTML = "";
     }
   };
-  window.onkeyup = (eve) => {
+  window.addEventListener("keyup" ,(eve) => {
     if (eve.keyCode == 13) {
       autobox.innerHTML = "";
       inputbox.blur();
@@ -206,7 +243,7 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     if(eve.keyCode == 9){
       autobox.innerHTML = "";
     }
-  };
+  })
 
   function displayResult(result, autobox) {
     let content = result.map(
@@ -255,43 +292,65 @@ function eleonkeyup(inputbox, availableResult, autobox, click, nexti) {
     } else autoComplete(inputbox, availableResult, autobox, click, nexti);
   });
 }
+// Fisrt Surah.
+eleonkeyup(
+  firstMemo,
+  availableResult,
+  resultBoxFS,
+  "seInputFirstS",
+  firstListener
+  );
+// First Listener
+eleonkeyup(
+  firstListener,
+  availableStudint,
+  resultBoxFL,
+  "seInputFirstL",
+  firstFrom
+  );
+// Memoriztion Surah.
 eleonkeyup(
   surahInput,
   availableResult,
   resultBoxMemo,
   "seInputmemo",
   surahFromI
-);
-eleonkeyup(
-  memolistener,
+  );
+  // Memoriztion Listener
+  eleonkeyup(
+    memolistener,
   availableStudint,
   resutlBoxMemoListener,
   "seInputmemolistener",
   addHesiMemo
-);
-eleonkeyup(
-  revFromInput,
+  );
+  // Review From
+  eleonkeyup(
+    revFromInput,
   availableResult,
   resultBoxRevFrom,
   "seInputRevFrom",
   revToInput
-);
-eleonkeyup(
-  revToInput,
-  availableResult,
-  resultBoxRevTo,
-  "seInputRevTo",
-  revL1Input
-);
-eleonkeyup(
-  revL1Input,
-  availableStudint,
-  resultBoxRevL1,
-  "seInputRevL1",
-  revL2Input
-);
-eleonkeyup(
-  revL2Input,
+  );
+  // Review To
+  eleonkeyup(
+    revToInput,
+    availableResult,
+    resultBoxRevTo,
+    "seInputRevTo",
+    revL1Input
+    );
+    // Review Lin1
+    eleonkeyup(
+      revL1Input,
+      availableStudint,
+      resultBoxRevL1,
+      "seInputRevL1",
+      revL2Input
+      );
+      // Review Lin2
+      eleonkeyup(
+        revL2Input,
   availableStudint,
   resultBoxRevL2,
   "seInputRevL2",
@@ -425,6 +484,12 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           [Object.keys(e)]: {
             studintname: studintname,
             teatcher: currentTeacher,
+            firstSState : true,
+            firstSurah:"",
+            firstFrom:"",
+            firstTo:"",
+            firstListener:"",
+            firstState: false,
             memoState: true,
             rememo: false,
             memoFirstTime: true,
@@ -479,6 +544,14 @@ fetch("https://thfid.github.io/DataBase/Students.json")
             <td class="number-body">${tableCount}<span class="delete-day">تفريغ</span><span class="dot-holder"></span></td>
             <td class="name-body">${e[Object.keys(e)].studintname}</td>
 
+            <td class="first-body">
+                <div class="first-surah-table">${e[Object.keys(e)].firstSurah}</div>
+                <div class="first-from-to">
+                  <span class="first-from">${e[Object.keys(e)].firstFrom}</span>
+                   - <span class="first-to">${e[Object.keys(e)].firstTo}</span>
+                </div>
+            </td>
+
             <td class="surah-body">
                 <div class="surah-one">${e[Object.keys(e)].memoSurah}</div>
                 <div class="from-to">
@@ -500,9 +573,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 <div class="from">${e[Object.keys(e)].reviewSurahFrom}</div>
                 <div class="to space">${e[Object.keys(e)].reviewSurahTo}</div>
             </td>
-
-            <td class="timer-rev active">إبـدأ</td>
-
             <td class="listener-body">
               <div class="listener1">${e[Object.keys(e)].reviewListener1}</div>
               <div class="listener2 space">${e[Object.keys(e)].reviewListener2}</div>
@@ -517,28 +587,30 @@ fetch("https://thfid.github.io/DataBase/Students.json")
     (res) => {
       var rows = document.querySelectorAll("#table-body tr");
       // Table control
+      let hideFirstMemo = document.querySelector(".hideFirstMemo")
+      let fHead = document.querySelector("thead tr td.first-memo")
+      let fBody = document.querySelectorAll("tbody tr td.first-body")
+
       let hideMemoListen = document.querySelector(".hidememolisener")
       let mLHead = document.querySelector("table thead tr td.memo-try")
       let mLBody = document.querySelectorAll("table tbody tr td.memo-try-body")
 
-      let hideRevTimer = document.querySelector(".hiderevtimer")
-      let rTHead = document.querySelector("table thead tr td.time-rev")
-      let rTBody = document.querySelectorAll("table tbody tr td.timer-rev")
-
       let hideRevListen = document.querySelector(".hiderevlisener")
       let rLHead = document.querySelector("table thead tr td.listener")
       let rLBody = document.querySelectorAll("table tbody tr td.listener-body")
-      
-      let hideArray = []
-      let hideState = document.querySelectorAll(".table-control .container .box")
 
 
-      function hideColumn(btn , head , body){
-        btn.addEventListener("click" , ()=>{
-          btn.classList.toggle("active") 
-          hideColumnAssis( btn , head , body)
-        })
-        hideColumnAssis( btn , head , body)
+      hideFirstMemo.onclick = ()=>{
+        hideFirstMemo.classList.toggle("active")
+        hideColumnAssis(hideFirstMemo , fHead , fBody)
+      }
+      hideMemoListen.onclick = ()=>{
+        hideMemoListen.classList.toggle("active")
+        hideColumnAssis(hideMemoListen , mLHead , mLBody)
+      }
+      hideRevListen.onclick= ()=>{
+        hideRevListen.classList.toggle("active")
+        hideColumnAssis(hideRevListen , rLHead , rLBody)      
       }
       function hideColumnAssis( btn , head , body){
         if(btn.classList.contains("active")){
@@ -549,21 +621,19 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           body.forEach(e=>e.style.display = "")
         }
       }
-      hideColumn(hideMemoListen , mLHead , mLBody)
       hideColumnAssis(hideMemoListen , mLHead , mLBody)
-
-      hideColumn(hideRevTimer , rTHead , rTBody)
-      hideColumnAssis(hideRevTimer , rTHead , rTBody)
-
-      hideColumn(hideRevListen , rLHead , rLBody)
       hideColumnAssis(hideRevListen , rLHead , rLBody)      
-
+      hideColumnAssis(hideFirstMemo , fHead , fBody)
+      
       // sessionStorage.setItem("hidecells" , )
 
       //  Add click event
 
       rows.forEach((e) => {
         e.addEventListener("click", function (eve) {
+          hideColumnAssis(hideFirstMemo , fHead , fBody)
+          hideColumnAssis(hideMemoListen , mLHead , mLBody)
+          hideColumnAssis(hideRevListen , rLHead , rLBody)          
           eve.preventDefault();
           rows.forEach((ele) => ele.classList.remove("active"));
           let width = window.innerWidth;
@@ -571,6 +641,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           // Table cells defiends
           let selectedName = document.querySelector(".active .name-body");
           let selectedSurah = document.querySelector(".active .surah-one");
+          let selectedFS = document.querySelector(".first-surah-table");
+          let selectedFF = document.querySelector(".first-from");
+          let selectedFT = document.querySelector(".first-to");
           let selectedMF = document.querySelector(".active span.mf");
           let selectedMT = document.querySelector(".active span.mt");
           let selectedMLI = document.querySelector("tr.active .memo-listener");
@@ -585,6 +658,13 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           showName.innerHTML = selectedName.innerHTML;
 
           // Input's defiends
+          // First Of Surah Of Inputs
+          let firstSec = document.querySelector(".first-surah")
+          let firstSurah = document.getElementById("first-surah")
+          let firstFrom = document.getElementById("from-first")
+          let firstTo = document.getElementById("to-first")
+          let firstListener = document.getElementById("first-listener")
+          // Memoriztion Inputs
           let memoSec = document.querySelector(".memoriztion");
           let surah = document.getElementById("surah");
           let memoFrom = document.getElementById("from-memo");
@@ -595,6 +675,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           let timeCalc = document.getElementById("timecalc");
           let firstTime = document.getElementById("firstTime");
           let rememo = document.getElementById("rememo");
+          // Review Inputs
           let revSec = document.querySelector(".review");
           let revFrom = document.getElementById("from-review");
           let revTo = document.getElementById("to-review");
@@ -613,6 +694,15 @@ fetch("https://thfid.github.io/DataBase/Students.json")
               // Send Data to Data Base
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
+                //----------------------- First Of Surah ------------------------
+                data.firstSurah = firstSurah.value;
+                data.firstFrom = firstFrom.value;
+                data.firstTo = firstTo.value;
+                data.firstListener = firstListener.value;
+                // Tabel
+                selectedFS.innerHTML = data.firstSurah
+                selectedFF.innerHTML = data.firstFrom
+                selectedFT.innerHTML = data.firstTo
                 //------------------------- Menoriztion -------------------------
                 data.memoSurah = surah.value;
                 data.memoSurahFrom = memoFrom.value;
@@ -623,6 +713,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   data.memoRate = 10;
                 }
                 // Tabel
+                
                 selectedSurah.innerHTML = data.memoSurah;
                 selectedMF.innerHTML = data.memoSurahFrom;
                 selectedMT.innerHTML = data.memoSurahTo;
@@ -674,12 +765,23 @@ fetch("https://thfid.github.io/DataBase/Students.json")
             });
           }
 
-          function updateMemoData(mS, mF, mT, mL, mLi, rF, rT, rL1, rL2) {
+          function updateMemoData(fS ,fF , fT , fL , mS, mF, mT, mL, mLi, rF, rT, rL1, rL2) {
+            //------------------------- First Of Surah -------------------------
+            fS.onblur = ()=>{
+              updateValue();
+              calldata()
+            }
+            let firstData = [fF , fT , fL]
+            firstData.forEach(e=>{
+              e.onkeyup = ()=> updateValue()
+            })
+
             //------------------------- Menoriztion -------------------------
 
             // Send Surah to Data Base on blur
             mS.onblur = () => {
               updateValue();
+              calldata()
               // Fute : plcae holder an ayah limit
             };
 
@@ -698,6 +800,10 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           }
           // Trigger
           updateMemoData(
+            firstSurah , 
+            firstFrom , 
+            firstTo , 
+            firstListener,
             surah,
             memoFrom,
             memoTo,
@@ -764,6 +870,25 @@ fetch("https://thfid.github.io/DataBase/Students.json")
               } else components.popup("info", "الرجاء تحديد السورة اولا");
             };
           }
+          // Start Yes / No (First)
+          let firstYes = document.querySelector(".yes-no.yes")
+          let firstNo = document.querySelector(".yes-no.no")
+          function firstYesNo(btn , dibtn , bool){
+            arrayOfToday.map((e) => {
+              if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
+                let data = e[Object.keys(e)];
+                btn.onclick = ()=>{
+                  console.log(e[Object.keys(e)].studintname == selectedName.innerHTML);
+                  data.firstState = bool;
+                  btn.classList.add("selected")
+                  dibtn.classList.remove("selected")
+                  calldata()
+                  }
+              }
+            });
+          }
+          firstYesNo(firstYes , firstNo , true)
+          firstYesNo(firstNo , firstYes , false)
 
           // Start Hesitated ( Memoriztion )
           let addhesi = document.querySelector(".add.hesitated");
@@ -787,12 +912,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           let addmistakeRev = document.querySelector(".add.mistake.rev");
           let removemistakeRev = document.querySelector(".remove.mistake.rev");
           let countmistakeRev = document.querySelector(".counter.mistake.rev");
-          updateMisandHesi(
-            addmistakeRev,
-            removemistakeRev,
-            "misteaksRev",
-            revFrom
-          );
+          updateMisandHesi(addmistakeRev,removemistakeRev,"misteaksRev",revFrom);
+
 
           // addListenerPoint.addEventListener("click",()=>{calldata()})
           // removeListenerPoint.addEventListener("click",()=>{calldata()})
@@ -817,10 +938,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 let mSrow = document.querySelector(".active td.surah-body");
                 let mRrow = document.querySelector(".active td.rate-body");
                 let rSrow = document.querySelector(".active td.surah-rev-body");
-                let rTrow = document.querySelector(".active td.timer-rev");
                 let rLrow = document.querySelector(".active td.listener-body");
                 let rRrow = document.querySelector(".active td.rate-rev-body");
-                let attendenceArray = [mSrow, mRrow, rSrow, rTrow ,rLrow];
+                let attendenceArray = [mSrow, mRrow, rSrow ,rLrow];
                 let colored = [nu, na, rRrow];
                 let coloredPhone = [rSrow, nu, na];
                 function Absent() {
@@ -941,8 +1061,24 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 if (data.rereview) {
                   rereview.checked = true;
                 }  else rereview.checked = false;
-
-                // Show Data in input's feild
+                // Show First Of Surah Data in input's feild
+                let firstSurahDeci = 1
+                firstSurah.value = data.firstSurah
+                firstListener.value = data.firstListener
+                firstFrom.value = data.firstFrom
+                firstTo.value = data.firstTo
+                console.log(data.firstState);
+                if(data.firstState == true){
+                  firstYes.classList.add("selected")
+                  firstNo.classList.remove("selected")
+                  firstSurahDeci = 0
+                }else if(data.firstState == false){
+                  firstNo.classList.add("selected")
+                  firstYes.classList.remove("selected")
+                  firstSurahDeci = 1
+                }
+              
+                // Show Memoriztion Data in input's feild
                 let memolistenerInput = document.getElementById("memo-listener")
                 surah.value = data.memoSurah;
                 memoFrom.value = data.memoSurahFrom;
@@ -1084,7 +1220,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                       : data.memoClass == "ج"
                       ? (timeDec = 1)
                       : (timeDec = 0);
-                    data.memoRate = 10 - data.misteaks - data.hesitateds / 2 - secondTime - timeDec ;
+                    data.memoRate = 10 - data.misteaks - data.hesitateds / 2 - secondTime - timeDec  - firstSurahDeci;
                     if(data.memoRate > 10){
                       data.memoRate = 10
                     }
@@ -1314,7 +1450,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         });
         rows[0].click();
         checkedRotate = true  
-        // console.clear()
+        console.clear()
       }
       allVacation.onclick = () => {
         arrayOfToday.map((ele) => {
@@ -1398,49 +1534,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
     }
   })
 }).then(res=>{
-
-  // Timer
-  if(!localStorage.getItem(`${HijriJS.today().toString().split("/")[0]}Timer`)){
-    localStorage.setItem(`${HijriJS.today().toString().split("/")[0]}Timer` , "")
-  }
-  let timerValues = [];
-  let timerCell = document.querySelectorAll("td.timer-rev")
- 
-  if(localStorage.getItem(`${HijriJS.today().toString().split("/")[0]}Timer`)){
-    timerCell.forEach((element , index , array)=>{
-      let data = JSON.parse(localStorage.getItem(`${HijriJS.today().toString().split("/")[0]}Timer`))
-      element.innerHTML = data[index]
-    })
-  }
-
-timerCell.forEach(e=>{
-  let timer;
-
-let stopTimer = false
-e.addEventListener("click" , function(eve){
-  timerValues = []
-  timerCell.forEach(e=>timerValues.push(e.innerHTML))
-  localStorage.setItem(`${HijriJS.today().toString().split("/")[0]}Timer` , JSON.stringify(timerValues))
-  if(stopTimer == false){
-    let seconds = 0
-    let minute = 0
-    e.innerHTML = "0:00"
-     timer = setInterval(() => {
-      seconds +=1
-      if(seconds == 60){
-        minute +=1
-        seconds = 0
-      }
-      e.innerHTML = `${minute}:${seconds.toString().padStart(2 , "0")}`
-    }, 1000);
-    stopTimer = true
-  } else if (stopTimer == true){
-    clearInterval(timer)
-    stopTimer = false
-  }
-})
-e.classList.contains("active") ? e.style.display = "none" : e.style.display = ""
-})
   // Memoriztion Listener
   let rows = document.querySelectorAll("table tbody tr")
   let listenerData = [];
@@ -1494,4 +1587,3 @@ revFrom.addEventListener("blur" , function(){
       })
     }
 })
-// console.log(availableResult.indexOf("المجادلة"));

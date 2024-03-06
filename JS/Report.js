@@ -42,7 +42,7 @@ let selectedDay = HijriJS.today().toString().split("/")[0]
 let selectedMonth = HijriJS.today().toString().split("/")[1]
 let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
 let currentMonth = +selectedMonth
-let currentWeek = Math.floor(+selectedDay / 8)
+let currentWeek = Math.floor(+selectedDay / 7)
 
 let tableTitleH1 = document.getElementById("TitleOfTable")
 let monthArray = ["صفر" , "محرم", "ربيع الأول", "ربيع الآخر", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"]

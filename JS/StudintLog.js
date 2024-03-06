@@ -39,7 +39,7 @@ downbutton.onclick = () => {
 let selectedDay = HijriJS.today().toString().split("/")[0]
 let selectedMonth = HijriJS.today().toString().split("/")[1]
 let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
-let currentWeek = Math.floor(+selectedDay / 8)
+let currentWeek = Math.floor(+selectedDay / 7)
 
 // Title
 let weektitle = document.querySelector(".studint-taple h1")

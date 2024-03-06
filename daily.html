@@ -42,6 +42,7 @@
     <div class="memo-rev-control-holder">
         <div class="memo-rev-control">
             <span class="back" id="back"><i class="fa-solid fa-reply-all"></i></span>
+            <div class="first-control" id="first-show">أول السورة</div>
             <div class="memo-control" id="memo-show">الدرس</div>
             <div class="rev-control" id="rev-show">المراجعة</div>
         </div>    
@@ -80,7 +81,38 @@
 
              <!-- Start Memoriziton & Review -->
                 <div class="memo-rev">
+                    <!-- Start First Of Surah -->
+                    <div class="first-surah" id="first-box">
+                        <div class="title">أول السورة</div>
+                        <div class="info">
+                            <div class="surah-box a-box">
+                                <div class="b-box">
+                                    <label for="first-surah">السورة</label>
+                                    <input type="text" id="first-surah" autocomplete="off">
+                                    <div class="result-box first-surah-r"></div>    
+                                </div>
+                                <div class="b-box">
+                                    <label for="first-listener">المستمع</label>
+                                    <input type="text" id="first-listener" autocomplete="off">
+                                    <div class="result-box first-listener">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="from-to">
+                                    <label for="from-first">مــن</label>
+                                    <input type="text" id="from-first">        
+                                    <label for="to-first">الــى</label>
+                                    <input type="text" id="to-first">
+                            </div>
+                        </div>
+                        <div class="decisiveness-first">
+                            <div class="yes-no yes">نعم</div>
+                            <div class="yes-no no selected">لا</div>
+                        </div>
+                    </div>    
 
+                    <!-- End Memoriztion -->
+                    
                     <!-- Start Memoriztion -->
                     <div class="memoriztion active" id="memo-box">
                         <div class="title">الدرس</div>
@@ -204,8 +236,8 @@
                 </div>
                 <div class="table-control">
                     <div class="container">
+                        <div class="hideFirstMemo box "><i class="fa-solid fa-book-open-reader"></i></div>
                         <div class="hidememolisener box active"><i class="fa-solid fa-user"></i></div>
-                        <div class="hiderevtimer box active"><i class="fa-solid fa-clock"></i></div>
                         <div class="hiderevlisener box"><i class="fa-solid fa-user-group"></i></div>
                     </div>
                 </div>
@@ -220,11 +252,11 @@
                     <tr>
                         <td  class="number">العدد</td>
                         <td  class="name">اسم الطالب</td>
-                        <td class="surah">السورة</td>
+                        <td class="first-memo">أول السورة</td>
+                        <td class="surah">الدرس</td>
                         <td class="memo-try active">التجربة</td>
                         <td class="rate">التقييم</td>
-                        <td class="surah-rev">السور</td>
-                        <td class="time-rev active">الوقت</td>
+                        <td class="surah-rev">المراجعة</td>
                         <td class="listener">المستمع</td>
                         <td class="rate-rev">التقييم</td>
                     </tr>
@@ -239,12 +271,21 @@
 <footer>
     <div class="container">
         <div>
-            <span class="more-option">حالة الطلاب</span>
+            <span class="more-option">حالة حضور الطلاب</span>
             <ul class="list">
                 <li id="all-1">إجازة</li>
                 <li id="all-2">غياب بعذر</li>
                 <li id="all-3">غياب بدون عذر</li>
                 <li id="all-4">حضور</li>
+            </ul>
+        </div>
+        <div>
+            <span class="more-option second">حالة تسميع الطلاب</span>
+            <ul class="list">
+                <li id="all-1">بدون درس</li>
+                <li id="all-2">بدون مراجعة</li>
+                <li id="all-3">بدون أول السورة </li>
+                <li id="all-4">كامل البرنامج</li>
             </ul>
         </div>
     </div>
@@ -256,6 +297,26 @@
     <script type="module" src="JS/Eshada.js"></script>
     <script type="module" src="JS/surah.js"></script>
     <script>
+        function seInputFirstS(list){
+            let surahInput = document.getElementById("first-surah");
+            let resultBoxFirst = document.querySelector(".result-box.first-surah-r");
+            surahInput.value = list.innerHTML
+            resultBoxFirst.innerHTML = ""
+            surahInput.focus()
+            surahInput.blur()
+            let selectedListener = document.getElementById("first-listener")
+            selectedListener.focus()
+        }
+        function seInputFirstL(list){
+            let listenInput = document.getElementById("first-listener");
+            let resultBoxFL = document.querySelector(".result-box.first-listener");
+            listenInput.value = list.innerHTML
+            resultBoxMemo.innerHTML = ""
+            listenInput.focus()
+            listenInput.blur()
+            let selectedFF = document.getElementById("from-first")
+            selectedFF.focus()
+        }
         function seInputmemo(list){
             let surahInput = document.getElementById("surah");
             let resultBoxMemo = document.querySelector(".result-box.memo");

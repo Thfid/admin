@@ -269,3 +269,6 @@ header.main-header #user-welcome{
     align-items: center;
     font-size: 24px;
 }
+.disnone{
+    display: none ;
+}

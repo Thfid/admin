@@ -603,22 +603,48 @@ fetch("https://thfid.github.io/DataBase/Students.json")
       hideFirstMemo.onclick = ()=>{
         hideFirstMemo.classList.toggle("active")
         hideColumnAssis(hideFirstMemo , fHead , fBody)
+        let currentRow = document.querySelector("tr.active")
+        rows.forEach(e=>e.click())
+        currentRow.click()
       }
       hideMemoListen.onclick = ()=>{
         hideMemoListen.classList.toggle("active")
         hideColumnAssis(hideMemoListen , mLHead , mLBody)
+        let currentRow = document.querySelector("tr.active")
+        rows.forEach(e=>e.click())
+        currentRow.click()
       }
       hideRevListen.onclick= ()=>{
         hideRevListen.classList.toggle("active")
-        hideColumnAssis(hideRevListen , rLHead , rLBody)      
+        hideColumnAssis(hideRevListen , rLHead , rLBody)
+        let currentRow = document.querySelector("tr.active")
+        rows.forEach(e=>e.click())
+        currentRow.click()    
       }
-      function hideColumnAssis( btn , head , body){
-        if(btn.classList.contains("active")){
+      function hideColumnAssis( visibilebtn , head , body){
+        if(visibilebtn.classList.contains("active")){
           head.style.display = "none"
           body.forEach(e=>e.style.display = "none")
+          addspicalclass(visibilebtn , body)
         }else{
           head.style.display = ""
-          body.forEach(e=>e.style.display = "")
+          body.forEach(e=>{
+            if(!e.classList.contains("merge")){
+              e.style.display = ""
+            }
+          })
+          addspicalclass(visibilebtn , body)
+        }
+      }
+      function addspicalclass(botn , boody){
+        if (!botn.classList.contains("active")){
+          boody.forEach(e=>{
+            e.classList.add("cell-visi")
+          })
+        }else{
+          boody.forEach(e=>{
+            e.classList.remove("cell-visi")
+          })
         }
       }
       hideColumnAssis(hideMemoListen , mLHead , mLBody)
@@ -633,12 +659,14 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         e.addEventListener("click", function (eve) {
           hideColumnAssis(hideFirstMemo , fHead , fBody)
           hideColumnAssis(hideMemoListen , mLHead , mLBody)
-          hideColumnAssis(hideRevListen , rLHead , rLBody)          
+          hideColumnAssis(hideRevListen , rLHead , rLBody)   
+
           eve.preventDefault();
           rows.forEach((ele) => ele.classList.remove("active"));
           let width = window.innerWidth;
           this.classList.add("active");
           // Table cells defiends
+          let selectedStudent = document.querySelector("tr.active")
           let selectedName = document.querySelector(".active .name-body");
           let selectedSurah = document.querySelector(".active .surah-one");
           let selectedFS = document.querySelector(".first-surah-table");
@@ -684,7 +712,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           let firstTimeRev = document.getElementById("firstTime-rev");
           let rereview = document.getElementById("rereview");
           let revRate = document.querySelector(".box.review-grade span");
-          // No Memoriztion Or No Review
+          // No Memoriztion Or No Review Or No First
+          let noFirst = document.querySelector(".first-surah .title");
           let noMemo = document.querySelector(".memoriztion .title");
           let noRev = document.querySelector(".review .title");
 
@@ -761,6 +790,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 }
                 // Send data to localStorage
                 setAtLocalStorage();
+                
               }
             });
           }
@@ -935,12 +965,15 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 attenArray[data.AttendanceState].checked = true;
                 let nu = document.querySelector(".active td.number-body");
                 let na = document.querySelector(".active td.name-body");
+                let frow = document.querySelector(".active td.first-body")
                 let mSrow = document.querySelector(".active td.surah-body");
+                let mLrow = document.querySelector(".active td.memo-try-body")
                 let mRrow = document.querySelector(".active td.rate-body");
                 let rSrow = document.querySelector(".active td.surah-rev-body");
                 let rLrow = document.querySelector(".active td.listener-body");
                 let rRrow = document.querySelector(".active td.rate-rev-body");
-                let attendenceArray = [mSrow, mRrow, rSrow ,rLrow];
+                let attendenceArray = [mSrow, mRrow, rSrow ,rLrow , mLrow , frow];
+                let attendenceSpicalArray = [rLrow , mLrow , frow]
                 let colored = [nu, na, rRrow];
                 let coloredPhone = [rSrow, nu, na];
                 function Absent() {
@@ -950,11 +983,14 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                       attendenceArray.map((e) => {
                         e.style.display = "none";
                       });
+                      attendenceSpicalArray.map(e=>{
+                        e.classList.add("merge")
+                      })
                       colored.map(
                         (e) => (e.style.backgroundColor = "#c17c197a")
                       );
                       colored.map((e) => (e.style.opacity = "1"));
-                      rRrow.setAttribute("colspan", "6");
+                      rRrow.setAttribute("colspan", "8");
                       rRrow.innerHTML = "غــــــــــائــــــــب";
                     } else {
                       mSrow.style.display = "none";
@@ -977,9 +1013,12 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                       attendenceArray.map((e) => {
                         e.style.display = "none";
                       });
+                      attendenceSpicalArray.map(e=>{
+                        e.classList.add("merge")
+                      })
                       colored.map((e) => (e.style.backgroundColor = ""));
                       colored.map((e) => (e.style.opacity = "0.6"));
-                      rRrow.setAttribute("colspan", "6");
+                      rRrow.setAttribute("colspan", "8");
                       rRrow.innerHTML = "إجـــــــــــــــازة";
                     } else {
                       mSrow.style.display = "none";
@@ -1000,9 +1039,12 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                       attendenceArray.map((e) => {
                         e.style.display = "none";
                       });
+                      attendenceSpicalArray.map(e=>{
+                        e.classList.add("merge")
+                      })
                       colored.map((e) => (e.style.backgroundColor = ""));
                       colored.map((e) => (e.style.opacity = "0.6"));
-                      rRrow.setAttribute("colspan", "6");
+                      rRrow.setAttribute("colspan", "8");
                       rRrow.innerHTML = "غــــــيــــاب بــــــعــــــذر";
                     } else {
                       mSrow.style.display = "none";
@@ -1023,6 +1065,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                       attendenceArray.map((e) => {
                         e.style.display = "";
                       });
+                      attendenceSpicalArray.map(e=>{
+                        e.classList.remove("merge")
+                      })
                       colored.map((e) => (e.style.backgroundColor = ""));
                       colored.map((e) => (e.style.opacity = "1"));
                       rRrow.setAttribute("colspan", "1");
@@ -1067,7 +1112,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 firstListener.value = data.firstListener
                 firstFrom.value = data.firstFrom
                 firstTo.value = data.firstTo
-                console.log(data.firstState);
                 if(data.firstState == true){
                   firstYes.classList.add("selected")
                   firstNo.classList.remove("selected")
@@ -1124,65 +1168,51 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                
 
                 // Disable memorez
+                let witoutFirst = document.createElement("p");
                 let witoutmemo = document.createElement("p");
                 let witoutrev = document.createElement("p");
                 let selectedMFT = document.querySelector(".active .from-to");
-
-                if (data.reviewState == false) {
-                  revSec.classList.add("false");
-                  noRev.innerHTML = "بدون مراجعة";
-                  setTimeout(() => {
-                    if (width > 580) {
-                      rRrow.setAttribute("colspan", "3");
-                      rSrow.style.display = "none";
-                      rLrow.style.display = "none";
-                      witoutrev.innerHTML = "بدون مراجعة";
-                      if (rRrow.children.length < 1) {
-                        rRrow.innerHTML = "";
-                        rRrow.appendChild(witoutrev);
-                      }
-                    } else {
-                      selectedRF.innerHTML = "بدون مراجعة";
-                      selectedRF.style.border = "none";
-                      selectedRT.style.display = "none";
+                let selectedFFT = document.querySelector(".active .first-from-to")
+                
+                if (data.firstSState == false) {
+                  firstSec.classList.add("false");
+                  noFirst.innerHTML = "بدون أول السورة";
+                  data.firstState = true;
+                  if (width > 580) {;
+                    console.log(selectedFS);
+                    selectedFS.classList.add("disnone")
+                    selectedFFT.style.display = "none"
+                    witoutFirst.innerHTML = "معفى";
+                    if (frow.children.length < 3) {
+                      frow.appendChild(witoutFirst);
                     }
-                  }, 0);
-                } else if (data.reviewState == true) {
-                  revSec.classList.remove("false");
-                  noRev.innerHTML = "المراجعة";
-                  selectedRF.style.border = "";
-                  selectedRT.style.display = "";
-                  rSrow.style.display = "";
-                  rLrow.style.display = "";
-                  rRrow.setAttribute("colspan", "1");
-                  if (rRrow.children[0]) {
-                    rRrow.children[0].remove();
+                  }
+                } else {
+                  firstSec.classList.remove("false");
+                  data.firstState = false;
+                  noFirst.innerHTML = "أول السورة";
+                  selectedFS.style.display = ""
+                  selectedFFT.style.display = ""
+                  console.log();
+                if (frow.children[2]) {
+                    frow.children[2].remove();
                   }
                   updateValue();
-                  calcRev();
+                  clacMemo();
                   Absent();
                 }
-                if (data.rememo == true){
-                  mSrow.style.backgroundColor = "#ff000078"
-                  mSrow.style.color = "white"
-                } else if (data.rememo == false){
-                  mSrow.style.backgroundColor = ""
-                  mSrow.style.color = ""
-                }
-                if (data.rereview == true){
-                  rSrow.style.backgroundColor = "#ff000078"
-                  rSrow.style.color = "white"
-                }else if (data.rereview == false){
-                  rSrow.style.backgroundColor = ""
-                  rSrow.style.color = ""
-                }
-
+                
                 if (data.memoState == false) {
                   memoSec.classList.add("false");
                   noMemo.innerHTML = "بدون درس";
                   if (width > 580) {
-                    mSrow.style.display = "none";
-                    mRrow.setAttribute("colspan", "2");
+                    mSrow.classList.add("disnone");
+                    mLrow.classList.add("disnone")
+                    if(mLrow.classList.contains("cell-visi")){
+                      mRrow.setAttribute("colspan", "3");
+                    }else{
+                      mRrow.setAttribute("colspan", "2");
+                    }
                     selectedMR.style.display = "none";
                     selectedMC.style.display = "none";
                     witoutmemo.innerHTML = "بدون درس";
@@ -1199,7 +1229,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   noMemo.innerHTML = "الدرس";
                   selectedSurah.style.border = "";
                   selectedMFT.style.display = "";
-                  mSrow.style.display = "";
+                  mSrow.classList.remove("disnone");
+                  mLrow.classList.remove("disnone")
                   mRrow.setAttribute("colspan", "1");
                   selectedMR.style.display = "";
                   selectedMC.style.display = "";
@@ -1211,6 +1242,42 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   Absent();
                 }
 
+                if (data.reviewState == false) {
+                  revSec.classList.add("false");
+                  noRev.innerHTML = "بدون مراجعة";
+                  setTimeout(() => {
+                    if (width > 580) {
+
+                      rRrow.setAttribute("colspan", "4");
+                      rSrow.classList.add("disnone")
+                      rLrow.classList.add("disnone")
+                      witoutrev.innerHTML = "بدون مراجعة";
+                      if (rRrow.children.length < 1) {
+                        rRrow.innerHTML = "";
+                        rRrow.appendChild(witoutrev);
+                      }
+                    } else {
+                      selectedRF.innerHTML = "بدون مراجعة";
+                      selectedRF.style.border = "none";
+                      selectedRT.style.display = "none";
+                    }
+                  }, 0);
+                } else if (data.reviewState == true) {
+                  revSec.classList.remove("false");
+                  noRev.innerHTML = "المراجعة";
+                  selectedRF.style.border = "";
+                  selectedRT.style.display = "";
+                  rSrow.classList.remove("disnone")
+                  rLrow.classList.remove("disnone")
+                  rRrow.setAttribute("colspan", "1");
+                  if (rRrow.children[0]) {
+                    rRrow.children[0].remove();
+                  }
+                  updateValue();
+                  calcRev();
+                  Absent();
+                }
+        
                 // Calc Memoriztion Rate
                 function clacMemo() {
                   if (typeof data.memoRate == "number") {
@@ -1224,10 +1291,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                     if(data.memoRate > 10){
                       data.memoRate = 10
                     }
-                    if(data.rememo == true){
-                      data.memoRate = 5
-                    }
-
+                    
                     if (data.memoRate > 4 && typeof data.memoRate == "number") {
                       memoRate.innerHTML = data.memoRate;
                     } else if (data.memoRate <= 3.5) {
@@ -1241,10 +1305,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 // Calc Review Rate
                 function calcRev() {
                   if (typeof data.reviewRate == "number") {
-                    data.reviewRate = 10 - data.misteaksRev - data.hesitatedsRev / 2 - secondTimeRev;
-                    if(data.rereview == true){
-                      data.reviewRate = 5
-                    }
+                    data.reviewRate = 10 - data.misteaksRev - data.hesitatedsRev / 2 - secondTimeRev;                   
                     if (
                       data.reviewRate > 4 &&
                       typeof data.reviewRate == "number"
@@ -1258,6 +1319,39 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   }
                 }
                 calcRev()
+                // Automatic Re Memoriztion & Review
+                if (data.memoRate <= 5 && typeof data.memoRate == "number"){
+                  mSrow.style.backgroundColor = "#ff000078"
+                  mSrow.style.color = "white"
+                  data.rememo = true;
+                } else if (data.memoRate > 5 || typeof data.memoRate != "number" ){
+                  mSrow.style.backgroundColor = ""
+                  mSrow.style.color = ""
+                  data.rememo = false;
+                }
+                if (data.reviewRate <= 5 && typeof data.reviewRate == "number"){
+                  rSrow.style.backgroundColor = "#ff000078"
+                  rSrow.style.color = "white"
+                  data.rereview = true;
+                }else if (data.reviewRate > 5 || typeof data.reviewRate != "number" ){
+                  rSrow.style.backgroundColor = ""
+                  rSrow.style.color = ""
+                  data.rereview = false;
+                }
+
+                // Add color for Re Memoriztion & Review
+                if(data.rememo == true){
+                  noMemo.style.backgroundColor = "#fd5151"
+                }else if(data.rememo == false){
+                  noMemo.style.backgroundColor = ""
+                }
+                if(data.rereview == true){
+                  noRev.style.backgroundColor = "#fd5151"
+                }else if(data.rereview == false){
+                  noRev.style.backgroundColor = ""
+                }
+                // Start from here boy
+                
                 nu.onclick = () => {
                   let deleteData = document.querySelector(".active td.number-body .delete-day");
                   deleteData.style.display = "flex";
@@ -1298,9 +1392,12 @@ fetch("https://thfid.github.io/DataBase/Students.json")
 
                 // Send data to localStorage
                 setAtLocalStorage();
+                selectedStudent.click()
               }
             });
           }
+          // End Of Call Data Fucntion
+
           calldata();
           // Start second Time Decisivenes Memoriztion
           firstTime.onclick = function () {
@@ -1440,8 +1537,14 @@ fetch("https://thfid.github.io/DataBase/Students.json")
               }
             });
           }
+          noMemoRev(noFirst , "firstSState")
           noMemoRev(noMemo, "memoState");
           noMemoRev(noRev, "reviewState");
+
+          hideColumnAssis(hideFirstMemo , fHead , fBody)
+          hideColumnAssis(hideMemoListen , mLHead , mLBody)
+          hideColumnAssis(hideRevListen , rLHead , rLBody)  
+          // Here is the End Of click cell Event
         });
       });
       if(checkedRotate == false){
@@ -1452,6 +1555,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         checkedRotate = true  
         console.clear()
       }
+
+      // All Vacation
       allVacation.onclick = () => {
         arrayOfToday.map((ele) => {
           let data = ele[Object.keys(ele)];
@@ -1462,6 +1567,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         });
         rows[0].click();
       };
+
+      // All Absent With Permation
       allAbsWithPerm.onclick = () => {
         arrayOfToday.map((ele) => {
           let data = ele[Object.keys(ele)];
@@ -1472,6 +1579,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         });
         rows[0].click();
       };
+
+      // All Absent Without Permation
       allAbsWithOutPerm.onclick = () => {
         arrayOfToday.map((ele) => {
           let data = ele[Object.keys(ele)];
@@ -1482,6 +1591,8 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         });
         rows[0].click();
       };
+
+      // All Present
       allPresnt.onclick = () => {
         arrayOfToday.map((ele) => {
           let data = ele[Object.keys(ele)];
@@ -1492,32 +1603,108 @@ fetch("https://thfid.github.io/DataBase/Students.json")
         });
         rows[0].click();
       };
+
+      // All Without Memotioztion
+      allNoMemo.onclick = () => {
+        arrayOfToday.map((ele) => {
+          let data = ele[Object.keys(ele)];
+          data.memoState = false;
+        });
+        rows.forEach((e) => {
+          e.click();
+        });
+        rows[0].click();
+      };
+      
+      // All Without Review
+      allNoReview.onclick = () => {
+        arrayOfToday.map((ele) => {
+          let data = ele[Object.keys(ele)];
+          data.reviewState = false;
+        });
+        rows.forEach((e) => {
+          e.click();
+        });
+        rows[0].click();
+      };
+      
+      // All Without First
+      allNoFirst.onclick = () => {
+        arrayOfToday.map((ele) => {
+          let data = ele[Object.keys(ele)];
+          data.firstSState = false;
+        });
+          rows.forEach((e) => {
+            e.click();
+          });
+        rows[0].click();
+      };
+      
+      // All With First
+      allOptionActive.onclick = () => {
+        arrayOfToday.map((ele) => {
+          let data = ele[Object.keys(ele)];
+          data.memoState = true;
+          data.reviewState = true;
+          data.firstSState = true;
+        });
+        rows.forEach((e) => {
+          e.click();
+        });
+        rows[0].click();
+      };
+        
+      // Here is the end of (Then)
     }
   )
   .catch((reg) =>
     components.popup("warning", "عفوا .. حصل خطأ الرجاء تحديث الصفحة")
   );
-// More Option
 
-let moreOption = document.querySelector(".more-option");
-let moreOptionlist = document.querySelector(".more-option ~ ul");
+// More Option For Attendece
+let moreOptionA = document.querySelector(".more-option");
+let moreOptionAlist = document.querySelector(".more-option ~ ul");
 let allVacation = document.getElementById("all-1");
 let allAbsWithPerm = document.getElementById("all-2");
 let allAbsWithOutPerm = document.getElementById("all-3");
 let allPresnt = document.getElementById("all-4");
-moreOption.onclick = () => {
-  moreOptionlist.style.display == "block"
-    ? (moreOptionlist.style.display = "none")
-    : (moreOptionlist.style.display = "block");
-  window.onclick = (eve) => {
+moreOptionA.addEventListener("click" , () => {
+ if (moreOptionAlist.style.display == "block"){
+  moreOptionAlist.style.display = "none"
+}else{
+  moreOptionAlist.style.display = "block"
+ }
+    window.addEventListener("click",(eve) => {
+      if (
+        !eve.target.matches(".more-option ~ ul>li") &&
+        !eve.target.matches(".more-option")
+      ) {
+        moreOptionAlist.style.display = "none";
+      }
+    })  
+  });
+
+// More Option For Memotiztion & Review & First Status
+let moreOptionB = document.querySelector(".more-option.second");
+let moreOptionBlist = document.querySelector(".more-option.second ~ ul");
+let allNoMemo = document.getElementById("all-M1");
+let allNoReview = document.getElementById("all-M2");
+let allNoFirst = document.getElementById("all-M3");
+let allOptionActive = document.getElementById("all-M4");
+moreOptionB.onclick = () => {
+  moreOptionBlist.style.display == "block"
+    ? (moreOptionBlist.style.display = "none")
+    : (moreOptionBlist.style.display = "block");
+  window.addEventListener("click",(eve) => {
     if (
-      !eve.target.matches(".more-option ~ ul>li") &&
-      !eve.target.matches(".more-option")
+      !eve.target.matches(".more-option.second ~ ul>li") &&
+      !eve.target.matches(".more-option.second")
     ) {
-      moreOptionlist.style.display = "none";
+      moreOptionBlist.style.display = "none";
     }
-  };
+  })  
 };
+
 let revFrom = document.getElementById("from-review");
 let revTo = document.getElementById("to-review");
 let listiner = document.getElementById("listener1");

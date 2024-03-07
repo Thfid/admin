@@ -400,6 +400,23 @@ function StartData(){
                               
                                 let memoriztion = 10
                                 memoriztion = memoriztion - (data.hesitateds / 2) - data.misteaks 
+                                switch(data.memoClass){
+                                    case "-":
+                                        memoriztion = memoriztion
+                                        break;
+                                    case "جاري التسميع":
+                                        memoriztion = memoriztion
+                                        break;
+                                    case "أ":
+                                        memoriztion = memoriztion
+                                        break;
+                                    case "ب":
+                                        memoriztion -= 0.5
+                                        break;
+                                    case "ج":
+                                        memoriztion -= 1
+                                        break;
+                                }
                                 if(!data.memoFirstTime){memoriztion -= 1}
 
                                 let review = 10

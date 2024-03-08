@@ -200,6 +200,14 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                                 <circle cx="30" cy="30" r="23" stroke-linecap="round" />
                                 </svg>                     
                             </td>
+                            
+                            <td class="commitment-body">
+                                <span></span>
+                                <div class="outer"></div>
+                                <svg width="60px" height="60px">
+                                    <circle cx="30" cy="30" r="23" stroke-linecap="round" />
+                                </svg>
+                            </td>
 
                             <td class="review-body">
                                 <span></span>
@@ -225,15 +233,11 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                                 </svg>
                             </td>
 
-                            <td class="commitment-body">
-                                <span></span>
-                                <div class="outer"></div>
-                                <svg width="60px" height="60px">
-                                    <circle cx="30" cy="30" r="23" stroke-linecap="round" />
-                                </svg>
-                            </td>
                             <td class="total-body">
                                 <div class = "rate"></div>
+                                <svg width="100px" height="100px">
+                                    <circle cx="50" cy="50" r="28.5" stroke-linecap="round" />
+                                </svg>
                             </td>
                             <td class="appre-body">
                                 <div class ="appre"></div>
@@ -259,6 +263,13 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                                     <circle cx="30" cy="30" r="23" stroke-linecap="round" />
                                 </svg>                     
                             </td>
+                            <td class="commitment-body">
+                                <span></span>
+                                <div class="outer"></div>
+                                <svg width="60px" height="60px">
+                                    <circle cx="30" cy="30" r="23" stroke-linecap="round" />
+                                </svg>
+                            </td>
                             <td class="review-body">
                                 <span></span>
                                 <div class="outer"></div>
@@ -279,16 +290,12 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                                 <svg width="60px" height="60px">
                                     <circle cx="30" cy="30" r="23" stroke-linecap="round" />
                                 </svg>
-                            </td>
-                            <td class="commitment-body">
-                                <span></span>
-                                <div class="outer"></div>
-                                <svg width="60px" height="60px">
-                                    <circle cx="30" cy="30" r="23" stroke-linecap="round" />
-                                </svg>
-                            </td>
-                            <td class="total-body">
+                                </td>
+                                <td class="total-body">
                                 <div class = "rate"></div>
+                                <svg width="100px" height="100px">
+                                    <circle cx="50" cy="50" r="28.5" stroke-linecap="round" />
+                                </svg>
                             </td>
                             <td class="appre-body">
                                 <div class ="appre"></div>
@@ -444,12 +451,6 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                 let commitmentTarget = 7.2 * countableDay
                 let commitclac = 0
                 let defferent = commitmentTarget - linesTotal
-                // console.log(`
-                // need :${commitmentTarget}
-                // done :${linesTotal}
-                // defference : ${defferent}
-                // _______________________
-                // `);
                 if(defferent <=0){
                     commitclac = 10
                 } else if(defferent > 0){
@@ -472,24 +473,33 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
             let row = document.querySelectorAll("table tbody tr")
             row.forEach(e=>{
                 let memoriztion = document.querySelector(`.${e.classList[0]} .memoriztion-body span`)
+                let commitment = document.querySelector(`.${e.classList[0]} .commitment-body span`)
                 let review = document.querySelector(`.${e.classList[0]} .review-body span`)
                 let attendence = document.querySelector(`.${e.classList[0]} .attendence-body span`)
                 let behavior = document.querySelector(`.${e.classList[0]} .behavior-body span`)
-                let commitment = document.querySelector(`.${e.classList[0]} .commitment-body span`)
                 let total = document.querySelector(`.${e.classList[0]} .total-body div.rate`)
+                let totalCircle = document.querySelector(`.${e.classList[0]} .total-body svg circle`)
+                // Full strok is 176
                 let cell = document.querySelector(`.${e.classList[0]} .total-body`)
 
                 let rate = +memoriztion.innerHTML + +review.innerHTML + +attendence.innerHTML + +behavior.innerHTML + +commitment.innerHTML
                 total.innerHTML = rate.toString().split("").slice(0 , 4).join("")
                 cell.style.strokeDashoffset = `${(50 - rate) * 2.88}`
-                if(rate < 40 && rate >= 30){
-                    cell.style.backgroundColor = "#108fcb";
+                totalCircle.style.strokeDasharray = `${rate * 3.52}`
+                totalCircle.style.stroke = 'white'
+                if(rate >= 40){
+                    total.style.color = "var(--main-color)";
+                    totalCircle.style.stroke = "var(--main-color)";
+                }else if(rate < 40 && rate >= 30){
+                    total.style.color = "#108fcb";
+                    totalCircle.style.stroke = "#108fcb";
                 } else if (rate < 30 && rate >= 20){
-                    cell.style.backgroundColor = "#c19619";
+                    total.style.color = "#c19619";
+                    totalCircle.style.stroke = "#c19619";
                 } else if (rate < 20 ){
-                    cell.style.backgroundColor = "#c11d19";
+                    total.style.color = "#c11d19";
+                    totalCircle.style.stroke = "#c11d19";
                 }
-
                 let appre = document.querySelector(`.${e.classList[0]}  .appre`)
                 if(rate >= 45) appre.innerHTML = "ممتاز"
                 else if(rate < 45 && rate >= 40) appre.innerHTML = "جيد جدًا"

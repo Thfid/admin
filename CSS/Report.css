@@ -272,7 +272,6 @@ circle{
     width: 80px;
 }
 
-
 /* Custome Scroll Bar */
 .student-table .container::-webkit-scrollbar{
     height: 5px;
@@ -377,9 +376,9 @@ circle{
     }
     }
     .student-table .container table tbody tr td.total-body{
-        background-color: var(--main-color) ;
+        background-color:transparent ;
         opacity: 0.8;
-        color: white;
+        box-shadow: none;
     }
     .student-table .container table tbody tr td.total-body .rate{
         font-size: 25px;

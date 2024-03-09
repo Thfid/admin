@@ -138,7 +138,6 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
             database = database
             break;
         case "yearly":
-            console.log("Good After None");
             break;
         default:
             break;
@@ -235,6 +234,7 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
 
                             <td class="total-body">
                                 <div class = "rate"></div>
+                                <div class="outer"></div>
                                 <svg width="100px" height="100px">
                                     <circle cx="50" cy="50" r="28.5" stroke-linecap="round" />
                                 </svg>
@@ -293,6 +293,7 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                                 </td>
                                 <td class="total-body">
                                 <div class = "rate"></div>
+                                <div class="outer"></div>
                                 <svg width="100px" height="100px">
                                     <circle cx="50" cy="50" r="28.5" stroke-linecap="round" />
                                 </svg>
@@ -426,12 +427,16 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                 }
 
                 // Attendence
-                attendence.innerHTML = (10 - (absentDays * 2))
-                attendenceCircle.style.strokeDashoffset = `${(absentDays * 2) * 14.0}`
-                if((absentDays * 2) > 2.5 && (absentDays * 2) < 5){
+                let countOfWeeks = 1
+                if(reportType == "monthly"){
+                    countOfWeeks = 4
+                }
+                attendence.innerHTML = (10 - ((absentDays * 2) / countOfWeeks)).toString().slice(0,3)
+                attendenceCircle.style.strokeDashoffset = `${((absentDays * 2) / countOfWeeks) * 14.0}`
+                if(((absentDays * 2) / countOfWeeks) > 2.5 && ((absentDays * 2) / countOfWeeks) < 5){
                     attendence.style.color = "#c19619";
                     attendenceCircle.style.stroke = "#c19619"
-                } else if ((absentDays * 2) >= 5){
+                } else if (((absentDays * 2) / countOfWeeks) >= 5){
                     attendence.style.color = "#c11d19";
                     attendenceCircle.style.stroke = "#c11d19"
                 }
@@ -484,8 +489,7 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
 
                 let rate = +memoriztion.innerHTML + +review.innerHTML + +attendence.innerHTML + +behavior.innerHTML + +commitment.innerHTML
                 total.innerHTML = rate.toString().split("").slice(0 , 4).join("")
-                cell.style.strokeDashoffset = `${(50 - rate) * 2.88}`
-                totalCircle.style.strokeDasharray = `${rate * 3.52}`
+                totalCircle.style.strokeDashoffset = `${(50 - rate) * 3.52}`
                 totalCircle.style.stroke = 'white'
                 if(rate >= 40){
                     total.style.color = "var(--main-color)";
@@ -505,10 +509,9 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                 else if(rate < 45 && rate >= 40) appre.innerHTML = "جيد جدًا"
                 else if(rate < 40 && rate >= 30) appre.innerHTML = "جيد"
                 else if(rate < 30 && rate >= 20) appre.innerHTML = "مقبول"
-                else if(rate < 20) appre.innerHTML = "ضعيف"
-
-                 
+                else if(rate < 20) appre.innerHTML = "ضعيف"       
             })
+        }).then(res=>{
             function sortTable() {
                 var table, rows, switching, i, x, y, shouldSwitch;
                 table = document.querySelector("table");
@@ -526,8 +529,8 @@ fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
                     shouldSwitch = false;
                     /*Get the two elements you want to compare,
                     one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[7];
-                    y = rows[i + 1].getElementsByTagName("TD")[7];
+                    x = rows[i].getElementsByTagName("TD")[7].children[0];
+                    y = rows[i + 1].getElementsByTagName("TD")[7].children[0];
                     //check if the two rows should switch place:
                     if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                       //if so, mark as a switch and break the loop:

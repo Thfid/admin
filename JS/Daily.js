@@ -104,6 +104,11 @@ document.onclick = (eve) => {
     behavbar.classList.remove("show");
   }
 };
+// Start clickSelfFuction 
+function clickSelf(){
+  let currentRow = document.querySelector("table tbody tr.active")
+  currentRow.click()
+}
 // Start memo-rate-control
 let firstShow = document.getElementById("first-show");
 let memoShow = document.getElementById("memo-show");
@@ -666,8 +671,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           let width = window.innerWidth;
           this.classList.add("active");
           // Table cells defiends
-          let selectedStudent = document.querySelector("tr.active")
-          let selectedName = document.querySelector(".active .name-body");
+           let selectedName = document.querySelector(".active .name-body");
           let selectedSurah = document.querySelector(".active .surah-one");
           let selectedFS = document.querySelector(".first-surah-table");
           let selectedFF = document.querySelector(".first-from");
@@ -908,7 +912,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
                 btn.onclick = ()=>{
-                  console.log(e[Object.keys(e)].studintname == selectedName.innerHTML);
                   data.firstState = bool;
                   btn.classList.add("selected")
                   dibtn.classList.remove("selected")
@@ -1121,6 +1124,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   firstYes.classList.remove("selected")
                   firstSurahDeci = 1
                 }
+                if(data.firstSState == false){
+                  firstSurahDeci = 0
+                }
               
                 // Show Memoriztion Data in input's feild
                 let memolistenerInput = document.getElementById("memo-listener")
@@ -1177,23 +1183,19 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 if (data.firstSState == false) {
                   firstSec.classList.add("false");
                   noFirst.innerHTML = "بدون أول السورة";
-                  data.firstState = true;
                   if (width > 580) {;
-                    console.log(selectedFS);
-                    selectedFS.classList.add("disnone")
-                    selectedFFT.style.display = "none"
-                    witoutFirst.innerHTML = "معفى";
+                    frow.children[0].style.display = "none"
+                    frow.children[1].style.display = "none"
+                    witoutFirst.innerHTML = "معفي";
                     if (frow.children.length < 3) {
                       frow.appendChild(witoutFirst);
                     }
                   }
                 } else {
                   firstSec.classList.remove("false");
-                  data.firstState = false;
                   noFirst.innerHTML = "أول السورة";
-                  selectedFS.style.display = ""
-                  selectedFFT.style.display = ""
-                  console.log();
+                  frow.children[0].style.display = ""
+                    frow.children[1].style.display = ""
                 if (frow.children[2]) {
                     frow.children[2].remove();
                   }
@@ -1320,20 +1322,28 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 }
                 calcRev()
                 // Automatic Re Memoriztion & Review
-                if (data.memoRate <= 5 && typeof data.memoRate == "number"){
+                let pressedMemoButton = true;
+                let pressedRevButton = true;
+                if(data.rememo == true){
+                  pressedMemoButton = false;
+                }
+                if(data.rereview == true){
+                  pressedRevButton = false;
+                }
+                if ((data.memoRate <= 5 && typeof data.memoRate == "number") || data.rememo == true ){
                   mSrow.style.backgroundColor = "#ff000078"
                   mSrow.style.color = "white"
                   data.rememo = true;
-                } else if (data.memoRate > 5 || typeof data.memoRate != "number" ){
+                } else if (data.memoRate > 5 || typeof data.memoRate != "number"  && pressedMemoButton ){
                   mSrow.style.backgroundColor = ""
                   mSrow.style.color = ""
                   data.rememo = false;
                 }
-                if (data.reviewRate <= 5 && typeof data.reviewRate == "number"){
+                if ((data.reviewRate <= 5 && typeof data.reviewRate == "number") || data.rereview == true){
                   rSrow.style.backgroundColor = "#ff000078"
                   rSrow.style.color = "white"
                   data.rereview = true;
-                }else if (data.reviewRate > 5 || typeof data.reviewRate != "number" ){
+                }else if (data.reviewRate > 5 || typeof data.reviewRate != "number" && pressedRevButton ){
                   rSrow.style.backgroundColor = ""
                   rSrow.style.color = ""
                   data.rereview = false;
@@ -1392,7 +1402,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
 
                 // Send data to localStorage
                 setAtLocalStorage();
-                selectedStudent.click()
+                clickSelf()
               }
             });
           }
@@ -1408,11 +1418,13 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   data.memoFirstTime = false;
                   calldata();
                   updateValue();
+                  // clickSelf()
                 } else {
                   data.memoFirstTime = true;
                   firstTime.checked = false;
                   calldata();
                   updateValue();
+                  // clickSelf()
                 }
               }
             });
@@ -1426,11 +1438,13 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   data.reviewFirstTime = false;
                   calldata();
                   updateValue();
+                  // clickSelf()
                 } else {
                   data.reviewFirstTime = true;
                   firstTimeRev.checked = false;
                   calldata();
                   updateValue();
+                  // clickSelf()
                 }
               }
             });
@@ -1454,6 +1468,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
               }
               calldata();
               updateValue();
+              // clickSelf()
             });
           };
           // Start reMemo
@@ -1466,9 +1481,10 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 } else if (data.rememo) {
                   data.rememo = false;
                 }
-              }
               calldata();
               updateValue();
+              // clickSelf()
+              }
             });
           };
           // Start reReview
@@ -1481,9 +1497,10 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 } else if (data.rereview) {
                   data.rereview = false;
                 }
-              }
               calldata();
               updateValue();
+              // clickSelf()
+              }
             });
           };
           // Start Attendence State

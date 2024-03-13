@@ -4,7 +4,7 @@ import * as components from "./Eshada.js";
 
 let users = [];
 // GitHub
-fetch("https://thfid.github.io/DataBase/Teatchers.json")
+fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
   // // fetch("../DataBase/Teatchers.JSON")
   .then((res) => res.json())
   .then((res) => res.map((e) => users.push(e)));
@@ -231,14 +231,9 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     autobox.innerHTML = "";
   }
   // Close when click out side + enter + tap
-  window.onclick = (eve) => {
-    if (
-      !eve.target.matches(".result-box.memo") ||
-      !eve.target.matches(".result-box.rev")
-    ) {
-      autobox.innerHTML = "";
-    }
-  };
+  inputbox.addEventListener("blur" , ()=>{
+    autobox.innerHTML = ""
+  })
   window.addEventListener("keyup" ,(eve) => {
     if (eve.keyCode == 13) {
       autobox.innerHTML = "";
@@ -252,9 +247,10 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
 
   function displayResult(result, autobox) {
     let content = result.map(
-      (list) => `<li onclick=${click}(this) >${list}</li>`
-    );
-    autobox.innerHTML = `<ul> ${content.join("")} </ul>`;
+      (list) => `<li onclick=${click}(this)>${list}</li>`
+      );
+      autobox.innerHTML = `<ul> ${content.join("")} </ul>`;
+      
   }
   resultcounter = -1;
 }
@@ -417,7 +413,7 @@ let table = document.getElementById("table-body");
 let tableCount = 0;
 let checkedRotate = false
 // GitHub
-fetch("https://thfid.github.io/DataBase/Students.json")
+fetch("https://thfid.github.io/DataBaseCloned/Students.json")
   // fetch("../DataBase/Studnts.JSON")
   .then((res) => res.json())
   .then((res) => {
@@ -673,9 +669,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
           // Table cells defiends
            let selectedName = document.querySelector(".active .name-body");
           let selectedSurah = document.querySelector(".active .surah-one");
-          let selectedFS = document.querySelector(".first-surah-table");
-          let selectedFF = document.querySelector(".first-from");
-          let selectedFT = document.querySelector(".first-to");
+          let selectedFS = document.querySelector(".active .first-surah-table");
+          let selectedFF = document.querySelector(".active .first-from");
+          let selectedFT = document.querySelector(".active .first-to");
           let selectedMF = document.querySelector(".active span.mf");
           let selectedMT = document.querySelector(".active span.mt");
           let selectedMLI = document.querySelector("tr.active .memo-listener");
@@ -979,6 +975,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 let attendenceSpicalArray = [rLrow , mLrow , frow]
                 let colored = [nu, na, rRrow];
                 let coloredPhone = [rSrow, nu, na];
+                function logcolor(){
+                  console.log(`${rSrow.style.backgroundColor}`);
+                }
                 function Absent() {
                   let phoneText = document.createElement("p");
                   if (data.AttendanceState == 2) {
@@ -998,10 +997,12 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                     } else {
                       mSrow.style.display = "none";
                       coloredPhone.map(
-                        (e) => (e.style.backgroundColor = "#c17c197a")
-                      );
-                      coloredPhone.map((e) => (e.style.opacity = "1"));
-                      rSrow.setAttribute("colspan", "2");
+                        (e) => {
+                          e.style.backgroundColor = "#c17c197a"
+                        }
+                        );
+                        coloredPhone.map((e) => (e.style.opacity = "1"));
+                        rSrow.setAttribute("colspan", "2");
                       phoneText.innerHTML = "غـــــائـــــب";
                       if (rSrow.children.length < 3) {
                         setTimeout(() => {
@@ -1088,6 +1089,7 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   }
                 }
                 Absent();
+
                 // Show Behavior Dot's
                 if (data.behaviorArray.length) {
                   let dotholder = document.querySelector(
@@ -1127,7 +1129,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 if(data.firstSState == false){
                   firstSurahDeci = 0
                 }
-              
                 // Show Memoriztion Data in input's feild
                 let memolistenerInput = document.getElementById("memo-listener")
                 surah.value = data.memoSurah;
@@ -1138,7 +1139,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 if (data.memoClass == "-" && timeCalc.checked == true) {
                   timeCalc.checked = false;
                 }
-                
                 // Show review Data in input's feild
                 revFrom.value = data.reviewSurahFrom;
                 revTo.value = data.reviewSurahTo;
@@ -1172,7 +1172,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   clacMemo();
                 }
                
-
                 // Disable memorez
                 let witoutFirst = document.createElement("p");
                 let witoutmemo = document.createElement("p");
@@ -1203,7 +1202,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   clacMemo();
                   Absent();
                 }
-                
                 if (data.memoState == false) {
                   memoSec.classList.add("false");
                   noMemo.innerHTML = "بدون درس";
@@ -1243,7 +1241,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   clacMemo();
                   Absent();
                 }
-
                 if (data.reviewState == false) {
                   revSec.classList.add("false");
                   noRev.innerHTML = "بدون مراجعة";
@@ -1279,7 +1276,6 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                   calcRev();
                   Absent();
                 }
-        
                 // Calc Memoriztion Rate
                 function clacMemo() {
                   if (typeof data.memoRate == "number") {
@@ -1330,25 +1326,24 @@ fetch("https://thfid.github.io/DataBase/Students.json")
                 if(data.rereview == true){
                   pressedRevButton = false;
                 }
-                if ((data.memoRate <= 5 && typeof data.memoRate == "number") || data.rememo == true ){
+                if (((data.memoRate <= 5 && typeof data.memoRate == "number") || data.rememo == true) && data.AttendanceState != 2 ){
                   mSrow.style.backgroundColor = "#ff000078"
                   mSrow.style.color = "white"
                   data.rememo = true;
-                } else if (data.memoRate > 5 || typeof data.memoRate != "number"  && pressedMemoButton ){
+                } else if ((data.memoRate > 5 || typeof data.memoRate != "number"  && pressedMemoButton) && data.AttendanceState != 2  ){
                   mSrow.style.backgroundColor = ""
                   mSrow.style.color = ""
                   data.rememo = false;
                 }
-                if ((data.reviewRate <= 5 && typeof data.reviewRate == "number") || data.rereview == true){
+                if (((data.reviewRate <= 5 && typeof data.reviewRate == "number") || data.rereview == true) && data.AttendanceState != 2 ){
                   rSrow.style.backgroundColor = "#ff000078"
                   rSrow.style.color = "white"
                   data.rereview = true;
-                }else if (data.reviewRate > 5 || typeof data.reviewRate != "number" && pressedRevButton ){
+                }else if ((data.reviewRate > 5 || typeof data.reviewRate != "number" && pressedRevButton ) && data.AttendanceState != 2 ){
                   rSrow.style.backgroundColor = ""
                   rSrow.style.color = ""
                   data.rereview = false;
                 }
-
                 // Add color for Re Memoriztion & Review
                 if(data.rememo == true){
                   noMemo.style.backgroundColor = "#fd5151"
@@ -1727,7 +1722,7 @@ let revTo = document.getElementById("to-review");
 let listiner = document.getElementById("listener1");
 // Auto complate for review
 let currentStudentSurah = []
-fetch("https://thfid.github.io/DataBase/Students.json")
+fetch("https://thfid.github.io/DataBaseCloned/Students.json")
 .then(res=> res.json())
 .then(res=>{
   res.map(e=>{

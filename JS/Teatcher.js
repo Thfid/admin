@@ -2,16 +2,30 @@ import HijriJS from "./Hijri.js"
 import * as components from "./Eshada.js"
 
 let users =[]
+let mosqueNumber = ""
+let teatcherslist = []
 // GitHub
-fetch("https://thfid.github.io/DataBase/Teatchers.json")
-// fetch("../DataBase/Teatchers.JSON")
+fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+// fetch("../DataBase/Teatchers.json")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
 .then(res=>{
     users.map(e=>{
         if ( sessionStorage.getItem("User") == e.userName){
+            if(!sessionStorage.getItem("MosqueNumber")){
+                mosqueNumber = e.mosqueN
+                sessionStorage.setItem("MosqueNumber" , mosqueNumber)            
+            }
+            mosqueNumber = sessionStorage.getItem("MosqueNumber")
             let user = document.getElementById("user-welcome")
             user.innerText = `مرحبا ب${e.position == "Teatcher" ? "الأستاذ" : "المدير"} ${e.name.split(" ")[0].replace("_" , " ")}`
+        }
+        if (e.mosqueN == mosqueNumber && e.position == "Teatcher"){
+            let teatcehrName = `${e.name.split(" ")[0].replace("_" , " ")} ${e.name.split(" ")[e.name.split(" ").length - 1].replace("_" , " ")}`
+            teatcherslist.push({
+                teatcehrName : teatcehrName,
+                teatcherid: e.teatcherId
+            })
         }
     })
 })
@@ -58,7 +72,7 @@ addbtn.onclick = function(){
     // Add label to window
     let winlabel = document.createElement("div")
     winlabel.classList.add("win-label")
-    winlabel.appendChild(document.createTextNode("إضافة طالب"))
+    winlabel.appendChild(document.createTextNode("استمارة تسجيل طالب جديد"))
     addwindow.appendChild(winlabel)
     
     // Add forms
@@ -66,27 +80,27 @@ addbtn.onclick = function(){
     // Add inputs & labels
     form.innerHTML=`
     <div class="handel">
-    <label for="studint-name">اسم الطالب الرباعي</label>
+    <label for="studint-name">الاسم الرباعي</label>
     <input type="text" id="studint-name">
     </div>
 
     <div class="handel">
-    <label for="studint-id">رقم هوية الطالب</label>
+    <label for="studint-id">رقم الهوية</label>
         <input type="text" id="studint-id">
     </div>
 
     <div class="handel">
-    <label for="studint-phone">رقم جوال الطالب</label>
+    <label for="studint-phone">رقم الجوال</label>
         <input type="text" id="studint-phone">
     </div>
 
     <div class="handel">
-    <label for="studint-age">عمر الطالب</label>
+    <label for="studint-age">تاريخ الميلاد</label>
         <input type="text" id="studint-age">
     </div>
 
     <div class="handel">
-    <label for="studint-far">سورة الطالب</label>
+    <label for="studint-far">مقدار الحفظ الحالي</label>
         <input type="text" id="studint-far">
     </div>
 
@@ -97,12 +111,14 @@ addbtn.onclick = function(){
     
     <div class="handel">
     <label for="parent-phone">رقم جوال ولي الأمر</label>
-        <input type="text" id="parent-phone">
+    <input type="text" id="parent-phone">
     </div>
-
-    <div class="handel radio">
-        <input checked type="radio" name="seteatcher" id="Abdullah" value="عبد الله">
-        <input type="radio" name="seteatcher" id="Essam" value="عصام">
+    
+    <div class="handel teatcehr-list">
+    <label>اختيار المعلم</label>
+    <div class="selected-teatcher"><i class="fa-solid fa-play"></i></div>
+    <ul class="list-of-teatchers">
+    </ul>
     </div>
     
     <div class="handel btns">
@@ -129,7 +145,33 @@ addbtn.onclick = function(){
             }
         }})
     
-    // teatcher checkbox
+    // teatchers list 
+    var teatcehrbtn = document.querySelector(".handel.teatcehr-list .selected-teatcher")
+    let teatcehrul = document.querySelector(".handel.teatcehr-list .list-of-teatchers")
+    teatcehrbtn.addEventListener("click" , ()=>{
+        teatcehrul.classList.toggle("active")
+        teatcehrul.innerHTML = ``
+        teatcherslist.map(e=>{
+            teatcehrul.innerHTML += `<li teatcherid="${e.teatcherid}">${e.teatcehrName}</li>`
+        })
+        let teatcehrli = document.querySelectorAll(".handel.teatcehr-list .list-of-teatchers li")
+        teatcehrli.forEach(e=>{
+            e.onclick = ()=>{
+                teatcehrbtn.innerHTML = e.innerHTML
+                teatcehrbtn.setAttribute("teatcherid" , `${e.getAttribute("teatcherid")}`)
+                teatcehrul.classList.remove("active")
+            }
+        })
+        window.addEventListener("click" , (eve)=>{
+            if (
+                !eve.target.matches(".handel.teatcehr-list .selected-teatcher") &&
+                !eve.target.matches(".handel.teatcehr-list .list-of-teatchers ul") &&
+                !eve.target.matches(".handel.teatcehr-list .list-of-teatchers li")
+              ) {
+                teatcehrul.classList.remove("active")
+              }
+        })
+    })
 
     // Submit button
     let submit = document.querySelector(`input[type="submit"]`)
@@ -164,7 +206,7 @@ addbtn.onclick = function(){
             }else res()
         }).then(
             res=>{
-            addStudint(studintName.value , studintId.value , studintPhone.value , studintAge.value ,studintFar.value , parentId.value , parentPhone.value , currnetTeatcher.value)
+            addStudint(studintName.value , studintId.value , studintPhone.value , studintAge.value ,studintFar.value , parentId.value , parentPhone.value , teatcehrbtn.getAttribute("teatcherid"))
             localStorage.setItem("Studint" , JSON.stringify(arrayOfStudints))
         }).then(res=>{
             studintName.value = ""

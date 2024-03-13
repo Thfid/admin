@@ -92,6 +92,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     font-size: 30px;
     color: var(--main-color);
     font-weight: bold;
@@ -174,9 +175,63 @@ background-color: var(--main-color)
 .add-window form .handel #current-teatcher option{
     width: 100%;
 }
-.add-window form .handel label{
+.add-window .handel.teatcehr-list{
+    position: relative;
+    padding: 15px;
+    /* display: flex;
+    justify-content: flex-end;
+    align-items: center; */
+}
+.add-window .handel.teatcehr-list i{
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    font-size: 20px;
+    transform: translateY(100%) rotate(90deg);
+}
+.add-window .handel .selected-teatcher{
+    height: 60px;
+    width: 100%;
     color: var(--main-color);
     font-size: 25px;
+    padding-right: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px var(--main-color) solid;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.add-window .handel ul{
+    position: absolute;
+    background-color: white;
+    width: 85%;
+    right: 23px;
+    top: calc(100% - 15px);
+    border: 0.5px #777 solid;
+    display: none;
+}
+.add-window .handel ul.active{
+    display: block;
+}
+.add-window .handel ul li{
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--main-color);
+    padding: 2px 5px;
+    cursor: pointer;
+    transition: var(--main-transition);
+}
+.add-window .handel ul li:hover{
+    background-color: #dff9ffa6;
+}
+.add-window .handel ul li:not(:first-of-type){
+    border-top: 1px var(--main-color) dashed;
+}
+.add-window form .handel label{
+    color: var(--main-color);
+    font-size: 23px;
     font-weight: 600;
     padding: 5px;
     margin-bottom: 5px;

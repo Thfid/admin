@@ -3,7 +3,7 @@ import * as components from "./Eshada.js"
 
 let users =[]
 // GitHub
-fetch("https://thfid.github.io/DataBase/Teatchers.json")
+fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
@@ -15,7 +15,12 @@ fetch("https://thfid.github.io/DataBase/Teatchers.json")
         }
     })
 })
-
+let mosqueNumber = ""
+if(sessionStorage.getItem("MosqueNumber")){
+mosqueNumber = sessionStorage.getItem("MosqueNumber").slice(1)
+}else{
+    // Here but the 501 error
+}
 let goBack = document.getElementById("goback")
 goBack.onclick = ()=>{
     history.back()
@@ -41,14 +46,15 @@ downbutton.onclick = () => {
 let selectedDay = HijriJS.today().toString().split("/")[0]
 let selectedMonth = HijriJS.today().toString().split("/")[1]
 let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
+let currentYear = selectedYear
 let currentMonth = +selectedMonth
 let currentWeek = Math.floor(+selectedDay / 7)
 
 let tableTitleH1 = document.getElementById("TitleOfTable")
 let monthArray = ["صفر" , "محرم", "ربيع الأول", "ربيع الآخر", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"]
-let monthtitle = monthArray[+selectedMonth - 1]
 
 function tableTitle(){
+    let monthtitle = monthArray[+currentMonth - 1]
     let reportType = document.querySelector(".report-type-control.active")
     if(reportType.id == "weekly"){
     switch(currentWeek){
@@ -82,7 +88,11 @@ nextDataBtn.addEventListener("click" , ()=>{
     let reportType = document.querySelector(".report-type-control.active")
     if(reportType.id == "weekly" && currentWeek < 4){
         currentWeek += 1
-    } else if(reportType.id == "monthly"  && currentMonth < 11 ){
+    } else if(reportType.id == "weekly" && currentWeek == 4) {
+        currentWeek = 0
+        currentMonth += 1
+    }
+    if(reportType.id == "monthly"  && currentMonth < 11 ){
         currentMonth +=1
     }
     tableTitle()
@@ -92,7 +102,11 @@ preDataBtn.addEventListener("click" , ()=>{
     let reportType = document.querySelector(".report-type-control.active")
     if(reportType.id == "weekly" && currentWeek > 0 ){
         currentWeek -= 1
-    } else if(reportType.id == "monthly" && currentMonth > 0){
+    } else if (reportType.id == "weekly" && currentWeek == 0 ){
+        currentWeek = 4
+        currentMonth -= 1
+    }
+    if(reportType.id == "monthly" && currentMonth > 0){
         currentMonth -= 1
     }
     tableTitle()
@@ -118,18 +132,21 @@ changeRebortType(weekly)
 changeRebortType(monthly)
 changeRebortType(yearly) 
 
+
 // Start Giting Data
 function StartData(reportType){
     addedStudint = []
 // GitHub
-fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
-// fetch("../DataBase/PeriodicEvaluation.JSON")
+fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
+// fetch(`../DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.JSON`)
 .then(res=>{
     tableBody.innerHTML = ``
     return res.json()
-})
+},
+rej=>{return components.popup("info" , "لا يوجد بيانات للشهر المحدد")}
+)
 .then(res=>{
-    let database = res[selectedYear][currentMonth.toString().padStart(2,"0")]
+    let database = res[currentMonth.toString().padStart(2,"0")]
     switch (reportType) {
         case "weekly":
             database = database.slice((currentWeek * 5) , ((currentWeek * 5) + 5))

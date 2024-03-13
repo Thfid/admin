@@ -272,6 +272,9 @@ circle{
     stroke-dasharray: 144;
     stroke-dashoffset: 0;
 }
+td.total-body circle{
+    stroke-dasharray: 177;
+}
 
 .student-table .container table tbody tr td.appre-body{
     width: 80px;
@@ -429,9 +432,13 @@ circle{
     .student-table .container table tbody tr td.total-body .rate{
         font-size: 25px;
     }
+    .student-table .container table tbody tr  td.appre-body{
+        background-color: transparent;
+        box-shadow: none;
+    }
     .student-table .container table tbody tr  div.appre{
         margin-top: 4px;
-        font-family: 'Hesham' , serif;
+        /* font-family: 'Hesham' , serif; */
         font-size: 20px;
     }
 

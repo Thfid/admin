@@ -3,7 +3,7 @@ import * as components from "./Eshada.js"
 
 let users =[]
 // GitHub
-fetch("https://thfid.github.io/DataBase/Teatchers.json")
+fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
@@ -15,6 +15,13 @@ fetch("https://thfid.github.io/DataBase/Teatchers.json")
         }
     })
 })
+let mosqueNumber = ""
+if(sessionStorage.getItem("MosqueNumber")){
+mosqueNumber = sessionStorage.getItem("MosqueNumber").slice(1)
+}else{
+    // Here but the 501 error
+}
+
 let goBack = document.getElementById("goback")
 goBack.onclick = ()=>{
     history.back()
@@ -39,15 +46,17 @@ downbutton.onclick = () => {
 let selectedDay = HijriJS.today().toString().split("/")[0]
 let selectedMonth = HijriJS.today().toString().split("/")[1]
 let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
+let currentYear = selectedYear
+let currentMonth = selectedMonth
 let currentWeek = Math.floor(+selectedDay / 7)
 
 // Title
 let weektitle = document.querySelector(".studint-taple h1")
 let monthArray = ["صفر" , "محرم", "ربيع الأول", "ربيع الآخر", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"]
-let monthtitle = monthArray[+selectedMonth - 1]
 
 function tableTitle(){
-switch(currentWeek){
+    let monthtitle = monthArray[+currentMonth - 1]
+    switch(currentWeek){
     case 0 :
         weektitle.innerHTML = ` الأسبوع الأول - شهر ${monthtitle}`
         break;
@@ -71,12 +80,22 @@ let nextDataBtn = document.getElementById("next-data")
 let preDataBtn = document.getElementById("previous-data")
 
 nextDataBtn.addEventListener("click" , ()=>{
-    currentWeek < 4 ? currentWeek += 1 : components.popup("info" , "لايوجد أكثر من 30 يوم في الشهر") 
+    if(currentWeek < 4){
+        currentWeek += 1
+    }else if (currentWeek == 4){
+        currentWeek = 0
+        currentMonth += 1
+    }
     StartData()
     tableTitle()
 })
 preDataBtn.addEventListener("click" , ()=>{
-    currentWeek > 0 ? currentWeek -= 1 : components.popup("info" , "هذا أول أسبوع في الشهر الحالي")
+    if(currentWeek > 0){
+        currentWeek -= 1
+    }else if (currentWeek == 0){
+        currentWeek = 4
+        currentMonth -= 1
+    }
     StartData()
     tableTitle()
 
@@ -86,8 +105,8 @@ let tableBody = document.querySelector("table tbody")
 // Start Giting Data
 function StartData(){
     // GitHub
-    fetch("https://thfid.github.io/DataBase/PeriodicEvaluation.json")
-    // fetch("../DataBase/PeriodicEvaluation.JSON")
+    fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
+    // fetch(`../DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.JSON`)
     .then(res=>{
         tableBody.innerHTML = ``
         return res.json()
@@ -101,7 +120,7 @@ function StartData(){
         let dayArray = [sunday , monday , tuseday , wednesday , thursday]
         dayArray.map(e=>e.innerHTML = "")
 
-        let monthData = res[selectedYear][selectedMonth]
+        let monthData = res[Object.keys(res)]
         let weekData = monthData.slice((currentWeek * 5) , ((currentWeek * 5) + 5))
         let tableCount = 0
         weekData.map(day=>{ 
@@ -540,8 +559,13 @@ function StartData(){
         function fillDayDate(){
             dayArray.map((element , index , array)=>{
                 if(element.innerHTML == ""){
-                    if(array[0].innerHTML){
-                        element.innerHTML = (+array[index-1].innerHTML + 1).toString().padStart(2 , "0")
+                    if(array[index-1]){
+                        if(+(array[index-1].innerHTML) < 30) {                   
+                            console.log(array[0].innerHTML);
+                            if(array[0].innerHTML == "" && +(array[0].innerHTML) <= 27 ){
+                                element.innerHTML = (+array[index-1].innerHTML + 1).toString().padStart(2 , "0")
+                            }
+                        }                   
                     }
                 }
             })

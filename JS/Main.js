@@ -50,7 +50,7 @@ let popcon = document.querySelectorAll(".pop .container")
 teatcher.addEventListener("click" , ()=> teatcherField.focus())
 // Get User's from Database
 // GitHub
-fetch("https://thfid.github.io/DataBase/Teatchers.json")
+fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(
     res=>res.json()

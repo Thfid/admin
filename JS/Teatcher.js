@@ -347,17 +347,3 @@ logOut.onclick = ()=>{
     linkBack.click()
     linkBack.remove()
 }
-
-let temprory = document.getElementById("temprory")
-temprory.onclick = ()=>{
-    let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`${sessionStorage.getItem("User")} ${"01/09"}`)) , null , 2)
-    let blob = new Blob([dailyJson] , {type: "application/json"})
-    let url = URL.createObjectURL(blob)
-    let link = document.createElement("a")
-    link.href = url
-    link.download = `Daily(missedDay).json`
-    document.body.appendChild(link)
-    link.click();
-    link.remove();
-}
-

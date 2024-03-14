@@ -1430,7 +1430,7 @@ fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
                 // Send data to localStorage
                 setAtLocalStorage();
                 let currentSelected = document.querySelector("tr.active")
-                if(currentSelected.classList[0].slice(1) != 372187){
+                if(currentSelected.classList[0].slice(1) != 372187 && naserEdit == false){
                   clickSelf()
                 }
               }

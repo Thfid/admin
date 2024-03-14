@@ -373,6 +373,9 @@ td.total-body circle{
     .student-table{
     margin-top: 60px;
     }
+    .student-table .next-previous .container{
+    height: 150px;
+    }
     .student-table .container{
     max-width: 400px;
     }
@@ -438,8 +441,14 @@ td.total-body circle{
     }
     .student-table .container table tbody tr  div.appre{
         margin-top: 4px;
-        /* font-family: 'Hesham' , serif; */
         font-size: 20px;
+    }
+    .student-table .container table tbody tr  div.appre i{
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color:  #ffd600;
     }
 
 /* Start Control */

@@ -3,7 +3,7 @@ import * as components from "./Eshada.js"
 
 let users =[]
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
@@ -106,7 +106,7 @@ let tableBody = document.querySelector("table tbody")
 // Start Giting Data
 function StartData(){
     // GitHub
-    fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
+    fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
     // fetch(`../DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.JSON`)
     .then(res=>{
         tableBody.innerHTML = ``
@@ -176,17 +176,12 @@ function StartData(){
                             });
                             // Put Studint cell's
                             let admin = false
-                            let currentTeacher = users.map(e=>{
-                                if ( sessionStorage.getItem("User") == e.userName){
-                                    e.position == "Supervior" ? admin = true : admin = false
-                                    return e.name.split(" ")[0].replace("_" , " ")
-                                }
-                            }).join("")
+                            let currentTeacher = JSON.parse(sessionStorage.getItem("Info")).teatcherId
                             day.daily.map(ele=>{
                                 if (admin == false){
                                 if(!addedStudint.includes(Object.keys(ele).join(""))){
                                     let data = ele[Object.keys(ele)]
-                                    if(data.teatcher == currentTeacher){
+                                    if(data.teatcherId == currentTeacher){
                                         tableCount += 1
                                         tableBody.innerHTML += `
                                 <tr class="a${Object.keys(ele).join("")}">
@@ -497,7 +492,7 @@ function StartData(){
                                 case "الأحد":
                                     day.daily.map(e=>{
                                         if(admin == false){
-                                        if(e[Object.keys(e)].teatcher == currentTeacher){
+                                        if(e[Object.keys(e)].teatcherId == currentTeacher){
                                             fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `sunday`)
                                         }}
                                         else fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `sunday`)
@@ -507,7 +502,7 @@ function StartData(){
                                 case "الإثنين":
                                     day.daily.map(e=>{
                                         if(admin == false){
-                                        if(e[Object.keys(e)].teatcher == currentTeacher){
+                                        if(e[Object.keys(e)].teatcherId == currentTeacher){
                                             fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `monday`)
                                         }}
                                         else fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `monday`)
@@ -516,7 +511,7 @@ function StartData(){
                                 case "الثلاثاء":
                                     day.daily.map(e=>{
                                         if(admin == false){
-                                        if(e[Object.keys(e)].teatcher == currentTeacher){
+                                        if(e[Object.keys(e)].teatcherId == currentTeacher){
                                             fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `tuseday`)
                                         }}
                                         else fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `tuseday`)
@@ -525,7 +520,7 @@ function StartData(){
                                 case "الأربعاء":
                                     day.daily.map(e=>{
                                         if(admin == false){
-                                        if(e[Object.keys(e)].teatcher == currentTeacher){
+                                        if(e[Object.keys(e)].teatcherId == currentTeacher){
                                             fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `wednesday`)
                                         }}
                                         else fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `wednesday`)
@@ -534,7 +529,7 @@ function StartData(){
                                 case "الخميس":
                                     day.daily.map(e=>{
                                         if(admin == false){
-                                        if(e[Object.keys(e)].teatcher == currentTeacher){
+                                        if(e[Object.keys(e)].teatcherId == currentTeacher){
                                             fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `thursday`)
                                         }}
                                         else fillCells(e[Object.keys(e)] , Object.keys(e).join("") , `thursday`)
@@ -562,7 +557,6 @@ function StartData(){
                 if(element.innerHTML == ""){
                     if(array[index-1]){
                         if(+(array[index-1].innerHTML) < 30) {                   
-                            console.log(array[0].innerHTML);
                             if(array[0].innerHTML == "" && +(array[0].innerHTML) <= 27 ){
                                 element.innerHTML = (+array[index-1].innerHTML + 1).toString().padStart(2 , "0")
                             }

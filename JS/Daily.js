@@ -3,14 +3,16 @@ import * as surahData from "./surah.js";
 import * as components from "./Eshada.js";
 let users = [];
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // // fetch("../DataBase/Teatchers.JSON")
 .then((res) => res.json())
 .then((res) => res.map((e) => users.push(e)));
 let mosqueNumber = '';
+let teatcherId = '';
 if(sessionStorage.getItem("Info")){
   let data = JSON.parse(sessionStorage.getItem("Info"));
   mosqueNumber =  data.mosqueNumber.slice(1);
+  teatcherId = data.teatcherId
 }else{
   // Here but the 501 error
 }
@@ -401,16 +403,8 @@ let arrayOfToday =
   dataArray[HijriJS.today().toString().split("/").slice(0, 2).join("/")].daily;
 
 function setAtLocalStorage() {
-  dataArray[HijriJS.today().toString().split("/").slice(0, 2).join("/")].daily =
-    arrayOfToday;
-  localStorage.setItem(
-    `${sessionStorage.getItem("User")} ${HijriJS.today()
-      .toString()
-      .split("/")
-      .slice(0, 2)
-      .join("/")}`,
-    JSON.stringify(dataArray)
-  );
+  dataArray[HijriJS.today().toString().split("/").slice(0, 2).join("/")].daily = arrayOfToday;
+  localStorage.setItem(`${teatcherId} ${HijriJS.today().toString().split("/").slice(0, 2).join("/")}`,  JSON.stringify(dataArray));
 }
 
 // Getting Studint data
@@ -423,7 +417,7 @@ let btnclose = document.createElement("button")
 btnclose.classList.add("close-edit")
 btnclose.innerHTML = `<i class="fa-solid fa-lock"></i>`
 // GitHub
-fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
+fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 // fetch("../DataBase/Studnts.JSON")
   .then((res) => res.json())
   .then((res) => {
@@ -446,28 +440,10 @@ fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
   .then((res) => {
     // Push studint Data to today array
     users.map((e) => {
-      if (sessionStorage.getItem("User") == e.userName) {
-        if (
-          localStorage.getItem(
-            `${sessionStorage.getItem("User")} ${HijriJS.today()
-              .toString()
-              .split("/")
-              .slice(0, 2)
-              .join("/")}`
-          )
-          ) {
-          let data = JSON.parse(
-            localStorage.getItem(
-              `${sessionStorage.getItem("User")} ${HijriJS.today()
-                .toString()
-                .split("/")
-                .slice(0, 2)
-                .join("/")}`
-            )
-          );
-          arrayOfToday =
-            data[HijriJS.today().toString().split("/").slice(0, 2).join("/")]
-            .daily;
+      if ( sessionStorage.getItem("User") == e.userName) {
+        if (localStorage.getItem(`${teatcherId} ${HijriJS.today().toString().split("/").slice(0, 2).join("/")}`)) {
+          let data = JSON.parse(localStorage.getItem(`${teatcherId} ${HijriJS.today().toString().split("/").slice(0, 2).join("/")}`));
+          arrayOfToday =data[HijriJS.today().toString().split("/").slice(0, 2).join("/")].daily;
             arrayOfToday.map((e) => {
               availableStudint.push(e[Object.keys(e)].studintname);
             });
@@ -490,11 +466,11 @@ fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
             : studintname[2].replace("_", " ")
         }`;
         availableStudint.push(studintname);
-        let currentTeacher = data.teatcher;
+        let currentTeacher = data.teatcherId;
         let daily = {
           [Object.keys(e)]: {
             studintname: studintname,
-            teatcher: currentTeacher,
+            teatcherId: currentTeacher,
             firstSState : true,
             firstSurah:"",
             firstFrom:"",
@@ -1007,9 +983,6 @@ fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
                 let attendenceSpicalArray = [rLrow , mLrow , frow]
                 let colored = [nu, na, rRrow];
                 let coloredPhone = [rSrow, nu, na];
-                function logcolor(){
-                  console.log(`${rSrow.style.backgroundColor}`);
-                }
                 function Absent() {
                   let phoneText = document.createElement("p");
                   if (data.AttendanceState == 2) {
@@ -1600,7 +1573,7 @@ fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
         });
         rows[0].click();
         checkedRotate = true  
-        console.clear()
+        // console.clear()
       }
 
       // All Vacation
@@ -1757,7 +1730,7 @@ let revTo = document.getElementById("to-review");
 let listiner = document.getElementById("listener1");
 // Auto complate for review
 let currentStudentSurah = []
-fetch("https://thfid.github.io/DataBaseCloned/Students.json")
+fetch("https://thfid.github.io/DataBase/Students.json")
 .then(res=> res.json())
 .then(res=>{
   res.map(e=>{

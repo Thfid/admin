@@ -1,9 +1,10 @@
 import HijriJS from "./Hijri.js"
+import * as surahJs from "./surah.js"
 import * as components from "./Eshada.js"
 
 let users =[]
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
@@ -41,6 +42,11 @@ downbutton.onclick = () => {
   scrollTo(0, 2000);
 };
 // End Up Down Buttons
+
+// Get Surah Array from other file
+let surahArray = []
+surahJs.surah.forEach(e=>{surahArray.push(Object.keys(e).join(""))})
+surahArray.reverse()
 
 
 
@@ -138,7 +144,7 @@ changeRebortType(yearly)
 function StartData(reportType){
     addedStudint = []
 // GitHub
-fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
+fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
 // fetch(`../DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.JSON`)
 .then(res=>{
     tableBody.innerHTML = ``
@@ -190,12 +196,7 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
         })
         .then(res=>{
             let admin = false
-            let currentTeacher = users.map(e=>{
-                if ( sessionStorage.getItem("User") == e.userName){
-                    e.position == "Supervior" ? admin = true : admin = false
-                    return e.name.split(" ")[0].replace("_" , " ")
-                }
-            }).join("")
+            let currentTeacher = JSON.parse(sessionStorage.getItem("Info")).teatcherId
             let tableCount = 0
             res.map(element=>{
                 let day = element[Object.keys(element)]
@@ -203,7 +204,7 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     if (admin == false){
                     if(!addedStudint.includes(Object.keys(ele).join(""))){
                         let data = ele[Object.keys(ele)]
-                        if(data.teatcher == currentTeacher){
+                        if(data.teatcherId == currentTeacher){
                             tableCount += 1
                             tableBody.innerHTML += `
                             <tr class="a${Object.keys(ele).join("")}">
@@ -350,17 +351,33 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 let behaviorCircle = document.querySelector(`.a${id} .behavior-body svg circle`)
                 
                 let commitment = document.querySelector(`.a${id} .commitment-body span`)
+                let commLiNe = 8;
                 let linesTotal = 0
                 let commitmentCircle = document.querySelector(`.a${id} .commitment-body svg circle`)
 
                 let memoDecisiveness = 0
                 let revDecisiveness = 0
 
-                res.map(day=>{
+                let daylength = res.length
+                res.map((day , index , array)=>{
                     data = day[Object.keys(day)]
                     data.daily.map(daily=>{
                         if(Object.keys(daily).join("") == id){
                             daily = daily[Object.keys(daily)]
+
+                            // Get Lines Target
+                            if(index == Math.floor(daylength / 2)){
+                                if(daily.memoSurah == ""){
+                                    daylength + 1
+                                }else {
+                                   if(surahArray.indexOf(daily.memoSurah) > 55){
+                                    commLiNe = 8
+                                   } else{
+                                    commLiNe = 5
+                                   }
+
+                                }
+                            }
 
                             if(daily.AttendanceState == 0 || daily.AttendanceState == 2 || daily.AttendanceState == 3 || daily.AttendanceState == 4 || daily.AttendanceState == 5){
                                 countableDay += 1
@@ -426,7 +443,6 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     memoriztionCircle.style.stroke = "#c11d19"
                 }
                 // 144 is the max of circle so time rate in 14.4 to get circle
-                
                 // Review
                 revDecisiveness = 10 - (revDecisiveness / dayWithrev)
                 revDecisiveness = revDecisiveness.toString().split("")
@@ -471,7 +487,7 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 }
                 
                 // commitment
-                let commitmentTarget = 7.2 * countableDay
+                let commitmentTarget = commLiNe * countableDay
                 let commitclac = 0
                 let defferent = commitmentTarget - linesTotal
                 if(defferent <=0){
@@ -523,7 +539,7 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     totalCircle.style.stroke = "#c11d19";
                 }
                 let appre = document.querySelector(`.${e.classList[0]}  .appre`)
-                if(rate >= 45) appre.innerHTML = "ممتاز"
+                if(rate >= 45) appre.innerHTML = `<div>ممتاز</div><i class="fa-solid fa-crown"></i>`
                 else if(rate < 45 && rate >= 40) appre.innerHTML = "جيد جدًا"
                 else if(rate < 40 && rate >= 30) appre.innerHTML = "جيد"
                 else if(rate < 30 && rate >= 20) appre.innerHTML = "مقبول"

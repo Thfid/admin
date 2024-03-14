@@ -5,7 +5,7 @@ let users =[]
 let mosqueNumber = ""
 let teatcherslist = []
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // fetch("../DataBase/Teatchers.json")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))

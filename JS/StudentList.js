@@ -3,7 +3,7 @@ import * as components from "./Eshada.js"
 
 let users =[]
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
+fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
 .then(res=>res.json())
 .then(res=>res.map(e=>users.push(e)))
@@ -37,7 +37,7 @@ downbutton.onclick = () => {
 let table = document.getElementById("table-body")
 let studentArray = [];
 
-fetch("https://thfid.github.io/DataBaseCloned/Students.json")
+fetch("https://thfid.github.io/DataBase/Students.json")
 .then(res=>res.json())
 .then(
   res=>{

@@ -12,20 +12,17 @@ fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
 .then(res=>{
     users.map(e=>{
         if ( sessionStorage.getItem("User") == e.userName){
-            if(!sessionStorage.getItem("MosqueNumber")){
+            if(!sessionStorage.getItem("Info")){
                 mosqueNumber = e.mosqueN
-                sessionStorage.setItem("MosqueNumber" , mosqueNumber)            
+                let infoObject = {
+                    mosqueNumber : mosqueNumber,
+                    teatcherId : e.teatcherId
+                }
+                sessionStorage.setItem("Info" , JSON.stringify(infoObject))
             }
-            mosqueNumber = sessionStorage.getItem("MosqueNumber")
+            mosqueNumber = JSON.parse(sessionStorage.getItem("Info")).mosqueNumber
             let user = document.getElementById("user-welcome")
             user.innerText = `مرحبا ب${e.position == "Teatcher" ? "الأستاذ" : "المدير"} ${e.name.split(" ")[0].replace("_" , " ")}`
-        }
-        if (e.mosqueN == mosqueNumber && e.position == "Teatcher"){
-            let teatcehrName = `${e.name.split(" ")[0].replace("_" , " ")} ${e.name.split(" ")[e.name.split(" ").length - 1].replace("_" , " ")}`
-            teatcherslist.push({
-                teatcehrName : teatcehrName,
-                teatcherid: e.teatcherId
-            })
         }
     })
 })
@@ -43,7 +40,7 @@ if (localStorage.getItem("Studint")){
 }
 
 // Start Studint DataBase
-function addStudint(name , id , phone , age ,current , pId , pPhone , teatcher ){
+function addStudint(name , id , phone , age ,current , pId , pPhone , teatcherId , mosqueN ){
     let studint = {[`${id}`] :{
         studintName: name,
         studintId:id,
@@ -52,7 +49,8 @@ function addStudint(name , id , phone , age ,current , pId , pPhone , teatcher )
         currentSurah:current,
         parentId:pId,
         parentPhone:pPhone,
-        teatcher:teatcher,
+        teatcherId:teatcherId,
+        mosqueN: mosqueN,
         state:true,
         registerDate : HijriJS.today().toString()
     }}
@@ -68,7 +66,19 @@ addbtn.onclick = function(){
     addwindow.classList.add("add-window")
     document.body.appendChild(addwindow)
     addwindow.style.animation = "Fadgein 0.3s linear 0.1s forwards"
-
+    if(users.length){
+        console.log(mosqueNumber);
+        users.map(e=>{
+            if (e.mosqueN == mosqueNumber && e.position == "Teatcher"){
+                let teatcehrName = `${e.name.split(" ")[0].replace("_" , " ")} ${e.name.split(" ")[e.name.split(" ").length - 1].replace("_" , " ")}`
+                teatcherslist.push({
+                    teatcehrName : teatcehrName,
+                    teatcherid: e.teatcherId
+                })
+                console.log(teatcherslist);
+            }
+        })
+    }
     // Add label to window
     let winlabel = document.createElement("div")
     winlabel.classList.add("win-label")
@@ -206,7 +216,7 @@ addbtn.onclick = function(){
             }else res()
         }).then(
             res=>{
-            addStudint(studintName.value , studintId.value , studintPhone.value , studintAge.value ,studintFar.value , parentId.value , parentPhone.value , teatcehrbtn.getAttribute("teatcherid"))
+            addStudint(studintName.value , studintId.value , studintPhone.value , studintAge.value ,studintFar.value , parentId.value , parentPhone.value , teatcehrbtn.getAttribute("teatcherid") , mosqueNumber)
             localStorage.setItem("Studint" , JSON.stringify(arrayOfStudints))
         }).then(res=>{
             studintName.value = ""

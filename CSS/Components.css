@@ -272,3 +272,88 @@ header.main-header #user-welcome{
 .disnone{
     display: none ;
 }
+.overlay{
+    background-color: black;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 5;
+    opacity: 0;
+    transition: 0.3s;
+}
+.lock-edit-pop-up{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    z-index: 7;
+    width: 400px;
+}
+@media (max-width: 700px) {
+    .lock-edit-pop-up{
+        width: 300px;
+    }
+}
+@media (max-width: 580px) {
+    .lock-edit-pop-up{
+        transform: translate(-20% , -50%);
+    }
+}
+.lock-edit-pop-up  .holder{
+background-color: white;
+height: 150px;
+border-radius: 10px;
+padding: 5px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: relative;
+}
+.lock-edit-pop-up .holder .handel{
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0 20px;
+}
+.lock-edit-pop-up .holder .close{
+    position: absolute;
+    top: -5px;
+    left: 10px;
+    font-size: 30px;
+    font-family: "Cairo" , sans-serif;
+    color: #777;
+    font-weight: bold;
+    cursor: pointer;
+}
+.lock-edit-pop-up .holder label{
+    font-size: 25px;
+    color: var(--main-color);
+    font-weight: bold;
+    align-self: flex-end;
+    margin-bottom: 10px;
+    margin-right: 10px;
+
+}
+.lock-edit-pop-up .holder input{
+    direction: rtl;
+    padding: 0 10px;
+    width: 100%;
+    height: 45px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;
+    position: relative;
+}
+.lock-edit-pop-up  .holder input:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}

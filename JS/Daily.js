@@ -1,13 +1,19 @@
 import HijriJS from "./Hijri.js";
 import * as surahData from "./surah.js";
 import * as components from "./Eshada.js";
-
 let users = [];
 // GitHub
 fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
-  // // fetch("../DataBase/Teatchers.JSON")
-  .then((res) => res.json())
-  .then((res) => res.map((e) => users.push(e)));
+// // fetch("../DataBase/Teatchers.JSON")
+.then((res) => res.json())
+.then((res) => res.map((e) => users.push(e)));
+let mosqueNumber = '';
+if(sessionStorage.getItem("Info")){
+  let data = JSON.parse(sessionStorage.getItem("Info"));
+  mosqueNumber =  data.mosqueNumber.slice(1);
+}else{
+  // Here but the 501 error
+}
 
 // Time
 let clock = document.getElementById("time")
@@ -412,9 +418,13 @@ let arrayOfStudint = [];
 let table = document.getElementById("table-body");
 let tableCount = 0;
 let checkedRotate = false
+let naserEdit = true
+let btnclose = document.createElement("button")
+btnclose.classList.add("close-edit")
+btnclose.innerHTML = `<i class="fa-solid fa-lock"></i>`
 // GitHub
-fetch("https://thfid.github.io/DataBaseCloned/Students.json")
-  // fetch("../DataBase/Studnts.JSON")
+fetch(`https://thfid.github.io/DataBaseCloned/${mosqueNumber}/Students.json`)
+// fetch("../DataBase/Studnts.JSON")
   .then((res) => res.json())
   .then((res) => {
     let admin = false;
@@ -422,12 +432,12 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
       .map((e) => {
         if (sessionStorage.getItem("User") == e.userName) {
           e.position == "Supervior" ? (admin = true) : (admin = false);
-          return e.name.split(" ")[0].replace("_", " ");
+          return e.teatcherId.split(" ")[0].replace("_", " ");
         }
       }).join("");
     res.map((e) => {
       if (admin == false) {
-        if (e[Object.keys(e)].teatcher == currentTeacher &&  e[Object.keys(e)].state == true) {
+        if (e[Object.keys(e)].teatcherId == currentTeacher &&  e[Object.keys(e)].state == true) {
           arrayOfStudint.push(e);
         }
       } else if(e[Object.keys(e)].state == true) arrayOfStudint.push(e);
@@ -445,7 +455,7 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
               .slice(0, 2)
               .join("/")}`
           )
-        ) {
+          ) {
           let data = JSON.parse(
             localStorage.getItem(
               `${sessionStorage.getItem("User")} ${HijriJS.today()
@@ -457,10 +467,10 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
           );
           arrayOfToday =
             data[HijriJS.today().toString().split("/").slice(0, 2).join("/")]
-              .daily;
-          arrayOfToday.map((e) => {
-            availableStudint.push(e[Object.keys(e)].studintname);
-          });
+            .daily;
+            arrayOfToday.map((e) => {
+              availableStudint.push(e[Object.keys(e)].studintname);
+            });
         } else loadData();
       }
     });
@@ -537,7 +547,7 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
   })
   .then((res) => {
     // Display data at the table
-
+    
     arrayOfToday.map((e) => {
       tableCount += 1;
       table.innerHTML += `
@@ -577,7 +587,7 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
             <td class="listener-body">
               <div class="listener1">${e[Object.keys(e)].reviewListener1}</div>
               <div class="listener2 space">${e[Object.keys(e)].reviewListener2}</div>
-            </td>
+              </td>
 
             <td class="rate-rev-body">${e[Object.keys(e)].reviewRate}</td>
             </tr>
@@ -595,12 +605,12 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
       let hideMemoListen = document.querySelector(".hidememolisener")
       let mLHead = document.querySelector("table thead tr td.memo-try")
       let mLBody = document.querySelectorAll("table tbody tr td.memo-try-body")
-
+      
       let hideRevListen = document.querySelector(".hiderevlisener")
       let rLHead = document.querySelector("table thead tr td.listener")
       let rLBody = document.querySelectorAll("table tbody tr td.listener-body")
 
-
+      
       hideFirstMemo.onclick = ()=>{
         hideFirstMemo.classList.toggle("active")
         hideColumnAssis(hideFirstMemo , fHead , fBody)
@@ -653,9 +663,9 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
       hideColumnAssis(hideFirstMemo , fHead , fBody)
       
       // sessionStorage.setItem("hidecells" , )
-
+      
       //  Add click event
-
+      
       rows.forEach((e) => {
         e.addEventListener("click", function (eve) {
           hideColumnAssis(hideFirstMemo , fHead , fBody)
@@ -684,6 +694,8 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
           let selectedRR = document.querySelector(".active .rate-rev-body");
           let showName = document.querySelector("h2.name");
           showName.innerHTML = selectedName.innerHTML;
+
+          
 
           // Input's defiends
           // First Of Surah Of Inputs
@@ -716,6 +728,26 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
           let noFirst = document.querySelector(".first-surah .title");
           let noMemo = document.querySelector(".memoriztion .title");
           let noRev = document.querySelector(".review .title");
+          let tableControl = document.querySelector(".table-control .container")
+          if(e.classList[0].slice(1) == 372187){
+            
+            if(naserEdit){
+              if(tableControl.children.length < 4){
+                tableControl.appendChild(btnclose)
+                btnclose.onclick = ()=>{
+                  naserEdit = false
+                }
+              }  
+            }
+            else{
+              let id = document.getElementById("lock-edit-pop-up")
+              if(!id){
+                components.lockEdit("عغ" , 372187)
+              }
+            }
+          }else{
+            btnclose.remove()
+          }
 
           // Update studint's Memo Info
           function updateValue() {
@@ -1397,7 +1429,10 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
 
                 // Send data to localStorage
                 setAtLocalStorage();
-                clickSelf()
+                let currentSelected = document.querySelector("tr.active")
+                if(currentSelected.classList[0].slice(1) != 372187){
+                  clickSelf()
+                }
               }
             });
           }
@@ -1744,7 +1779,7 @@ fetch("https://thfid.github.io/DataBaseCloned/Students.json")
   if (!localStorage.getItem(`${HijriJS.today().toString().split("/")[0]}ML`)){
     localStorage.setItem(`${HijriJS.today().toString().split("/")[0]}ML` , JSON.stringify(listenerData))
   }
-
+  
 }).catch(rej=> components.popup("warning" , "حصل خطأ .. التعبئة التلقائية للمراجعة غير مغعلة"))
 
 // console.log(availableResult.indexOf("المجادلة"))

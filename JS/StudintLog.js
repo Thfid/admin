@@ -16,8 +16,9 @@ fetch("https://thfid.github.io/DataBaseCloned/Teatchers.json")
     })
 })
 let mosqueNumber = ""
-if(sessionStorage.getItem("MosqueNumber")){
-mosqueNumber = sessionStorage.getItem("MosqueNumber").slice(1)
+if(sessionStorage.getItem("Info")){
+    let data = JSON.parse(sessionStorage.getItem("Info"));
+    mosqueNumber =  data.mosqueNumber.slice(1);
 }else{
     // Here but the 501 error
 }

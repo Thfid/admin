@@ -1,5 +1,5 @@
 import * as components from "./Eshada.js"
-
+sessionStorage.clear()
 // Start Showing Pop up
 let teatcher = document.getElementById("taetchers")
 

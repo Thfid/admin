@@ -20,8 +20,8 @@
     overflow: hidden;
 }
 .content .container .logo img{
-    height: 60%;
-    width: 60%;
+    height: 381px;
+    /* width: 60%; */
 }
 @media (max-width: 768px) {
     .content .container .logo {

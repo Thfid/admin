@@ -239,7 +239,8 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     autobox.innerHTML = "";
   }
   // Close when click out side + enter + tap
-  inputbox.addEventListener("blur" , ()=>{
+  nexti.addEventListener("foucs" , ()=>{
+    console.log("hi");
     autobox.innerHTML = ""
   })
   window.addEventListener("keyup" ,(eve) => {
@@ -316,7 +317,7 @@ eleonkeyup(
   resultBoxFL,
   "seInputFirstL",
   firstFrom
-  );
+);
 // Memoriztion Surah.
 eleonkeyup(
   surahInput,
@@ -324,42 +325,42 @@ eleonkeyup(
   resultBoxMemo,
   "seInputmemo",
   surahFromI
-  );
-  // Memoriztion Listener
-  eleonkeyup(
-    memolistener,
+);
+// Memoriztion Listener
+eleonkeyup(
+  memolistener,
   availableStudint,
   resutlBoxMemoListener,
   "seInputmemolistener",
   addHesiMemo
-  );
-  // Review From
-  eleonkeyup(
-    revFromInput,
+);
+// Review From
+eleonkeyup(
+  revFromInput,
   availableResult,
   resultBoxRevFrom,
   "seInputRevFrom",
   revToInput
-  );
-  // Review To
+);
+// Review To
+eleonkeyup(
+  revToInput,
+  availableResult,
+  resultBoxRevTo,
+  "seInputRevTo",
+  revL1Input
+);
+// Review Lin1
+eleonkeyup(
+  revL1Input,
+  availableStudint,
+  resultBoxRevL1,
+  "seInputRevL1",
+  revL2Input
+);
+// Review Lin2
   eleonkeyup(
-    revToInput,
-    availableResult,
-    resultBoxRevTo,
-    "seInputRevTo",
-    revL1Input
-    );
-    // Review Lin1
-    eleonkeyup(
-      revL1Input,
-      availableStudint,
-      resultBoxRevL1,
-      "seInputRevL1",
-      revL2Input
-      );
-      // Review Lin2
-      eleonkeyup(
-        revL2Input,
+  revL2Input,
   availableStudint,
   resultBoxRevL2,
   "seInputRevL2",
@@ -409,6 +410,7 @@ function setAtLocalStorage() {
 
 // Getting Studint data
 let arrayOfStudint = [];
+let lastTsmee = [];
 let table = document.getElementById("table-body");
 let tableCount = 0;
 let checkedRotate = false
@@ -818,6 +820,10 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 
             // Send Surah to Data Base on blur
             mS.onblur = () => {
+              if(!availableResult.includes(mS.value)){
+                mS.value = ""
+                components.popup("info" , "خطأ في إسم السورة")
+              }
               updateValue();
               calldata()
               // Fute : plcae holder an ayah limit
@@ -1110,7 +1116,13 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 // Call Re memo data
                 if (data.rememo) {
                   rememo.checked = true;
-                } else rememo.checked = false;
+                  data.memoSurahLines = 0
+                  memoLines.value = ""
+                  memoLines.classList.add("Closed")
+                } else{
+                  memoLines.classList.remove("Closed")
+                  rememo.checked = false;
+                } 
 
                 // Call ReReview
                 if (data.rereview) {
@@ -1403,7 +1415,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 // Send data to localStorage
                 setAtLocalStorage();
                 let currentSelected = document.querySelector("tr.active")
-                if(currentSelected.classList[0].slice(1) != 372187 && naserEdit == false){
+                if(currentSelected.classList[0].slice(1) != 372187){
                   clickSelf()
                 }
               }
@@ -1483,6 +1495,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   data.rememo = true;
                 } else if (data.rememo) {
                   data.rememo = false;
+                }
+                if (data.memoRate <= 5){
+                  components.popup("warning" , "لا يمكن إزالة الإعادة .. درجة الطالب ضعيفة")
                 }
               calldata();
               updateValue();
@@ -1788,9 +1803,113 @@ revFrom.addEventListener("blur" , function(){
           }
           setTimeout(() => {
             listiner.focus()
-          }, 100);
-          // 
+          }, 100); 
         }
       })
     }
 })
+
+// Start Fetch YesterDay Info
+let selectedDay = HijriJS.today().toString().split("/")[0]
+let selectedMonth = HijriJS.today().toString().split("/")[1]
+let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
+let currentYear = selectedYear
+let currentMonth = +selectedMonth
+let currentWeek = Math.floor(+selectedDay / 7)
+let firstTime = Date.now()
+if(!localStorage.getItem("YesterDay")){
+  fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
+  .then(res=> res.json())
+  .then(res=>{
+    let database = res[currentMonth.toString().padStart(2,"0")]
+    let dbc = 0;
+    dbc = database.length - 1
+
+      database[dbc][Object.keys(database[dbc])].daily.map((e , i)=>{
+        let data = e[Object.keys(e)]
+        if(data.teatcherId == teatcherId){
+        let firstSurah = data.firstSurah
+        let firstFrom = data.firstFrom;
+        let firstTo = data.firstTo;
+        let memoSurah = data.memoSurah;
+        let memoFrom = data.memoSurahFrom;
+        let memoTo = data.memoSurahTo;
+        let memoLines = data.memoSurahLines;
+        let rememo = data.rememo
+        let revFrom = data.reviewSurahFrom;
+        let revTo = data.reviewSurahTo;
+        let rereview = data.rereview
+
+        lastTsmee.push({[data.studintname]:{
+          firstSurah : firstSurah,
+          firstFrom : firstFrom,
+          firstTo : firstTo,
+          memoSurah : memoSurah,
+          memoFrom : memoFrom,
+          memoTo : memoTo,
+          memoLines : memoLines,
+          rememo : rememo,
+          revFrom : revFrom,
+          revTo : revTo,
+          rereview : rereview
+        }})
+      }
+      })
+
+    lastTsmee.forEach(e=>{
+      let data = e[Object.keys(e)]
+      let studentName = Object.keys(e).join("")
+      let firstSurah = data.firstSurah
+      let firstFrom = data.firstFrom;
+      let firstTo = data.firstTo;
+      let memoSurah = data.memoSurah;
+      let memoFrom = data.memoFrom;
+      let revFrom = data.revFrom;
+      let studentarray = [firstSurah , firstFrom , firstTo , memoSurah , memoFrom , revFrom ];
+
+      studentarray.map((ele , index)=>{ 
+        function checkValue(parameter){
+          if(ele == ""){
+            dbc = database.length - parameter
+            database[dbc][Object.keys(database[dbc])].daily.map((student , i)=>{
+              let secondData = student[Object.keys(student)]
+              if (secondData.studintname == studentName) {
+                switch(index){
+                  case 0 :
+                    data.firstSurah = secondData.firstSurah || ""
+                    break;
+                  case 1 :
+                    data.firstFrom  = secondData.firstFrom || ""
+                    break;
+                  case 2 :
+                    data.firstTo  = secondData.firstTo || ""
+                    break;
+                  case 3 :
+                    data.memoSurah  = secondData.memoSurah || ""
+                    break;
+                  case 4 :
+                    data.memoFrom  = secondData.memoSurahFrom || ""
+                    data.memoTo  = secondData.memoSurahTo 
+                    break;
+                  case 5 :
+                    data.revFrom  = secondData.reviewSurahFrom || ""
+                    data.revTo  = secondData.reviewSurahTo 
+                    break;
+                }
+              }
+            })
+          }
+        }
+        for(let i = 2 ; i < database.length - 1 ; i ++){
+          if(ele == ""){checkValue(i)}
+        }
+      })
+    })
+    let secondTime = Date.now()
+    console.log(lastTsmee);
+    console.log(`Token Time is : ${ secondTime - firstTime}`);
+    
+  })
+  
+}
+

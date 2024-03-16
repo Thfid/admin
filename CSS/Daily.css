@@ -495,11 +495,9 @@ h1.day-date{
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 10px;
 }
 .b-box{
     display: flex;
-    flex-basis: 50%;
 }
 #first-listener{
     font-size: 18px;
@@ -590,7 +588,7 @@ h1.day-date{
 }
 .first-surah .info .from-to label{
     margin-left: 10px;
-    width: 100px;
+    width: 60px;
 }
 .first-surah .info .from-to label:not(:first-of-type){
     margin-right: 10px;

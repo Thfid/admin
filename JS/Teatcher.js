@@ -370,8 +370,8 @@ downloadTemp.onclick = ()=>{
     let url = URL.createObjectURL(blob)
     let link = document.createElement("a")
     link.href = url
-    link.download = `Daily(${HijriJS.today().toString().split("/").slice(0,2).join("-")}).json`
-    downloadWindow.appendChild(link)
+    link.download = `Daily(Temp).json`
+    document.body.appendChild(link)
     link.click();
     link.remove();
 }

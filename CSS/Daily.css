@@ -276,7 +276,7 @@ h1.day-date{
     color: white;
     font-size: 25px;
     flex-basis: 80%;
-    background-color: #2e8871a8;
+    background-color: var(--main-hover);
     padding: 0 10px;
     border-radius: 5px;
     word-wrap: break-word;
@@ -2186,7 +2186,7 @@ footer .container div ul li:not(:first-of-type){
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover{
-    background-color: #2e8885;
+    background-color: var(--main-hover);
     cursor: pointer;
 }
 ::-webkit-scrollbar-track{

@@ -3,6 +3,7 @@ import * as components from "./Eshada.js"
 
 let users =[]
 let mosqueNumber = ""
+var teatcehrId = ""
 let teatcherslist = []
 // GitHub
 fetch("https://thfid.github.io/DataBase/Teatchers.json")
@@ -14,6 +15,7 @@ fetch("https://thfid.github.io/DataBase/Teatchers.json")
         if ( sessionStorage.getItem("User") == e.userName){
             if(!sessionStorage.getItem("Info")){
                 mosqueNumber = e.mosqueN
+                teatcehrId = e.teatcherId
                 let infoObject = {
                     mosqueNumber : mosqueNumber,
                     teatcherId : e.teatcherId
@@ -26,7 +28,10 @@ fetch("https://thfid.github.io/DataBase/Teatchers.json")
         }
     })
 })
-
+if (sessionStorage.getItem("Info")){
+    let data = JSON.parse(sessionStorage.getItem("Info"))
+    teatcehrId = data.teatcherId
+}
 function addOverLay(){
     let lay = document.createElement("div")
     lay.classList.add("overlay")
@@ -295,7 +300,7 @@ donwloadData.onclick = function(){
     }
     let downloadDaily = document.querySelector(".down.daily")
     downloadDaily.onclick = ()=>{
-        let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`${sessionStorage.getItem("User")} ${HijriJS.today().toString().split("/").slice(0,2).join("/")}`)) , null , 2)
+        let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`${teatcehrId} ${HijriJS.today().toString().split("/").slice(0,2).join("/")}`)) , null , 2)
         let blob = new Blob([dailyJson] , {type: "application/json"})
         let url = URL.createObjectURL(blob)
         let link = document.createElement("a")

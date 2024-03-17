@@ -16,7 +16,10 @@ if(sessionStorage.getItem("Info")){
 }else{
   // Here but the 501 error
 }
-
+let allowPopUp = false
+setTimeout(() => {
+  allowPopUp = true
+}, 5000);
 // Time
 let clock = document.getElementById("time")
 let timenow = new Date
@@ -821,8 +824,10 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             // Send Surah to Data Base on blur
             mS.onblur = () => {
               if(!availableResult.includes(mS.value)){
+                if(mS.value != "" && mS.value != " "){
+                  components.popup("info" , "خطأ في إسم السورة")
+                }
                 mS.value = ""
-                components.popup("info" , "خطأ في إسم السورة")
               }
               updateValue();
               calldata()
@@ -965,15 +970,35 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             arrayOfToday.map((e) => {
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
-                let attenArray = [
-                  atten0,
-                  atten1,
-                  atten2,
-                  atten3,
-                  atten4,
-                  atten5,
-                ];
-
+                let attenArray = [ atten0,atten1,atten2,atten3,atten4,atten5,];
+                // Add Water Marks
+                if(lastTsmee.length){
+                  lastTsmee.forEach((student , index)=>{
+                    if(Object.keys(student) == selectedName.innerHTML){              
+                      student = student[Object.keys(student)]
+                      let mfs = student.firstSurah
+                      let mff = student.firstFrom;
+                      let mft = student.firstTo;
+                      let mms = student.memoSurah;
+                      let mmf = student.memoFrom;
+                      let mmt = student.memoTo;
+                      let mml = student.memoLines;
+                      let mmr = student.rememo
+                      let mrf = student.revFrom;
+                      let mrt = student.revTo;
+                      let mrr = student.rereview              
+                      firstSurah.setAttribute("placeholder" , mfs )
+                      firstFrom.setAttribute("placeholder" , mff )
+                      firstTo.setAttribute("placeholder" , mft )
+                      surahInput.setAttribute("placeholder" , mms )
+                      memoFrom.setAttribute("placeholder" , mmf )
+                      memoTo.setAttribute("placeholder" , mmt )
+                      memoLines.setAttribute("placeholder" , mml )
+                      revFrom.setAttribute("placeholder" , mrf )
+                      revTo.setAttribute("placeholder" , mrt )
+                    }
+                  })
+                }
                 // Attendence State
                 attenArray[data.AttendanceState].checked = true;
                 let nu = document.querySelector(".active td.number-body");
@@ -1588,7 +1613,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
         });
         rows[0].click();
         checkedRotate = true  
-        // console.clear()
+        console.clear()
       }
 
       // All Vacation
@@ -1816,8 +1841,7 @@ let selectedYear = HijriJS.today().toString().split("/")[2].slice(0,4)
 let currentYear = selectedYear
 let currentMonth = +selectedMonth
 let currentWeek = Math.floor(+selectedDay / 7)
-let firstTime = Date.now()
-if(!localStorage.getItem("YesterDay")){
+if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`)){
   fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/${currentYear.slice(2)}/${currentMonth.toString().padStart(2,"0")}/PeriodicEvaluation.json`)
   .then(res=> res.json())
   .then(res=>{
@@ -1860,56 +1884,54 @@ if(!localStorage.getItem("YesterDay")){
       let data = e[Object.keys(e)]
       let studentName = Object.keys(e).join("")
       let firstSurah = data.firstSurah
-      let firstFrom = data.firstFrom;
-      let firstTo = data.firstTo;
       let memoSurah = data.memoSurah;
-      let memoFrom = data.memoFrom;
       let revFrom = data.revFrom;
-      let studentarray = [firstSurah , firstFrom , firstTo , memoSurah , memoFrom , revFrom ];
-
+      let studentarray = [firstSurah , memoSurah , revFrom ];
       studentarray.map((ele , index)=>{ 
         function checkValue(parameter){
           if(ele == ""){
-            dbc = database.length - parameter
-            database[dbc][Object.keys(database[dbc])].daily.map((student , i)=>{
+            database[parameter][Object.keys(database[parameter])].daily.map((student , i)=>{
               let secondData = student[Object.keys(student)]
               if (secondData.studintname == studentName) {
                 switch(index){
                   case 0 :
+                    if(data.firstSurah == ""){
                     data.firstSurah = secondData.firstSurah || ""
+                    data.firstFrom  = secondData.firstFrom || ""
+                    data.firstTo  = secondData.firstTo || ""
+                    }
                     break;
                   case 1 :
-                    data.firstFrom  = secondData.firstFrom || ""
+                    if(data.memoSurah == ""){
+                      data.memoSurah  = secondData.memoSurah || "";
+                      data.memoFrom  = secondData.memoSurahFrom || "";
+                      data.memoTo  = secondData.memoSurahTo || "";
+                    }
                     break;
                   case 2 :
-                    data.firstTo  = secondData.firstTo || ""
-                    break;
-                  case 3 :
-                    data.memoSurah  = secondData.memoSurah || ""
-                    break;
-                  case 4 :
-                    data.memoFrom  = secondData.memoSurahFrom || ""
-                    data.memoTo  = secondData.memoSurahTo 
-                    break;
-                  case 5 :
-                    data.revFrom  = secondData.reviewSurahFrom || ""
-                    data.revTo  = secondData.reviewSurahTo 
+                    if(data.revFrom == ""){
+                      data.revFrom  = secondData.reviewSurahFrom || ""
+                      data.revTo  = secondData.reviewSurahTo || ""  
+                    }
                     break;
                 }
               }
             })
           }
         }
-        for(let i = 2 ; i < database.length - 1 ; i ++){
-          if(ele == ""){checkValue(i)}
+        for(let i = database.length - 2 ; i >= 0 ; i --){
+          if(ele == ""){
+            checkValue(i)
+          }
         }
       })
     })
-    let secondTime = Date.now()
-    console.log(lastTsmee);
-    console.log(`Token Time is : ${ secondTime - firstTime}`);
-    
-  })
-  
+  }).then(res=>{
+    localStorage.setItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}` , JSON.stringify(lastTsmee))
+    lastTsmee = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
+  }
+  )
+}else{
+  lastTsmee = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
 }
 

@@ -2225,3 +2225,8 @@ footer .container div ul li:not(:first-of-type){
     background-color: var(--red-color);
     color: white;
 }
+input::placeholder {
+    color: #777;
+    opacity: 0.4; /* Firefox */
+    font-weight: bolder;
+  }

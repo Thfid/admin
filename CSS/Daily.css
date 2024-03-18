@@ -1704,9 +1704,9 @@ flex-direction: column;
 }
 .first-surah .info .surah-box{
     margin-top: 0;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
+
 }
 .first-surah .info .surah-box #first-listener{
     min-width: 77%;
@@ -1723,7 +1723,11 @@ flex-direction: column;
 }
 .first-surah .info .from-to input[type="text"]{
     height: 35px;
-    width: 32%;
+    width: 34.5%;
+}
+.first-surah .info .a-box input[type="text"]{
+    width: 90%;
+    margin-left: 10px;
 }
 .first-surah .decisiveness-first {
     flex-direction: row;
@@ -2197,6 +2201,9 @@ footer .container div ul li:not(:first-of-type){
 @media (max-width: 600px) {
    footer .container div span{
     width: 150px;
+    font-size: 15px;
+   }
+   footer .container div ul li{
     font-size: 15px;
    }
     

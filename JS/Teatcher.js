@@ -362,16 +362,3 @@ logOut.onclick = ()=>{
     linkBack.click()
     linkBack.remove()
 }
-
-let downloadTemp = document.getElementById("TEMP")
-downloadTemp.onclick = ()=>{
-    let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`${teatcehrId} 07-09`)) , null , 2)
-    let blob = new Blob([dailyJson] , {type: "application/json"})
-    let url = URL.createObjectURL(blob)
-    let link = document.createElement("a")
-    link.href = url
-    link.download = `Daily(Temp).json`
-    document.body.appendChild(link)
-    link.click();
-    link.remove();
-}

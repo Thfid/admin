@@ -129,12 +129,12 @@ let memoBox = document.getElementById("memo-box");
 let revBox = document.getElementById("rev-box");
 let memoGrade = document.getElementById("memo-grade");
 let revGrade = document.getElementById("review-grade");
-window.onload = () => {
+window.addEventListener("load" , ()=>{
   memoShow.classList.add("active");
   hideForMemo();
   hideForRev();
   hideForFirst()
-};
+})
 function hideForRev() {
   if (revShow.classList.contains("active")) {
     revBox.classList.add("active");
@@ -243,16 +243,15 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
   }
   // Close when click out side + enter + tap
   nexti.addEventListener("foucs" , ()=>{
-    console.log("hi");
     autobox.innerHTML = ""
   })
-  window.addEventListener("keyup" ,(eve) => {
-    if (eve.keyCode == 13) {
+  window.addEventListener("keydown" ,(eve) => {
+    if (eve.key == "Enter") {
       autobox.innerHTML = "";
       inputbox.blur();
       nexti.focus();
     }
-    if(eve.keyCode == 9){
+    if(eve.key == "Tab"){
       autobox.innerHTML = "";
     }
   })
@@ -642,11 +641,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
       hideColumnAssis(hideMemoListen , mLHead , mLBody)
       hideColumnAssis(hideRevListen , rLHead , rLBody)      
       hideColumnAssis(hideFirstMemo , fHead , fBody)
-      
+      var sn = document.querySelector(".active .name-body");
       // sessionStorage.setItem("hidecells" , )
-      
       //  Add click event
-      
       rows.forEach((e) => {
         e.addEventListener("click", function (eve) {
           hideColumnAssis(hideFirstMemo , fHead , fBody)
@@ -658,7 +655,8 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let width = window.innerWidth;
           this.classList.add("active");
           // Table cells defiends
-           let selectedName = document.querySelector(".active .name-body");
+          let selectedName = document.querySelector(".active .name-body");
+          sn = selectedName
           let selectedSurah = document.querySelector(".active .surah-one");
           let selectedFS = document.querySelector(".active .first-surah-table");
           let selectedFF = document.querySelector(".active .first-from");
@@ -675,8 +673,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let selectedRR = document.querySelector(".active .rate-rev-body");
           let showName = document.querySelector("h2.name");
           showName.innerHTML = selectedName.innerHTML;
-
-          
+    
 
           // Input's defiends
           // First Of Surah Of Inputs
@@ -823,17 +820,19 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 
             // Send Surah to Data Base on blur
             mS.onblur = () => {
-              if(!availableResult.includes(mS.value)){
+              if(!availableResult.includes(mS.value.trim())){
                 if(mS.value != "" && mS.value != " "){
                   components.popup("info" , "خطأ في إسم السورة")
+                  mS.style.color = "var(--red-color)"
                 }
-                mS.value = ""
+              }
+              else {
+                mS.style.color = ""
               }
               updateValue();
               calldata()
               // Fute : plcae holder an ayah limit
             };
-
             // Send From-To-Lines to Data Base on keyup
             let seconderyMemoData = [mF, mT, mL ,mLi];
             seconderyMemoData.forEach((ele) => {
@@ -973,29 +972,39 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 let attenArray = [ atten0,atten1,atten2,atten3,atten4,atten5,];
                 // Add Water Marks
                 if(lastTsmee.length){
+                  let breakMarks = true
                   lastTsmee.forEach((student , index)=>{
-                    if(Object.keys(student) == selectedName.innerHTML){              
-                      student = student[Object.keys(student)]
-                      let mfs = student.firstSurah
-                      let mff = student.firstFrom;
-                      let mft = student.firstTo;
-                      let mms = student.memoSurah;
-                      let mmf = student.memoFrom;
-                      let mmt = student.memoTo;
-                      let mml = student.memoLines;
-                      let mmr = student.rememo
-                      let mrf = student.revFrom;
-                      let mrt = student.revTo;
-                      let mrr = student.rereview              
-                      firstSurah.setAttribute("placeholder" , mfs )
-                      firstFrom.setAttribute("placeholder" , mff )
-                      firstTo.setAttribute("placeholder" , mft )
-                      surahInput.setAttribute("placeholder" , mms )
-                      memoFrom.setAttribute("placeholder" , mmf )
-                      memoTo.setAttribute("placeholder" , mmt )
-                      memoLines.setAttribute("placeholder" , mml )
-                      revFrom.setAttribute("placeholder" , mrf )
-                      revTo.setAttribute("placeholder" , mrt )
+                    if(breakMarks){
+                      if(Object.keys(student) == selectedName.innerHTML){              
+                        student = student[Object.keys(student)]
+                        let mfs = student.firstSurah
+                        let mff = student.firstFrom;
+                        let mft = student.firstTo;
+                        let mms = student.memoSurah;
+                        let mmf = student.memoFrom;
+                        let mmt = student.memoTo;
+                        let mml = student.memoLines;
+                        let mmr = student.rememo
+                        let mrf = student.revFrom;
+                        let mrt = student.revTo;
+                        let mrr = student.rereview
+                        firstSurah.setAttribute("placeholder" , mfs )
+                        firstFrom.setAttribute("placeholder" , mff )
+                        firstTo.setAttribute("placeholder" , mft )
+                        surahInput.setAttribute("placeholder" , mms)
+                        memoFrom.setAttribute("placeholder" , mmf )
+                        memoTo.setAttribute("placeholder" , mmt )
+                        memoLines.setAttribute("placeholder" , mml )
+                        revFrom.setAttribute("placeholder" , mrf )
+                        revTo.setAttribute("placeholder" , mrt )
+                        breakMarks = false
+                      }else{
+                        let placeholderArray = [firstSurah ,firstFrom, firstTo  , surahInput , memoFrom ,
+                          memoTo , memoLines , revFrom , revTo]
+                          placeholderArray.forEach(e=>{
+                            e.removeAttribute("placeholder")
+                          })
+                      }
                     }
                   })
                 }
@@ -1607,6 +1616,20 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           // Here is the End Of click cell Event
         });
       });
+      // Start ShortCuts
+      window.addEventListener("keydown" ,(eve) => {
+        arrayOfToday.map((ele) => {
+          if (ele[Object.keys(ele)].studintname == sn.innerHTML) {
+            let data = ele[Object.keys(ele)];
+            let current = document.querySelector("tbody tr.active")
+            if(eve.altKey && eve.code == "KeyY"){
+              data.AttendanceState = "2"
+              current.click()
+            }
+          }
+        });
+      })
+      // End ShortCuts
       if(checkedRotate == false){
         rows.forEach((e) => {
           e.click();

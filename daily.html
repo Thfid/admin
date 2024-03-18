@@ -81,34 +81,35 @@
             </div>
              <!-- End Status -->
 
+             <form id="main-form" action="">
              <!-- Start Memoriziton & Review -->
                 <div class="memo-rev">
                     <!-- Start First Of Surah -->
                     <div class="first-surah" id="first-box">
-                        <div class="title">أول السورة</div>
-                        <div class="info">
-                            <div class="surah-box a-box">
-                                    <label for="first-surah">السورة</label>
-                                    <input type="text" id="first-surah" autocomplete="off">
-                                    <div class="result-box first-surah-r"></div>    
-                            </div>
-                            <div class="from-to">
-                                    <label for="from-first">مــن</label>
-                                    <input type="text" id="from-first" autocomplete="off">        
-                                    <label for="to-first" >الــى</label>
-                                    <input type="text" id="to-first" autocomplete="off">
-                            </div>
-                            <div class="a-box">
-                                <label for="first-listener">المستمع</label>
-                                <input type="text" id="first-listener" autocomplete="off">
-                                <div class="result-box first-listener">
+                            <div class="title">أول السورة</div>
+                            <div class="info">
+                                <div class="surah-box a-box">
+                                        <label for="first-surah">السورة</label>
+                                        <input type="text" id="first-surah" autocomplete="off">
+                                        <div class="result-box first-surah-r"></div>    
+                                </div>
+                                <div class="from-to">
+                                        <label for="from-first">مــن</label>
+                                        <input type="text" id="from-first" autocomplete="off">        
+                                        <label for="to-first" >الــى</label>
+                                        <input type="text" id="to-first" autocomplete="off">
+                                </div>
+                                <div class="a-box">
+                                    <label for="first-listener">المستمع</label>
+                                    <input type="text" id="first-listener" autocomplete="off">
+                                    <div class="result-box first-listener">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="decisiveness-first">
-                            <div class="yes-no yes">نعم</div>
-                            <div class="yes-no no selected">لا</div>
-                        </div>
+                            <div class="decisiveness-first">
+                                <div class="yes-no yes">نعم</div>
+                                <div class="yes-no no selected">لا</div>
+                            </div>
                     </div>    
 
                     <!-- End Memoriztion -->
@@ -227,6 +228,7 @@
                         </div>
                     </div>    
                     <!-- End Review -->
+                </form>
 
                 </div>
                 <div class="grades">
@@ -314,8 +316,8 @@
             resultBoxMemo.innerHTML = ""
             listenInput.focus()
             listenInput.blur()
-            let selectedFF = document.getElementById("from-first")
-            selectedFF.focus()
+            let firstYes = document.querySelector(".yes-no.yes")
+            firstYes.focus()
         }
         function seInputmemo(list){
             let surahInput = document.getElementById("surah");

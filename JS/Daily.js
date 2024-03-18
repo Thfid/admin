@@ -120,6 +120,13 @@ function clickSelf(){
   let currentRow = document.querySelector("table tbody tr.active")
   currentRow.click()
 }
+let mainForm = document.getElementById("main-form")
+mainForm.onkeydown = (event)=>{
+  if(event.key == "Enter"){
+    event.preventDefault()
+    return false
+  }
+}
 // Start memo-rate-control
 let firstShow = document.getElementById("first-show");
 let memoShow = document.getElementById("memo-show");
@@ -208,6 +215,7 @@ availableStudint.push("الاستاذ عبد الله" , "الاستاذ عصا�
 let firstMemo = document.getElementById("first-surah");
 let firstListener = document.getElementById("first-listener");
 let firstFrom = document.getElementById("from-first")
+let firstYes = document.querySelector(".yes-no.yes")
 let surahInput = document.getElementById("surah");
 let surahFromI = document.getElementById("from-memo");
 let memolistener = document.getElementById("memo-listener")
@@ -245,7 +253,7 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
   nexti.addEventListener("foucs" , ()=>{
     autobox.innerHTML = ""
   })
-  window.addEventListener("keydown" ,(eve) => {
+  window.addEventListener("keyup" ,(eve) => {
     if (eve.key == "Enter") {
       autobox.innerHTML = "";
       inputbox.blur();
@@ -254,7 +262,19 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     if(eve.key == "Tab"){
       autobox.innerHTML = "";
     }
+    if(eve.key != "Control" && eve.key != "Shift" &&
+    eve.key != "Alt" && eve.code != "KeyA" &&
+    eve.code != "ArrowDown" && eve.code != "ArrowUp" &&
+    eve.code != "ArrowRight" && eve.code != "ArrowLeft" &&
+    eve.code != "Home" && eve.code != "End"){
+      if (inputbox.value != "الحج" && inputbox.value != "الحجر" && result.length == 1 && inputbox.value == result[0]){
+        autobox.innerHTML = "";
+        inputbox.blur()
+        nexti.focus()
+      }
+    }
   })
+
 
   function displayResult(result, autobox) {
     let content = result.map(
@@ -266,9 +286,11 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
   resultcounter = -1;
 }
 function arrowComplete(inputbox, resultcounter, results) {
+  if(results.length){
   results.forEach((ele) => ele.classList.remove("selected"));
   results[resultcounter].classList.add("selected");
   inputbox.value = results[resultcounter].innerHTML;
+  }
 }
 function eleonkeyup(inputbox, availableResult, autobox, click, nexti) {
   inputbox.addEventListener("keyup" , (e) => {
@@ -276,32 +298,33 @@ function eleonkeyup(inputbox, availableResult, autobox, click, nexti) {
       let results = document.querySelectorAll(
         `#${inputbox.id} ~ .result-box ul li`
       );
-      if (e.keyCode == 40) {
-        switch (resultcounter) {
-          case -1:
-            resultcounter = 0;
-            break;
-          case results.length - 1:
-            resultcounter = 0;
-            break;
-          default:
-            resultcounter++;
+        if (e.keyCode == 40) {
+          switch (resultcounter) {
+            case -1:
+              resultcounter = 0;
+              break;
+            case results.length - 1:
+              resultcounter = 0;
+              break;
+            default:
+              resultcounter++;
+          }
         }
-      }
-      if (e.keyCode == 38) {
-        switch (resultcounter) {
-          case -1:
-            resultcounter = results.length - 1;
-            break;
-          case 0:
-            resultcounter = results.length - 1;
-            break;
-          default:
-            resultcounter--;
-        }
-      }
+        if (e.keyCode == 38) {
+          switch (resultcounter) {
+            case -1:
+              resultcounter = results.length - 1;
+              break;
+            case 0:
+              resultcounter = results.length - 1;
+              break;
+            default:
+              resultcounter--;
+          }
+        } 
       arrowComplete(inputbox, resultcounter, results);
     } else autoComplete(inputbox, availableResult, autobox, click, nexti);
+    
   });
 }
 // Fisrt Surah.
@@ -310,7 +333,7 @@ eleonkeyup(
   availableResult,
   resultBoxFS,
   "seInputFirstS",
-  firstListener
+  firstFrom
   );
 // First Listener
 eleonkeyup(
@@ -318,7 +341,7 @@ eleonkeyup(
   availableStudint,
   resultBoxFL,
   "seInputFirstL",
-  firstFrom
+  firstYes
 );
 // Memoriztion Surah.
 eleonkeyup(
@@ -707,8 +730,23 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let noMemo = document.querySelector(".memoriztion .title");
           let noRev = document.querySelector(".review .title");
           let tableControl = document.querySelector(".table-control .container")
+          
+          function entergoto(input1 , input2){
+            input1.addEventListener("keydown" , (eve) =>{
+              if(eve.key == "Enter"){
+                eve.preventDefault()
+                input1.blur()
+                input2.blur()
+                input2.focus()
+              }
+            })
+          }
+          // First Of Surah Enter Key
+          entergoto(firstFrom , firstTo)
+          entergoto(firstTo , firstListener)
+
+          // Naser Lock
           if(e.classList[0].slice(1) == 372187){
-            
             if(naserEdit){
               if(tableControl.children.length < 4){
                 tableControl.appendChild(btnclose)

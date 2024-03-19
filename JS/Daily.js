@@ -121,12 +121,9 @@ function clickSelf(){
   currentRow.click()
 }
 let mainForm = document.getElementById("main-form")
-mainForm.onkeydown = (event)=>{
-  if(event.key == "Enter"){
-    event.preventDefault()
-    return false
-  }
-}
+mainForm.addEventListener ("submit" , (event)=>{event.preventDefault()})
+// mainForm.addEventListener ("click" , (event)=>{event.preventDefault()})
+// mainForm.addEventListener ("keydown" , (event)=>{event.preventDefault()})
 // Start memo-rate-control
 let firstShow = document.getElementById("first-show");
 let memoShow = document.getElementById("memo-show");
@@ -234,7 +231,7 @@ let resultBoxRevTo = document.querySelector(".result-box.rev.to");
 let resultBoxRevL1 = document.querySelector(".result-box.rev.listener1");
 let resultBoxRevL2 = document.querySelector(".result-box.rev.listener2");
 let resultcounter = -1;
-function autoComplete(inputbox, availableResult, autobox, click, nexti) {
+function autoComplete(inputbox, availableResult, autobox, click) {
   let result = [];
   let input = inputbox.value;
 
@@ -250,14 +247,14 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     autobox.innerHTML = "";
   }
   // Close when click out side + enter + tap
-  nexti.addEventListener("foucs" , ()=>{
-    autobox.innerHTML = ""
+  window.addEventListener("click" , (eve)=>{
+    if(autobox.contains(eve.target)){
+      autobox.innerHTML = ""
+    }
   })
-  window.addEventListener("keyup" ,(eve) => {
+  window.addEventListener("keyup" , (eve) => {
     if (eve.key == "Enter") {
       autobox.innerHTML = "";
-      inputbox.blur();
-      nexti.focus();
     }
     if(eve.key == "Tab"){
       autobox.innerHTML = "";
@@ -269,8 +266,6 @@ function autoComplete(inputbox, availableResult, autobox, click, nexti) {
     eve.code != "Home" && eve.code != "End"){
       if (inputbox.value != "الحج" && inputbox.value != "الحجر" && result.length == 1 && inputbox.value == result[0]){
         autobox.innerHTML = "";
-        inputbox.blur()
-        nexti.focus()
       }
     }
   })
@@ -292,7 +287,7 @@ function arrowComplete(inputbox, resultcounter, results) {
   inputbox.value = results[resultcounter].innerHTML;
   }
 }
-function eleonkeyup(inputbox, availableResult, autobox, click, nexti) {
+function eleonkeyup(inputbox, availableResult, autobox, click) {
   inputbox.addEventListener("keyup" , (e) => {
     if (e.keyCode == 40 || e.keyCode == 38) {
       let results = document.querySelectorAll(
@@ -323,7 +318,7 @@ function eleonkeyup(inputbox, availableResult, autobox, click, nexti) {
           }
         } 
       arrowComplete(inputbox, resultcounter, results);
-    } else autoComplete(inputbox, availableResult, autobox, click, nexti);
+    } else autoComplete(inputbox, availableResult, autobox, click);
     
   });
 }
@@ -340,56 +335,49 @@ eleonkeyup(
   firstListener,
   availableStudint,
   resultBoxFL,
-  "seInputFirstL",
-  firstYes
+  "seInputFirstL"
 );
 // Memoriztion Surah.
 eleonkeyup(
   surahInput,
   availableResult,
   resultBoxMemo,
-  "seInputmemo",
-  surahFromI
+  "seInputmemo"
 );
 // Memoriztion Listener
 eleonkeyup(
   memolistener,
   availableStudint,
   resutlBoxMemoListener,
-  "seInputmemolistener",
-  addHesiMemo
+  "seInputmemolistener"
 );
 // Review From
 eleonkeyup(
   revFromInput,
   availableResult,
   resultBoxRevFrom,
-  "seInputRevFrom",
-  revToInput
+  "seInputRevFrom"
 );
 // Review To
 eleonkeyup(
   revToInput,
   availableResult,
   resultBoxRevTo,
-  "seInputRevTo",
-  revL1Input
+  "seInputRevTo"
 );
 // Review Lin1
 eleonkeyup(
   revL1Input,
   availableStudint,
   resultBoxRevL1,
-  "seInputRevL1",
-  revL2Input
+  "seInputRevL1"
 );
 // Review Lin2
   eleonkeyup(
   revL2Input,
   availableStudint,
   resultBoxRevL2,
-  "seInputRevL2",
-  addhesiRevB
+  "seInputRevL2"
 );
 
 // Start Memoraiztion Option
@@ -730,20 +718,6 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let noMemo = document.querySelector(".memoriztion .title");
           let noRev = document.querySelector(".review .title");
           let tableControl = document.querySelector(".table-control .container")
-          
-          function entergoto(input1 , input2){
-            input1.addEventListener("keydown" , (eve) =>{
-              if(eve.key == "Enter"){
-                eve.preventDefault()
-                input1.blur()
-                input2.blur()
-                input2.focus()
-              }
-            })
-          }
-          // First Of Surah Enter Key
-          entergoto(firstFrom , firstTo)
-          entergoto(firstTo , firstListener)
 
           // Naser Lock
           if(e.classList[0].slice(1) == 372187){
@@ -858,19 +832,21 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 
             // Send Surah to Data Base on blur
             mS.onblur = () => {
-              if(!availableResult.includes(mS.value.trim())){
-                if(mS.value != "" && mS.value != " "){
-                  components.popup("info" , "خطأ في إسم السورة")
-                  mS.style.color = "var(--red-color)"
+              setTimeout(() => {
+                if(!availableResult.includes(mS.value.trim())){
+                  if(mS.value != "" && mS.value != " "){
+                    components.popup("info" , "خطأ في إسم السورة")
+                    mS.style.color = "var(--red-color)"
+                  }
                 }
-              }
-              else {
-                mS.style.color = ""
-              }
-              updateValue();
-              calldata()
-              // Fute : plcae holder an ayah limit
+                else {
+                  mS.style.color = ""
+                }
+                updateValue();
+                calldata()
+              }, 500);
             };
+            // Fute : plcae holder an ayah limit  
             // Send From-To-Lines to Data Base on keyup
             let seconderyMemoData = [mF, mT, mL ,mLi];
             seconderyMemoData.forEach((ele) => {
@@ -902,59 +878,62 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           );
 
           // Start Decisiveness
-          function updateMisandHesi(addname, removename, para, input) {
-            addname.onclick = () => {
-              if (input.value) {
-                arrayOfToday.map((e) => {
-                  if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
-                    let data = e[Object.keys(e)];
-                    data[para] += 1;
-                    calldata();
-                    if (
-                      typeof +revRate.innerHTML == "number" &&
-                      revRate.innerHTML != "لم يسمع بعد" &&
-                      data.reviewRate != ""
-                    ) {
-                      selectedRR.innerHTML = revRate.innerText;
+          function updateMisandHesi(addname, removename, para, input , currentSec) {
+              addname.onclick = () => {
+                if (input.value && currentSec.classList.contains("active")) {
+                  arrayOfToday.map((e) => {
+                    if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
+                      let data = e[Object.keys(e)];
+                      data[para] += 1;
+                      calldata();
+                      if (
+                        typeof +revRate.innerHTML == "number" &&
+                        revRate.innerHTML != "لم يسمع بعد" &&
+                        data.reviewRate != ""
+                      ) {
+                        selectedRR.innerHTML = revRate.innerText;
+                      }
+                      if (
+                        typeof +memoRate.innerHTML == "number" &&
+                        memoRate.innerHTML != "لم يسمع بعد" &&
+                        data.memoRate != ""
+                      ) {
+                        selectedMR.innerHTML = memoRate.innerText;
+                      }
                     }
-                    if (
-                      typeof +memoRate.innerHTML == "number" &&
-                      memoRate.innerHTML != "لم يسمع بعد" &&
-                      data.memoRate != ""
-                    ) {
-                      selectedMR.innerHTML = memoRate.innerText;
+                  });
+                } else if (currentSec.classList.contains("active")){
+                   components.popup("info", "الرجاء تحديد السورة اولا");
+                }
+              };
+              removename.onclick = () => {
+                if (input.value) {
+                  arrayOfToday.map((e) => {
+                    if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
+                      let data = e[Object.keys(e)];
+                      if (data[para] > 0) {
+                        data[para] -= 1;
+                      }
+                      calldata();
+                      if (
+                        typeof +revRate.innerHTML == "number" &&
+                        revRate.innerHTML != "لم يسمع بعد" &&
+                        data.reviewRate != ""
+                      ) {
+                        selectedRR.innerHTML = revRate.innerText;
+                      }
+                      if (
+                        typeof +memoRate.innerHTML == "number" &&
+                        memoRate.innerHTML != "لم يسمع بعد" &&
+                        data.memoRate != ""
+                      ) {
+                        selectedMR.innerHTML = memoRate.innerText;
+                      }
                     }
-                  }
-                });
-              } else components.popup("info", "الرجاء تحديد السورة اولا");
-            };
-            removename.onclick = () => {
-              if (input.value) {
-                arrayOfToday.map((e) => {
-                  if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
-                    let data = e[Object.keys(e)];
-                    if (data[para] > 0) {
-                      data[para] -= 1;
-                    }
-                    calldata();
-                    if (
-                      typeof +revRate.innerHTML == "number" &&
-                      revRate.innerHTML != "لم يسمع بعد" &&
-                      data.reviewRate != ""
-                    ) {
-                      selectedRR.innerHTML = revRate.innerText;
-                    }
-                    if (
-                      typeof +memoRate.innerHTML == "number" &&
-                      memoRate.innerHTML != "لم يسمع بعد" &&
-                      data.memoRate != ""
-                    ) {
-                      selectedMR.innerHTML = memoRate.innerText;
-                    }
-                  }
-                });
-              } else components.popup("info", "الرجاء تحديد السورة اولا");
-            };
+                  });
+                }
+                else  memoSec.classList.contains("active") || revSec.classList.contains("active")
+              };
           }
           // Start Yes / No (First)
           let firstYes = document.querySelector(".yes-no.yes")
@@ -979,26 +958,26 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let addhesi = document.querySelector(".add.hesitated");
           let removehesi = document.querySelector(".remove.hesitated");
           let counthesi = document.querySelector(".counter.hesitated");
-          updateMisandHesi(addhesi, removehesi, "hesitateds", surah);
+          updateMisandHesi(addhesi, removehesi, "hesitateds", surah , memoSec);
 
           // Start Mistake ( Memoriztion )
           let addmistake = document.querySelector(".add.mistake");
           let removemistake = document.querySelector(".remove.mistake");
           let countmistake = document.querySelector(".counter.mistake");
-          updateMisandHesi(addmistake, removemistake, "misteaks", surah);
+          updateMisandHesi(addmistake, removemistake, "misteaks", surah , memoSec) ;
 
           // Start Hesitated ( Review )
           let addhesiRev = document.querySelector(".add.hesitated.rev");
           let removehesiRev = document.querySelector(".remove.hesitated.rev");
           let counthesiRev = document.querySelector(".counter.hesitated.rev");
-          updateMisandHesi(addhesiRev, removehesiRev, "hesitatedsRev", revFrom);
+          updateMisandHesi(addhesiRev, removehesiRev, "hesitatedsRev", revFrom , revSec );
 
           // Start Mistake ( Review )
           let addmistakeRev = document.querySelector(".add.mistake.rev");
           let removemistakeRev = document.querySelector(".remove.mistake.rev");
           let countmistakeRev = document.querySelector(".counter.mistake.rev");
-          updateMisandHesi(addmistakeRev,removemistakeRev,"misteaksRev",revFrom);
-
+          updateMisandHesi(addmistakeRev,removemistakeRev,"misteaksRev",revFrom , revSec);
+          
 
           // addListenerPoint.addEventListener("click",()=>{calldata()})
           // removeListenerPoint.addEventListener("click",()=>{calldata()})
@@ -1996,3 +1975,46 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
   lastTsmee = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
 }
 
+// Start Enter foucs {
+let firstSec = document.querySelector(".first-surah")
+let firstSurah = document.getElementById("first-surah")
+firstFrom = document.getElementById("from-first")
+let firstTo = document.getElementById("to-first")
+firstListener = document.getElementById("first-listener")
+// Memoriztion Inputs
+let surah = document.getElementById("surah");
+let memoFrom = document.getElementById("from-memo");
+let memoTo = document.getElementById("to-memo");
+let memoLines = document.getElementById("counter-memo");
+let memoListener = document.getElementById("memo-listener")
+let timeCalc = document.getElementById("timecalc");
+// Review Inputs
+revFrom = document.getElementById("from-review");
+revTo = document.getElementById("to-review");
+let revlistener1 = document.getElementById("listener1");
+let revlistener2 = document.getElementById("listener2");
+
+function entergoto(input1 , input2){
+  input1.addEventListener("keydown" , (eve) =>{
+    if(eve.key == "Enter"){
+      eve.preventDefault()
+      input2.focus()
+    }
+  })
+}
+// First Of surah
+entergoto(firstSurah , firstFrom)
+entergoto(firstFrom , firstTo)
+entergoto(firstTo , firstListener)
+// Memorization
+entergoto(surah , memoFrom)
+entergoto(memoFrom , memoTo)
+entergoto(memoTo, memoLines)
+entergoto(memoLines , memoListener)
+entergoto(memoListener , timeCalc)
+// Review
+entergoto(revFrom , revTo)
+entergoto(revTo , revlistener1)
+entergoto(revlistener1 , revlistener2)
+
+// End Enter Foucs }

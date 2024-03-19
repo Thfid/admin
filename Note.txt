@@ -1,0 +1,11 @@
+Reminder About Things That i must do with daily
+
+- Fix Auto Complete Box Arrows
+
+- Fix tap & enter key foucs
+
+- Fix Rememo & rereview
+
+- Fix Hesitateds && mistakes (Let it don't accept less then rate 10)
+
+- Test Every Things

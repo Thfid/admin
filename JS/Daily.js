@@ -662,7 +662,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           hideColumnAssis(hideRevListen , rLHead , rLBody)   
 
           eve.preventDefault();
-          rows.forEach((ele) => ele.classList.remove("active"));
+          rows.forEach((ele) => {ele.classList.remove("active")})
           let width = window.innerWidth;
           this.classList.add("active");
           // Table cells defiends
@@ -825,7 +825,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             }
             let firstData = [fF , fT , fL]
             firstData.forEach(e=>{
-              e.onkeyup = ()=> updateValue()
+              e.onblur = ()=> updateValue()
             })
 
             //------------------------- Menoriztion -------------------------
@@ -842,7 +842,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 else {
                   mS.style.color = ""
                 }
-                updateValue();
+               updateValue();
                 calldata()
               }, 500);
             };
@@ -850,7 +850,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             // Send From-To-Lines to Data Base on keyup
             let seconderyMemoData = [mF, mT, mL ,mLi];
             seconderyMemoData.forEach((ele) => {
-              ele.onkeyup = (eve) => updateValue();
+              ele.onblur = (eve) => {
+                updateValue()
+              };
             });
 
             //------------------------- Review -------------------------
@@ -946,6 +948,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   data.firstState = bool;
                   btn.classList.add("selected")
                   dibtn.classList.remove("selected")
+                  updateValue();
                   calldata()
                   }
               }
@@ -987,44 +990,6 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
                 let attenArray = [ atten0,atten1,atten2,atten3,atten4,atten5,];
-                // Add Water Marks
-                if(lastTsmee.length){
-                  let breakMarks = true
-                  lastTsmee.forEach((student , index)=>{
-                    if(breakMarks){
-                      if(Object.keys(student) == selectedName.innerHTML){              
-                        student = student[Object.keys(student)]
-                        let mfs = student.firstSurah
-                        let mff = student.firstFrom;
-                        let mft = student.firstTo;
-                        let mms = student.memoSurah;
-                        let mmf = student.memoFrom;
-                        let mmt = student.memoTo;
-                        let mml = student.memoLines;
-                        let mmr = student.rememo
-                        let mrf = student.revFrom;
-                        let mrt = student.revTo;
-                        let mrr = student.rereview
-                        firstSurah.setAttribute("placeholder" , mfs )
-                        firstFrom.setAttribute("placeholder" , mff )
-                        firstTo.setAttribute("placeholder" , mft )
-                        surahInput.setAttribute("placeholder" , mms)
-                        memoFrom.setAttribute("placeholder" , mmf )
-                        memoTo.setAttribute("placeholder" , mmt )
-                        memoLines.setAttribute("placeholder" , mml )
-                        revFrom.setAttribute("placeholder" , mrf )
-                        revTo.setAttribute("placeholder" , mrt )
-                        breakMarks = false
-                      }else{
-                        let placeholderArray = [firstSurah ,firstFrom, firstTo  , surahInput , memoFrom ,
-                          memoTo , memoLines , revFrom , revTo]
-                          placeholderArray.forEach(e=>{
-                            e.removeAttribute("placeholder")
-                          })
-                      }
-                    }
-                  })
-                }
                 // Attendence State
                 attenArray[data.AttendanceState].checked = true;
                 let nu = document.querySelector(".active td.number-body");
@@ -1040,6 +1005,8 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 let attendenceSpicalArray = [rLrow , mLrow , frow]
                 let colored = [nu, na, rRrow];
                 let coloredPhone = [rSrow, nu, na];
+                // Add Water Marks
+
                 function Absent() {
                   let phoneText = document.createElement("p");
                   if (data.AttendanceState == 2) {
@@ -1462,6 +1429,49 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                     }
                   });
                 };
+                if(lastTsmee.length){
+                  let breakMarks = true
+                  lastTsmee.forEach((student , index)=>{
+                    if(breakMarks){
+                      if(Object.keys(student) == selectedName.innerHTML){              
+                        student = student[Object.keys(student)]
+                        let mfs = student.firstSurah
+                        let mff = student.firstFrom;
+                        let mft = student.firstTo;
+                        let mms = student.memoSurah;
+                        let mmf = student.memoFrom;
+                        let mmt = student.memoTo;
+                        let mml = student.memoLines;
+                        let mmr = student.rememo
+                        let mrf = student.revFrom;
+                        let mrt = student.revTo;
+                        let mrr = student.rereview
+                        firstSurah.setAttribute("placeholder" , mfs )
+                        firstFrom.setAttribute("placeholder" , mff )
+                        firstTo.setAttribute("placeholder" , mft )
+                        surahInput.setAttribute("placeholder" , mms)
+                        memoFrom.setAttribute("placeholder" , mmf )
+                        memoTo.setAttribute("placeholder" , mmt )
+                        memoLines.setAttribute("placeholder" , mml )
+                        revFrom.setAttribute("placeholder" , mrf )
+                        revTo.setAttribute("placeholder" , mrt )
+                          if(mmr == true){
+                            mSrow.style.backgroundColor = "#ffa20078"
+                          }
+                          if(mrr == true && data.AttendanceState == 0){
+                            rSrow.style.backgroundColor = "#ffa20078"
+                          }  
+                        breakMarks = false
+                      }else{
+                        let placeholderArray = [firstSurah ,firstFrom, firstTo  , surahInput , memoFrom ,
+                          memoTo , memoLines , revFrom , revTo]
+                          placeholderArray.forEach(e=>{
+                            e.removeAttribute("placeholder")
+                          })
+                      }
+                    }
+                  })
+                }
 
                 // Send data to localStorage
                 setAtLocalStorage();
@@ -1473,7 +1483,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             });
           }
           // End Of Call Data Fucntion
-
+          
           calldata();
           // Start second Time Decisivenes Memoriztion
           firstTime.onclick = function () {
@@ -1482,18 +1492,15 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 let data = e[Object.keys(e)];
                 if (data.memoFirstTime == true) {
                   data.memoFirstTime = false;
-                  calldata();
-                  updateValue();
-                  // clickSelf()
                 } else {
                   data.memoFirstTime = true;
                   firstTime.checked = false;
-                  calldata();
-                  updateValue();
-                  // clickSelf()
                 }
               }
             });
+            updateValue();
+            calldata();
+            // clickSelf()
           };
           // Start second Time Decisivenes Review
           firstTimeRev.onclick = function () {
@@ -1502,26 +1509,26 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 let data = e[Object.keys(e)];
                 if (data.reviewFirstTime == true) {
                   data.reviewFirstTime = false;
-                  calldata();
-                  updateValue();
-                  // clickSelf()
                 } else {
                   data.reviewFirstTime = true;
                   firstTimeRev.checked = false;
-                  calldata();
-                  updateValue();
-                  // clickSelf()
                 }
               }
             });
+            updateValue();
+            calldata();
+            // clickSelf()
           };
           // Start Getting Time For Rank
           timeCalc.onclick = function (data) {
+            console.log(`Before : ${memolistener.value}`);
+            
             let h = new Date().getHours();
             let m = new Date().getMinutes();
             arrayOfToday.map((e) => {
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
+                console.log(`DataBase : ${data.memoListen}`);
                 if (data.memoClass != "-") {
                   if (h == 16) {
                     data.memoClass = "أ";
@@ -1532,10 +1539,11 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   } else data.memoClass = "ج";
                 }
               }
-              calldata();
-              updateValue();
-              // clickSelf()
             });
+            updateValue();
+            calldata();
+            console.log(`After : ${memolistener.value}`);
+            // clickSelf()
           };
           // Start reMemo
           rememo.onclick = () => {
@@ -1550,11 +1558,11 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 if (data.memoRate <= 5){
                   components.popup("warning" , "لا يمكن إزالة الإعادة .. درجة الطالب ضعيفة")
                 }
-              calldata();
-              updateValue();
-              // clickSelf()
               }
             });
+            updateValue();
+            calldata();
+            // clickSelf()
           };
           // Start reReview
           rereview.onclick = () => {
@@ -1566,11 +1574,10 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 } else if (data.rereview) {
                   data.rereview = false;
                 }
-              calldata();
-              updateValue();
-              // clickSelf()
               }
             });
+            updateValue();
+            calldata();
           };
           // Start Attendence State
           function Attendence(...elemnents) {
@@ -1580,6 +1587,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 elemnents.forEach((e) => {
                   e.onclick = () => {
                     data.AttendanceState = e.value;
+                    updateValue();
                     calldata();
                   };
                 });
@@ -1596,6 +1604,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   e.onclick = () => {
                     if (data.behaviorArray.length < 4) {
                       data.behaviorArray.push(`${e.value}`);
+                      updateValue();
                       calldata();
                     } else {
                       components.popup(
@@ -1618,6 +1627,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   if (data[target] == true) {
                     data[target] = false;
                   } else data[target] = true;
+                  updateValue();
                   calldata();
                 };
               }
@@ -1640,7 +1650,15 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             let data = ele[Object.keys(ele)];
             let current = document.querySelector("tbody tr.active")
             if(eve.altKey && eve.code == "KeyY"){
-              data.AttendanceState = "2"
+              data.AttendanceState == 2 ? data.AttendanceState = "0" : data.AttendanceState = 2
+              current.click()
+            }
+            if(eve.altKey && eve.code == "BracketRight"){
+              data.rememo == true ? data.rememo = false : data.rememo = true ;
+              current.click()
+            }
+            if(eve.altKey && eve.code == "KeyL"){
+              data.rereview == true ? data.rereview = false : data.rereview = true
               current.click()
             }
           }
@@ -1653,7 +1671,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
         });
         rows[0].click();
         checkedRotate = true  
-        console.clear()
+        // console.clear()
       }
 
       // All Vacation

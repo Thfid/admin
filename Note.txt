@@ -1,10 +1,10 @@
 Reminder About Things That i must do with daily
 
-- Fix Auto Complete Box Arrows
+- Fix Auto Complete Box Arrows  Done //
 
-- Fix tap & enter key foucs
+- Fix tap & enter key foucs Done //
 
-- Fix Rememo & rereview
+- AddShortCut  Rememo & rereview
 
 - Fix Hesitateds && mistakes (Let it don't accept less then rate 10)
 

@@ -498,7 +498,7 @@ function StartData(){
                                 if(revRate.innerHTML < 0) memoRate.innerHTML = 0
                                 // Add Color When Lower Then Recommend
                                 function ratecolored(rate){
-                                    if(+rate.innerHTML >= 7.5)rate.style.borderColor = "var(--main-color)"
+                                    if(+rate.innerHTML >= 7.5)rate.style.borderColor = "var(--green-color)"
                                     if(+rate.innerHTML < 7.5 && +rate.innerHTML >= 5 ){
                                         rate.style.borderColor = "#c19619"
                                         rate.style.color = "#c19619"

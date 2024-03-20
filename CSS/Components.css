@@ -9,13 +9,14 @@
     --main-color: #023644;
     --main-color-alt: #002844;
     --main-hover : #034e83bb;
+    --green-color: #267370;
     --red-color : #c15119;
     --main-transition: 0.3s;
     --main-padding-top: 80px;
     --main-padding-bottom: 80px;
     --section-background: #ececec;
     --main-font: "Cairo" , sans-serif;
-    /* --main-color: #267370;
+    /* 
     --main-color-alt: #31938f;
     --main-hover : #2e8871a8; */
 }

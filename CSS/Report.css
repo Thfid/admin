@@ -267,7 +267,7 @@
 
 circle{
     fill: none;
-    stroke: var(--main-color);
+    stroke: var(--green-color);
     stroke-width: 5px;
     stroke-dasharray: 144;
     stroke-dashoffset: 0;

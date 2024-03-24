@@ -36,11 +36,17 @@ function today(){
 function logTest(...e){
     console.log(e);
 }
-function addOverLay(){
+function addOverLay(opacity = 0.5){
     let lay = document.createElement("div")
     lay.classList.add("overlay")
     document.body.appendChild(lay)
     lay.style.animation = "Fadgeinhalf 0.3s linear 0.1s forwards"
+}
+function addOverLayQuarter(){
+    let lay = document.createElement("div")
+    lay.id = "overlay"
+    document.body.appendChild(lay)
+    lay.style.animation = "FadgeQuarter 0.3s linear 0.1s forwards"
 }
 function lockEdit(pass , target){
     addOverLay()
@@ -90,4 +96,7 @@ function lockEdit(pass , target){
     }
 }
 
-export {popup , today , logTest , addOverLay , lockEdit}
+let arabicNumberWriten = ["الأولى" ,"الثانية" ,"الثالثة" ,"الرابعة" ,"الخامسة" ,"السادسة",
+"السابعة" ,"الثامنة" ,"التاسعة" ,"العاشرة" , "الحادية عشر" ,
+"الثانية عشر" ,"الثالثة عشر" ,"الرابعة عشر" ,"الخامسة عشر"] ;
+export {popup , today , logTest , addOverLay ,addOverLayQuarter , lockEdit , arabicNumberWriten}

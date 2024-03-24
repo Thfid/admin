@@ -10,6 +10,7 @@
     --main-color-alt: #002844;
     --main-hover : #034e83bb;
     --green-color: #267370;
+    --yellow-color: #ffa200;
     --red-color : #c15119;
     --main-transition: 0.3s;
     --main-padding-top: 80px;
@@ -149,7 +150,7 @@ input::-webkit-inner-spin-button {
 }
 
 header.main-header{
-    height: 150px;
+    height: 180px;
     max-height: 200px;
     background-color: rgba(255, 255, 255, 0.549);
     display: flex;
@@ -169,10 +170,12 @@ header.main-header::after{
 }
     
 header.main-header img{
-    width: 75px;
+    width: 125px;
+    margin-top: 15px;
 }
     
 header.main-header #user-welcome{
+    margin-top: 5px;
     font-size: 18px;
     font-weight: 800;
     color:var(--main-color);
@@ -222,6 +225,15 @@ header.main-header #user-welcome{
     }
     to{
         opacity: 0.5;
+    }
+}
+
+@keyframes FadgeQuarter {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 0.25;
     }
 }
 
@@ -276,7 +288,8 @@ header.main-header #user-welcome{
 .disnone{
     display: none ;
 }
-.overlay{
+.overlay,
+#overlay{
     background-color: black;
     position: fixed;
     height: 100%;

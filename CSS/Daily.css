@@ -533,7 +533,6 @@ h1.day-date{
     font-weight: 600;
     font-family: "Cairo" , sans-serif;
     transition: 0.1s;
-    background-color: red;
 }
 .first-surah .info .surah-box input:focus,
 .a-box input:focus{

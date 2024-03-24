@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" title="خيركم من تعلم القرآن وعلمه"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="CSS/all.min.css">
+    <!-- Main Css Style Sheet -->
+    <link rel="stylesheet" href="CSS/Groups.css">
+     <!-- Components Css Style Sheet -->
+     <link rel="stylesheet" href="CSS/Components.css">
+     <!-- GoogleFonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+     <!-- Icon -->
+    <link rel="icon" href="IMG/Logo.svg">
+    <title>التقارير</title>
+    
+</head>
+<body>
+    
+    <!--  BackGround -->
+    <div class="no-overflow">
+        <div class="pointed-groub">
+            <img src="IMG/Pointed.png">
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="main-header">
+        <img src="IMG/Logo.svg" alt="">
+        <div id="user-welcome">مرحبا</div>
+    </header>
+  
+    <!--Control Group Types-->
+    <div class="memo-rev-control-holder">
+        <h2>تقسيم الطلاب إلى مجموعات</h2> 
+    </div>
+    <div class="control">
+        <div class="container">
+            <div class="btns">
+                <div class="add btn" id="add-group">
+                    <span>إضافة</span>
+                    <div class="add-group disnone" id="add-group-box">
+                        <button id="reject-group"><i class="fa-solid fa-x"></i></button>
+                        <div class="holder">
+                            <table class="members">
+                                <thead>
+                                    <tr>
+                                        <th class="number-head">العدد</th>
+                                        <th class="name-head">الاسم</th>
+                                        <th class="rank-head">الرتبة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="add-table">
+                                </tbody>
+                            </table>
+                            <div class="add-control">
+                                <div class="hundel name">
+                                    <label for="student-name" >اسم الطالب</label>
+                                    <input type="text" id="student-name" autocomplete="off">
+                                    <div class="autocomplete student-name"></div>
+                                </div>
+                                <div class="hundel rank">
+                                    <label for="student-rank">الرتبة</label>
+                                    <select id="student-rank">
+                                        <option value="space"></option>
+                                        <option value="leader">قائد</option>
+                                        <option value="deputy">نائب</option>
+                                        <option value="member">عضو</option>
+                                    </select>
+                                </div>
+                                <div class="hundel btns">
+                                    <button id="add-student">إضافة</button>
+                                    <button id="delete-student">تفريغ</button>
+                                </div>
+                            </div>
+                            
+                            <button id="submit-group">تأكيد</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit btn" id="edit-group">
+                    <span>تعديل</span>
+                    <div class="edit-group disnone" id="edit-group-box">
+                        <button id="close-edit"><i class="fa-solid fa-x"></i></button>
+                        <div class="holder">
+                            <table class="members" >
+                                <thead>
+                                    <tr>
+                                        <th class="number-head">العدد</th>
+                                        <th class="name-head">الاسم</th>
+                                        <th class="rank-head">الرتبة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="edit-table">
+                                </tbody>
+                            </table>
+                            <div class="add-control">
+                                <div class="hundel name">
+                                    <label for="student-name-edit" >اسم الطالب</label>
+                                    <input type="text" id="student-name-edit" autocomplete="off">
+                                    <div class="autocomplete student-name-edit"></div>
+                                </div>
+                                <div class="hundel rank">
+                                    <label for="student-rank-edit">الرتبة</label>
+                                    <select id="student-rank-edit">
+                                        <option value="space"></option>
+                                        <option value="leader">قائد</option>
+                                        <option value="deputy">نائب</option>
+                                        <option value="member">عضو</option>
+                                    </select>
+                                </div>
+                                <div class="hundel btns">
+                                    <button id="add-student-edit">إضافة</button>
+                                    <button id="delete-student-edit">تفريغ</button>
+                                </div>
+                            </div>
+                            
+                            <button id="submit-edit-group">تأكيد</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="delete btn" id="delete-group">
+                    <span>حذف</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="groups">
+        <div class="container">
+
+        </div>
+    </div>
+
+
+    <!-- End Html Code's -->
+    <script type="module" src="JS/Groups.js"></script>
+    <script type="module" src="JS/Hijri.js"></script>
+    <script type="module" src="JS/Eshada.js"></script>
+    <script type="module" src="JS/surah.js"></script>
+    <script>
+        function sNClick(list){
+            let nameInput = document.getElementById("student-name");
+            let resultBox = document.querySelector(".autocomplete.student-name");
+            nameInput.value = list.innerHTML
+            resultBox.innerHTML = ""
+            nameInput.focus()
+            nameInput.blur()
+            let studentRank = document.getElementById("student-rank")
+            studentRank.focus()
+        }
+        function sNEClick(list){
+            let nameInput = document.getElementById("student-name-edit");
+            let resultBox = document.querySelector(".autocomplete.student-name-edit");
+            nameInput.value = list.innerHTML
+            resultBox.innerHTML = ""
+            nameInput.focus()
+            nameInput.blur()
+            let studentRank = document.getElementById("student-rank-edit")
+            studentRank.focus()
+        }
+    </script>
+</body>
+</html>

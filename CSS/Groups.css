@@ -1,0 +1,723 @@
+.memo-rev-control-holder{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.memo-rev-control-holder h2{
+    margin-bottom: 10px;
+    color: var(--main-color);
+}
+.memo-rev-control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1150px;
+    position: relative;
+    height: 30px;
+    direction: rtl;
+    margin-bottom: 10px;
+    padding: 0 100px;
+}
+
+.memo-rev-control div{
+    width: 150px;
+    height: 50px;
+    color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--main-transition);
+    border: 2px var(--main-color) solid;
+    position: relative;
+}
+.memo-rev-control div:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+.memo-rev-control div.active{
+    background-color: var(--main-color);
+    color: white;
+}
+
+.memo-rev-control div:first-of-type{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: 15px;
+}
+.memo-rev-control div:last-of-type{
+    position: relative;
+    margin-right: 15px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.memo-rev-control div:nth-of-type(2)::after{
+    content: "";
+    position:absolute;
+    background-color: var(--main-color);
+    width: 3px;
+    height: 100%;
+    top: 50%;
+    right: 0%;
+    transform: translate(17.5px,-50%);
+}
+
+@media (max-width: 1200px){
+    .memo-rev-control{
+        width: 525px;
+    }
+}
+@media (max-width: 600px){
+    .back{
+        right: 40px;
+    }
+    .memo-rev-control{
+        width: 350px;
+    }
+    .memo-rev-control div{
+        min-width: 100px;
+        height: 50px;
+        color: var(--main-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: var(--main-transition);
+        border: 2px var(--main-color) solid;
+        position: relative;
+    }
+    
+}
+
+.control{
+    margin-top: 20px;
+}
+.control .container{
+    border: 2px #777 dashed;
+    border-radius: 10px;
+    padding: 10px;
+}
+.control .container .btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    direction: rtl;
+}
+.control .container .btns .btn{
+    width: 200px;
+    height: 50px;
+    background-color: transparent;
+    position: relative;
+}
+.control .container .btns .btn > span{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--main-transition);
+
+}
+.control .container .btns .btn.add > span{
+    border-color: var(--green-color);
+    color: var(--green-color);
+}
+.control .container .btns .btn.add {
+    position: relative;
+}
+.control .container .btns .btn.add:hover > span{
+    background-color: var(--green-color);
+    color: white;
+}
+.control .container .btns .btn.edit > span{
+    border-color: var(--yellow-color);
+    color: var(--yellow-color);
+}
+.control .container .btns .btn.edit:hover > span{
+    background-color: var(--yellow-color);
+    color: white;
+}
+.control .container .btns .btn.delete > span{
+    border-color: var(--red-color);
+    color: var(--red-color);
+}
+.control .container .btns .btn.delete:hover > span{
+    background-color: var(--red-color);
+    color: white;
+}
+
+/* Start Add group */
+.btn .add-group:not(.disnone),
+.btn .edit-group:not(.disnone){
+width: 500px;
+position: absolute;
+background-color: white;
+border-radius: 10px;
+box-shadow: 0 0 7px 0px #777;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 18px;
+font-weight: bold;
+padding: 10px 0;
+animation: Fadgein 150ms linear 0s forwards;
+z-index: 10;
+}
+.btn .add-group:not(.disnone){
+top: calc(100% + 20px);
+right: 0px;
+}
+.btn .edit-group{
+top: calc(100% + 20px);
+right: 50%;
+transform: translateX(50%);
+}
+.btn .add-group::after,
+.btn .edit-group::after{
+    position: absolute;
+    content: "";
+    border: 15px transparent solid;
+    border-bottom-color: white;
+    top: -30px;
+    z-index: 5;
+}
+.btn .add-group::after{
+    right: 80px;
+}
+.btn .edit-group::after{
+    right: 220px;
+}
+
+.btn .add-group .holder,
+.btn .edit-group .holder{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.btn .add-group .members,
+.btn .edit-group .members{
+    margin-top: 5px;
+    width: 450px;
+    margin-bottom: 20px;
+    border-spacing: 0;
+}
+.btn .add-group .members thead th,
+.btn .edit-group .members thead th{
+    /* background-color: var(--main-color); */
+    border: 2px var(--main-color) solid;
+    color: var(--main-color);
+    padding: 0 5px;
+}
+.btn .add-group .members thead th.number-head,
+.btn .edit-group .members thead th.number-head{
+    width: 20px;
+}
+.btn .add-group .members thead th.name-head,
+.btn .edit-group .members thead th.name-head{
+    width: 325px;
+}
+.btn .add-group .members thead th,
+.btn .edit-group .members thead th{
+    border-right-width: 0.5px;
+    border-left-width: 0.5px;
+}
+.btn .add-group .members thead th:first-of-type,
+.btn .edit-group .members thead th:first-of-type{
+    border-top-right-radius: 10px;
+}
+.btn .add-group .members thead th:last-of-type,
+.btn .edit-group .members thead th:last-of-type{
+    border-top-left-radius: 10px;
+}
+.btn .add-group .members tbody tr,
+.btn .edit-group .members tbody tr{
+    height: 35px;
+}
+.btn .add-group .members tbody tr td,
+.btn .edit-group .members tbody tr td{
+    color: #777;
+    border: 0.5px #777 solid;
+    position: relative;
+}
+.btn .add-group .members tbody tr:first-of-type td:not(:last-of-type),
+.btn .add-group .members tbody tr td,
+.btn .edit-group .members tbody tr:first-of-type td:not(:last-of-type),
+.btn .edit-group .members tbody tr td{
+    border-right-width: 0.5px;
+    border-left-width: 0.5px;
+    border-top-color: transparent;
+}
+.btn .add-group .members tbody tr td:not(:nth-child(2)),
+.btn .edit-group .members tbody tr td:not(:nth-child(2)){
+    text-align: center;
+}
+.btn .add-group .members tbody tr td:nth-child(2),
+.btn .edit-group .members tbody tr td:nth-child(2){
+    padding-right: 5px;
+}
+.btn .add-group .members tbody tr:last-of-type td:first-of-type,
+.btn .edit-group .members tbody tr:last-of-type td:first-of-type{
+    border-bottom-right-radius: 10px;
+}
+.btn .add-group .members tbody tr:last-of-type td:last-of-type,
+.btn .edit-group .members tbody tr:last-of-type td:last-of-type{
+    border-bottom-left-radius: 10px;
+}
+.btn .add-group .members tbody tr td span.delete-student,
+.btn .edit-group .members tbody tr td span.delete-student{
+    display: none;
+    background-color: #fff;
+    color: var(--red-color);
+    padding-right: 5px;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+}
+.btn .add-group .members tbody tr:hover > td > span.delete-student,
+.btn .edit-group .members tbody tr:hover > td > span.delete-student{
+    display: block;
+    animation: Fadgein 150ms linear 0s forwards;
+}
+.btn .add-group .members tbody tr.no-data td,
+.btn .edit-group .members tbody tr.no-data td{
+    height: 50px;
+}
+
+.add-control{
+    padding: 10px;
+    border: 2px #777 dashed;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 95% , 5%;
+    grid-template-rows: repeat(2 , 50px);
+    flex-wrap: wrap;
+}
+.add-control .hundel.rank{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+.add-control .hundel.name{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+.add-control .hundel.name input,
+.add-control .hundel.rank select{
+    position: relative;
+    width: 95%;
+    height: 45px;
+    padding-right: 10px;
+    border: 1px #77777762 solid;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #777;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: "Cairo" , sans-serif;
+    transition: 0.1s;
+}
+.add-control .hundel.name .autocomplete{
+    position: absolute;
+    background-color: white;
+    width: 55%;
+    margin-right: 10px;
+    z-index: 5;
+    bottom: 60px;
+    transform: translate(0,100%);
+}
+.add-control .hundel.name .autocomplete ul{
+    box-shadow: 0px 5px 7px -2px var(--main-color);
+}
+.add-control .hundel.name .autocomplete ul li{
+    color: #777 ;
+    padding-right: 10px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.add-control .hundel.name .autocomplete ul li:not(:first-of-type){
+    border-top: 1px #2673705c dashed;
+}
+.add-control .hundel.name .autocomplete ul li:hover ,
+.add-control .hundel.name .autocomplete ul li.selected{
+    background-color: #e9f3ff;
+}
+.add-control .hundel.rank select{
+    cursor: pointer;
+}
+.add-control .hundel.name input:focus,
+.add-control .hundel.rank select:focus{
+    outline: none !important;
+    box-shadow: 0 0 3px var(--main-color);
+}
+.add-control .hundel.rank select {
+    width: 100%;
+    height: 45px;
+    margin-right: 0;
+    padding-right: 0;
+    text-align: center;
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+  }
+
+.add-control .hundel.btns{
+    direction: ltr;
+    margin-top: 15px;
+    padding: 0 5px;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+.add-control .hundel:not(.btns){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-control .hundel.btns button{
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-family: "Cairo" , sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: transparent;
+    transition: var(--main-transition);
+}
+#add-student,
+#add-student-edit,
+#submit-group,
+#submit-edit-group{
+    color: var(--green-color);
+}
+#add-student:hover,
+#add-student-edit:hover,
+#submit-group:hover,
+#submit-edit-group{
+    color: white;
+    background-color: var(--green-color);
+}
+#delete-student,
+#delete-student-edit{
+    color: var(--red-color);
+}
+#delete-student:hover,
+#delete-student-edit:hover{
+    color: white;
+    background-color: var(--red-color);
+}
+#submit-group,
+#submit-edit-group{
+    margin-top: 10px;
+    width: 100px;
+    height: 30px;
+    font-family: 'Cairo';
+    font-weight: bold;
+    color: white;
+    background-color: var(--green-color);
+    border: 1px var(--green-color) solid;
+    border-radius: 15px;
+    align-self: flex-end;
+    cursor: pointer;
+    transition: var(--main-transition);
+}
+#submit-group:hover,
+#submit-edit-group:hover{
+    background-color: white;
+    color: var(--green-color);
+}
+.btn .add-group #reject-group,
+.btn .edit-group #close-edit{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    top: -16px;
+    left: -19px;
+    font-family: 'Cairo';
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--red-color);
+    background-color: transparent;
+    border: 2px var(--red-color) solid;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--main-transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn .add-group #reject-group:hover,
+.btn .edit-group #close-edit:hover{
+    background-color: var(--red-color);
+    color: white;
+}
+
+/* Start Groups */
+.groups{
+    margin-top: 20px;
+}
+.groups .container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px , 1fr));
+    gap: 20px;
+    direction: rtl;
+}
+
+.groups .container .box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    z-index: 6;
+    height: fit-content;
+    border-radius: 10px;
+    transition: var(--main-transition);
+}
+.groups .container .box.edit-mode{
+    cursor: pointer;
+}
+.groups .container .box.edit-mode:hover{
+    transform: scale(1.05);
+}
+.groups .container .box .title{
+    width: 100%;
+    transition: var(--main-transition);
+}
+.groups .container .box .title .title-content{
+    height: 35px;
+    width: 100%;
+    font-family: "Cairo" , sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: var(--main-color);
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: var(--main-transition);
+}
+.groups .container .box.edit-mode:hover .title .title-content{
+    background-color: var(--main-hover);
+}
+.groups .container .box.edit-mode .title .title-content{
+    cursor: pointer;
+}
+.groups .container .box .title .title-content:focus{
+    outline: none;
+}
+.groups .container .box .content{
+    width: 100%;
+}
+.groups .container .box .content table{
+    width: 100%;
+    overflow: scroll;
+    white-space: nowrap;
+    max-width: 100%;
+    border-spacing: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+.groups .container .box .content table thead th{
+    text-align: center;
+    border: 2px var(--main-color) solid;
+    color: var(--main-color);
+    padding: 0 5px;
+}
+.groups .container .box .content table thead th.number-head{
+    width: 20px;
+}
+.groups .container .box .content table thead th.name-head{
+    width: 325px;
+}
+.groups .container .box .content table thead th{
+    border-right-width: 0.5px;
+    border-left-width: 0.5px;
+}
+.groups .container .box .content table tbody tr{
+    height: 35px;
+}
+.groups .container .box .content table tbody tr td{
+    color: #777;
+    border: 0.5px #777 solid;
+    position: relative;
+}
+.groups .container .box .content table tbody tr:first-of-type td:not(:last-of-type),
+.groups .container .box .content table tbody tr td{
+    border-right-width: 0.5px;
+    border-left-width: 0.5px;
+    border-top-color: transparent;
+}
+.groups .container .box .content table tbody tr td:not(:nth-child(2)){
+    text-align: center;
+}
+.groups .container .box .content table tbody tr td:nth-child(2){
+    padding-right: 5px;
+}
+.groups .container .box .content table tbody tr:last-of-type td:first-of-type{
+    border-bottom-right-radius: 10px;
+}
+.groups .container .box .content table tbody tr:last-of-type td:last-of-type{
+    border-bottom-left-radius: 10px;
+}
+
+table .rank-head{
+    width: 60px;
+}
+table .name-body{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Start Edit Btn */
+
+.edit-erea{
+    position: fixed;
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    width: 500px;
+    height: 50px;
+    border-radius: 10px;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    animation: Fadgein 150ms linear 0s forwards;
+}
+
+.edit-erea span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: -0px;
+    width: 50px;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid var(--red-color);
+    font-family: "Cairo" , sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: var(--red-color);
+    transition: var(--main-transition);
+    color: white;
+}
+.edit-erea span:hover{
+    color: var(--red-color);
+    background-color: transparent;
+}
+
+.delete-erea{
+    position: absolute;
+    height: 350px;
+    width: 350px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 12;
+    direction: rtl;
+}
+.delete-erea .delete-erea-close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid red;
+    font-family: "Cairo" , sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--main-transition);
+    color: red;
+}
+.delete-erea .delete-erea-close:hover{
+    transform: scale(1.1);
+}
+.delete-erea .icon{
+    color: red;
+    font-size: 70px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
+.delete-erea .title{
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center;
+    color: red;
+}
+.delete-erea .delete-btn-holder{
+    margin-top: 20px;
+    width: 80%;
+    height: 35px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.delete-erea .delete-btn-holder .btn-delete{
+    width: 40%;
+    height: 35px;
+    border: none;
+    font-family: "Cairo";
+    font-size: 18px;
+    font-weight: bolder;
+    color: white;
+    border-radius: 10px;
+    transition: var(--main-transition);
+    cursor: pointer;
+}
+.delete-erea .delete-btn-holder .btn-delete.yes{
+    background-color: red;
+}
+.delete-erea .delete-btn-holder .btn-delete.yes:hover{
+    background-color: white;
+    color: red;
+    border: 1px red solid;
+}
+.delete-erea .delete-btn-holder .btn-delete.no{
+    background-color: var(--green-color);
+}
+.delete-erea .delete-btn-holder .btn-delete.no:hover{
+    background-color: white;
+    color: var(--green-color);
+    border: 1px var(--green-color) solid;
+}

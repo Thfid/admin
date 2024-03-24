@@ -248,7 +248,7 @@ function autoComplete(inputbox, availableResult, autobox, click) {
   }
   // Close when click out side + enter + tap
   window.addEventListener("click" , (eve)=>{
-    if(autobox.contains(eve.target)){
+    if(!autobox.contains(eve.target)){
       autobox.innerHTML = ""
     }
   })

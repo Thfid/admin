@@ -256,14 +256,19 @@ donwloadData.onclick = function(){
     downloadWindow.innerHTML = `
     <div class="data-holder">
     
-        <div class="down stu">
-            <i class="fa-solid fa-child"></i>
-            <div class="label ">اضافة الطلاب</div>
-        </div>
-
         <div class="down daily">
             <i class="fa-regular fa-calendar-check"></i>
             <div class="label ">التسجيل اليومي</div>
+        </div>
+
+        <div class="down groups">
+            <i class="fa-solid fa-users-viewfinder"></i>
+            <div class="label ">المجموعات</div>
+        </div>
+
+        <div class="down stu">
+            <i class="fa-solid fa-child"></i>
+            <div class="label ">اضافة الطلاب</div>
         </div>
 
         <div class="down quiz">
@@ -286,18 +291,6 @@ donwloadData.onclick = function(){
         downloadWindow.remove()
     })
 
-    let downloadStudint = document.querySelector(".down.stu")
-    downloadStudint.onclick = function(){
-        let studintJson = JSON.stringify(JSON.parse(localStorage.getItem("Studint")) , null , 2)
-        let blob = new Blob([studintJson] , {type: "application/json"})
-        let url = URL.createObjectURL(blob)
-        let link = document.createElement("a")
-        link.href = url
-        link.download = `Studint(${HijriJS.today().toString().split("/").slice(0,2).join("-")}).json`
-        downloadWindow.appendChild(link)
-        link.click();
-        link.remove();
-    }
     let downloadDaily = document.querySelector(".down.daily")
     downloadDaily.onclick = ()=>{
         let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`${teatcehrId} ${HijriJS.today().toString().split("/").slice(0,2).join("/")}`)) , null , 2)
@@ -310,6 +303,31 @@ donwloadData.onclick = function(){
         link.click();
         link.remove();
 
+    }
+    let downloadGroups = document.querySelector(".down.groups")
+    downloadGroups.onclick = ()=>{
+        let dailyJson = JSON.stringify(JSON.parse(localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`)) , null , 2)
+        let blob = new Blob([dailyJson] , {type: "application/json"})
+        let url = URL.createObjectURL(blob)
+        let link = document.createElement("a")
+        link.href = url
+        link.download = `Groups(${HijriJS.today().toString().split("/").slice(0,2).join("-")}).json`
+        downloadWindow.appendChild(link)
+        link.click();
+        link.remove();
+
+    }
+    let downloadStudint = document.querySelector(".down.stu")
+    downloadStudint.onclick = function(){
+        let studintJson = JSON.stringify(JSON.parse(localStorage.getItem("Studint")) , null , 2)
+        let blob = new Blob([studintJson] , {type: "application/json"})
+        let url = URL.createObjectURL(blob)
+        let link = document.createElement("a")
+        link.href = url
+        link.download = `Studint(${HijriJS.today().toString().split("/").slice(0,2).join("-")}).json`
+        downloadWindow.appendChild(link)
+        link.click();
+        link.remove();
     }
     
 }
@@ -348,6 +366,15 @@ let reportbtn = document.getElementById("report")
 reportbtn.onclick = ()=>{
     let link = document.createElement("a")
     link.href = "./report.html"
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+}
+// Report
+let groupsBtn = document.getElementById("groups")
+groupsBtn.onclick = ()=>{
+    let link = document.createElement("a")
+    link.href = "./groups.html"
     document.body.appendChild(link)
     link.click()
     link.remove()

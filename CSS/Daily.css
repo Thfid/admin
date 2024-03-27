@@ -660,48 +660,53 @@ h1.day-date{
 }
 .first-surah .decisiveness-first {
     flex-basis: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2 , minmax(50px , 1fr));
+    grid-template-rows: repeat(2 , minmax(75px , 1fr));
     gap: 10px;
 }
 .first-surah .decisiveness-first .yes-no{
     display: flex;
-    flex-direction: column;
     justify-content: center;   
     align-items: center;
-    height: 40px;
-    width: 60%;
+    height: 100%;
+    width: 100%;
     border-radius: 10px;
     font-size: 18px;
     font-weight: bold;
     transition: var(--main-transition);
     cursor: pointer;
 }
-.first-surah .decisiveness-first .yes-no.yes{
+.first-surah .decisiveness-first .yes-no.yes,
+.first-surah .decisiveness-first .yes-no.acceptable,
+.first-surah .decisiveness-first .yes-no.good{
     background-color: transparent;
     color: var(--main-color);
     border: 1px var(--main-color) solid;
 }
 .first-surah .decisiveness-first .yes-no.yes:hover,
-.yes-no.yes.selected{
+.yes-no.yes.selected,
+.first-surah .decisiveness-first .yes-no.good:hover,
+.yes-no.good.selected,
+.first-surah .decisiveness-first .yes-no.acceptable:hover,
+.yes-no.acceptable.selected{
     background-color: var(--main-color) !important;
     color: white !important;
     font-size: 20px;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 .first-surah .decisiveness-first .yes-no.no{
     background-color: transparent;
-    color: var(--main-color);
-    border: 1px var(--main-color) solid;
-    transform: scale(1.1);
+    color: var(--red-color);
+    border: 1px var(--red-color) solid;
+
 }
 .first-surah .decisiveness-first .no:hover,
 .no.selected{
-    background-color: var(--main-color) !important;
+    background-color: var(--red-color) !important;
     color: white !important;
     font-size: 20px ;
+    transform: scale(1.05);
 }
 /* End First Of Surah */
 /* Start Memoriztion */
@@ -1729,8 +1734,10 @@ flex-direction: column;
     margin-left: 10px;
 }
 .first-surah .decisiveness-first {
+    grid-template-columns: repeat(2 , 1fr);
+    grid-template-rows: repeat(2 , 30px);
     flex-direction: row;
-    margin-right: 35px;
+    margin-right: 45px;
     margin-top: 10px;
     width: 87%;
 }
@@ -1742,7 +1749,7 @@ flex-direction: column;
     background-color: var(--main-color) !important;
     color: white !important;
     font-size: 20px;
-    transform: scale(1);
+    transform: scale(1.05);
 }
 .control .container .memo-rev .memoriztion{
     flex-direction: column;

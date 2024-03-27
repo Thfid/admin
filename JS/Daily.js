@@ -134,7 +134,7 @@ let revBox = document.getElementById("rev-box");
 let memoGrade = document.getElementById("memo-grade");
 let revGrade = document.getElementById("review-grade");
 window.addEventListener("load" , ()=>{
-  memoShow.classList.add("active");
+  firstBox.classList.add("active");
   hideForMemo();
   hideForRev();
   hideForFirst()
@@ -819,15 +819,10 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 
           function updateMemoData(fS ,fF , fT , fL , mS, mF, mT, mL, mLi, rF, rT, rL1, rL2) {
             //------------------------- First Of Surah -------------------------
-            fS.onblur = ()=>{
-              updateValue();
-              calldata()
-            }
-            let firstData = [fF , fT , fL]
+            let firstData = [fS , fF , fT , fL]
             firstData.forEach(e=>{
               e.onblur = ()=> updateValue()
             })
-
             //------------------------- Menoriztion -------------------------
 
             // Send Surah to Data Base on blur
@@ -939,23 +934,29 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           }
           // Start Yes / No (First)
           let firstYes = document.querySelector(".yes-no.yes")
+          let firstGood = document.querySelector(".yes-no.good")
+          let firstacceptable = document.querySelector(".yes-no.acceptable")
           let firstNo = document.querySelector(".yes-no.no")
-          function firstYesNo(btn , dibtn , bool){
+          function firstYesNo(btn , dibtn , dibtn2 , dibtn3 , appre){
             arrayOfToday.map((e) => {
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
                 btn.onclick = ()=>{
-                  data.firstState = bool;
+                  data.firstState = appre;
                   btn.classList.add("selected")
                   dibtn.classList.remove("selected")
+                  dibtn2.classList.remove("selected")
+                  dibtn3.classList.remove("selected")
                   updateValue();
                   calldata()
                   }
               }
             });
           }
-          firstYesNo(firstYes , firstNo , true)
-          firstYesNo(firstNo , firstYes , false)
+          firstYesNo(firstYes , firstNo  , firstGood , firstacceptable, "excellent")
+          firstYesNo(firstGood , firstYes , firstNo  , firstacceptable , "good")
+          firstYesNo(firstacceptable , firstYes , firstNo , firstGood , "acceptable")
+          firstYesNo(firstNo , firstYes  , firstGood , firstacceptable, false)
 
           // Start Hesitated ( Memoriztion )
           let addhesi = document.querySelector(".add.hesitated");
@@ -1147,19 +1148,33 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   rereview.checked = true;
                 }  else rereview.checked = false;
                 // Show First Of Surah Data in input's feild
-                let firstSurahDeci = 1
+                let firstSurahDeci = 1.5
                 firstSurah.value = data.firstSurah
                 firstListener.value = data.firstListener
                 firstFrom.value = data.firstFrom
                 firstTo.value = data.firstTo
-                if(data.firstState == true){
+                if(data.firstState == "excellent"){
                   firstYes.classList.add("selected")
                   firstNo.classList.remove("selected")
+                  firstGood.classList.remove("selected")
+                  firstacceptable.classList.remove("selected")
                   firstSurahDeci = 0
+                }else if(data.firstState == "good"){
+                  firstGood.classList.add("selected")
+                  firstYes.classList.remove("selected")
+                  firstacceptable.classList.remove("selected")
+                  firstNo.classList.remove("selected")
+                  firstSurahDeci = 0.5
+                }else if(data.firstState == "acceptable"){
+                  firstacceptable.classList.add("selected")
+                  firstYes.classList.remove("selected")
+                  firstGood.classList.remove("selected")
+                  firstNo.classList.remove("selected")
+                  firstSurahDeci = 1
                 }else if(data.firstState == false){
                   firstNo.classList.add("selected")
                   firstYes.classList.remove("selected")
-                  firstSurahDeci = 1
+                  firstSurahDeci = 1.5
                 }
                 if(data.firstSState == false){
                   firstSurahDeci = 0

@@ -370,7 +370,7 @@ reportbtn.onclick = ()=>{
     link.click()
     link.remove()
 }
-// Report
+// Groups
 let groupsBtn = document.getElementById("groups")
 groupsBtn.onclick = ()=>{
     let link = document.createElement("a")

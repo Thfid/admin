@@ -7,10 +7,6 @@ let studentsAvailable = []
 let studentInGroup = []
 let users =[]
 
-// if (localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`)){
-//   let data = JSON.parse((localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`)))
-//   groups = data
-// }
 // GitHub
 fetch("https://thfid.github.io/DataBase/Teatchers.json")
 // fetch("../DataBase/Teatchers.JSON")
@@ -68,7 +64,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Groups.json`)
   groups = res
   if(!localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`)){
     localStorage.setItem(`groups ${HijriJS.today().toString().split("/")[0]}` , JSON.stringify(groups))
-  }  
+  } else{
+    groups = JSON.parse(localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`))
+  }
 })
 .then(res=>{
 
@@ -348,7 +346,8 @@ function callData(){
     content.innerHTML = ``
     let data = JSON.parse(localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`))
     data.map((e , index)=>{
-      let box = document.createElement("div");
+      if(e.teatcherId == teatcherId){
+        let box = document.createElement("div");
       box.classList.add("box")
       box.setAttribute("table-number" , index)
     
@@ -408,6 +407,7 @@ function callData(){
       content.appendChild(box)
       removeAddedStudent()
       checkSize()
+      }
     })
   }  
 }
@@ -451,23 +451,28 @@ editBtn.onclick = (eve)=>{
     editErea.innerHTML += `إختر المجموعة المراد تعديلها`
     document.body.appendChild(editErea)
   
-  
     boxs.forEach(e=>{
       e.classList.add("edit-mode")
       e.onclick =  (ev)=>{
-        e.classList.add("edit-selected")
-        overlay.remove()
-        editErea.remove()  
-        editselected()
-        boxs.forEach(e=>{e.classList.remove("edit-mode")})
-      }
+          if(e.classList.contains("edit-mode")){
+            e.classList.add("edit-selected")
+              overlay.remove()
+              editErea.remove()  
+              editselected()
+              boxs.forEach(e=>{e.classList.remove("edit-mode")})  
+          }
+        }  
     })
+
   
     let innerClose = document.querySelector(".edit-erea span")
     innerClose.onclick = (ev)=>{
       overlay.remove()
       editErea.remove()
-      boxs.forEach(e=>{e.classList.remove("edit-mode")})
+      boxs.forEach(e=>{
+        e.classList.remove("edit-mode")
+        e.classList.remove("edit-selected")
+      })
     }
   }
 }
@@ -478,6 +483,7 @@ function editselected(){
   let edtiTableBody = document.getElementById("edit-table")
   let tabelId = selectedTable.getAttribute("table-number")
   let closeEdit = document.getElementById("close-edit")
+  console.log(groups);
 
 // Buttons
   let addstudentBtnE = document.getElementById("add-student-edit")
@@ -583,6 +589,7 @@ function editselected(){
     group.teatcherId = teatcherId
     groups[tabelId] = group
     // Start Group LocalStorage 
+    console.log(groups);
     if (!localStorage.getItem(`groups ${HijriJS.today().toString().split("/")[0]}`)){
       let data = JSON.stringify(groups)
       localStorage.setItem(`groups ${HijriJS.today().toString().split("/")[0]}` , data)
@@ -621,15 +628,18 @@ deleteGroubBtn.onclick = (eve)=>{
     editErea.innerHTML += `إختر المجموعة المراد حذفها`
     document.body.appendChild(editErea)
   
-  
     boxs.forEach(e=>{
       e.classList.add("edit-mode")
       e.onclick =  (ev)=>{
-        e.classList.add("delete-selected")
-        overlay.remove()
-        editErea.remove()
-        acceptDelete()
-        boxs.forEach(e=>{e.classList.remove("edit-mode")})
+        if(e.classList.contains("edit-mode")){
+          e.classList.add("delete-selected")
+          overlay.remove()
+          editErea.remove()
+          acceptDelete()
+          boxs.forEach(e=>{
+            e.classList.remove("edit-mode")
+          })
+        }
       }
     })
   
@@ -637,7 +647,10 @@ deleteGroubBtn.onclick = (eve)=>{
     innerClose.onclick = (ev)=>{
       overlay.remove()
       editErea.remove()
-      boxs.forEach(e=>{e.classList.remove("edit-mode")})
+      boxs.forEach(e=>{
+        e.classList.remove("edit-mode")
+        e.classList.remove("delete-selected")
+      })
     }
   }
 }

@@ -393,7 +393,11 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 let commitment = document.querySelector(`.a${id} .commitment-body span`)
                 let commLiNe = 8;
                 let linesTotal = 0
+                let todayLinesGem = 0
                 let commitmentCircle = document.querySelector(`.a${id} .commitment-body svg circle`)
+
+                let total = document.querySelector(`.a${id} .total-body div.rate`)
+
 
                 let memoDecisiveness = 0
                 let revDecisiveness = 0
@@ -459,6 +463,7 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                                 behaviorDecisiveness += daily.behaviorArray.length
                                 // Commitment
                                 linesTotal += +daily.memoSurahLines
+                                todayLinesGem = +daily.memoSurahLines
                             } 
 
 
@@ -545,6 +550,10 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     commitment.style.color = "#c11d19";
                     commitmentCircle.style.stroke = "#c11d19"
                 }
+                // Lines Gem
+                if (todayLinesGem >= 12){
+                    total.setAttribute("gem" , "true")
+                }
 
             })
         })
@@ -579,7 +588,11 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     totalCircle.style.stroke = "#c11d19";
                 }
                 let appre = document.querySelector(`.${e.classList[0]}  .appre`)
-                if(rate >= 45) appre.innerHTML = `<div>ممتاز</div><i class="fa-solid fa-crown"></i>`
+                if(rate >= 45) {
+                    if (total.hasAttribute("gem")){
+                        appre.innerHTML = `<img src="IMG/red_gem.svg" alt=""><div>ممتاز</div>`
+                    }else appre.innerHTML = `<i class="fa-solid fa-crown"></i><div>ممتاز</div>`
+                }
                 else if(rate < 45 && rate >= 40) appre.innerHTML = "جيد جدًا"
                 else if(rate < 40 && rate >= 30) appre.innerHTML = "جيد"
                 else if(rate < 30 && rate >= 20) appre.innerHTML = "مقبول"

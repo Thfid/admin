@@ -1569,14 +1569,12 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           };
           // Start Getting Time For Rank
           timeCalc.onclick = function (data) {
-            console.log(`Before : ${memolistener.value}`);
             
             let h = new Date().getHours();
             let m = new Date().getMinutes();
             arrayOfToday.map((e) => {
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
-                console.log(`DataBase : ${data.memoListen}`);
                 if (data.memoClass != "-") {
                   if (h == 16 || (h == 17 && m <= 30)) {
                     data.memoClass = "أ";
@@ -1590,7 +1588,6 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
             });
             updateValue();
             calldata();
-            console.log(`After : ${memolistener.value}`);
             // clickSelf()
           };
           // Start reMemo
@@ -1916,7 +1913,6 @@ revFrom.addEventListener("blur" , function(){
     if(selectedStudent == Object.keys(e)){
       let surah = e[Object.keys(e)].memoSurah
       indexOfCurrent = availableResult.reverse().indexOf(surah)
-      console.log(indexOfCurrent);
     }
   })
   let reviewsdue = []
@@ -1954,11 +1950,11 @@ revFrom.addEventListener("blur" , function(){
       reviewsdue.splice(4 , 1);
       reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
       reviewsdue.splice(5 , 1);
-  }
+    }
   if(indexOfCurrent < 32){
-      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue[3] = [reviewsdue[3][0] , "الذاريات"]
       reviewsdue.splice(4 , 1);
-      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue[4] = ["ق" , reviewsdue [5][1]]
       reviewsdue.splice(5 , 1);
   }
   if(indexOfCurrent < 28){
@@ -1971,7 +1967,9 @@ revFrom.addEventListener("blur" , function(){
     revTo.value = ""
     reviewsdue.map((review , index , array)=>{
       if(revFrom.value == array[index][0]){
-              revTo.value = review[1]
+          if(review[1]){
+            revTo.value = review[1]
+          }
         }
       })
     }

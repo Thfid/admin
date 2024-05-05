@@ -880,6 +880,80 @@ h1.day-date{
     outline: none !important;
     box-shadow: 0 0 3px var(--main-color);
 }
+#hearing-holder-f,
+#hearing-holder-m{
+    position: absolute;
+    top: 105%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    z-index: 5;
+    box-shadow: 0px 0px 5px 0px #777;
+    border-radius: 10px;
+}
+#hearing-holder-m{
+    right: 80px;
+    width: 90%;
+}
+#hearing-holder-f{
+    right: 100px;
+    width: 87%;
+}
+
+#hearing-holder-f span,
+#hearing-holder-m span{
+    font-size: 22px;
+    padding-right: 5px;
+    cursor: pointer;
+    transition: var(--main-transition);
+}
+#hearing-holder-f span:hover,
+#hearing-holder-m span:hover{
+    background-color: var(--main-hover);
+    color: white;
+}
+#hearing-holder-f span:not(:last-of-type),
+#hearing-holder-m span:not(:last-of-type){
+    border-bottom: 2px dashed var(--main-hover);
+    padding-bottom: 5px;
+    border-top-left-radius:10px ;
+    border-top-right-radius:10px ;
+}
+#hearing-holder-f span:not(:first-of-type),
+#hearing-holder-m span:not(:first-of-type){
+    padding-bottom: 5px;
+    border-bottom-left-radius:10px ;
+    border-bottom-right-radius:10px ;
+}
+@media (max-width:1200px) {
+    #hearing-holder-m{
+        width: 87%;
+    }
+    }
+    @media (max-width:1000px) {
+    #hearing-holder-m{
+        width: 84%;
+        right: 78px;
+    }
+    #hearing-holder-f{
+        width: 80%;
+    }
+    #hearing-holder-f{
+        right: 105px;
+    }
+    }
+    @media (max-width:600px) {
+    #hearing-holder-f{
+        right: 70px;
+    }
+    #hearing-holder-m{
+        right: 60px;
+    }
+    #hearing-holder-f span,
+    #hearing-holder-m span{
+        font-size: 16px;
+    }
+    }
 .memoriztion .decisiveness{
     flex-basis: 20%;
     width: 24%;

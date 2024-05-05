@@ -379,6 +379,15 @@ groupsBtn.onclick = ()=>{
     link.click()
     link.remove()
 }
+// Statistics
+// let statisticsBtn = document.getElementById("statistics")
+// statisticsBtn.onclick = ()=>{
+//     let link = document.createElement("a")
+//     link.href = "./statistics.html"
+//     document.body.appendChild(link)
+//     link.click()
+//     link.remove()
+// }
 
 //  LogOut
 let logOut = document.getElementById("log-out")

@@ -465,8 +465,6 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                                 linesTotal += +daily.memoSurahLines
                                 todayLinesGem = +daily.memoSurahLines
                             } 
-
-
                         }
                     })
                 })
@@ -541,7 +539,12 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                     let calc = (linesTotal / commitmentTarget) * 10
                     commitclac = Math.floor(calc)
                     }
-                commitment.innerHTML =  commitclac
+                if(isNaN(linesTotal)){
+                    linesTotal = 0
+                }
+                // commitment.innerHTML =  commitclac
+                commitment.setAttribute("Lines" , commitclac)
+                commitment.innerHTML = linesTotal
                 commitmentCircle.style.strokeDashoffset = `${(10 - commitclac) * 14.0}`
                 if(commitclac < 7 && commitclac > 4){
                     commitment.style.color = "#c19619";
@@ -552,7 +555,11 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 }
                 // Lines Gem
                 if (todayLinesGem >= 12){
-                    total.setAttribute("gem" , "true")
+                    total.setAttribute("gem" , "cyan")
+                }else if (todayLinesGem < 12 && todayLinesGem >= 9){
+                    total.setAttribute("gem" , "gold")
+                }else if (todayLinesGem < 9 && todayLinesGem >= 7){
+                    total.setAttribute("gem" , "red")
                 }
 
             })
@@ -569,14 +576,14 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 let totalCircle = document.querySelector(`.${e.classList[0]} .total-body svg circle`)
                 // Full strok is 176
                 let cell = document.querySelector(`.${e.classList[0]} .total-body`)
-
-                let rate = +memoriztion.innerHTML + +review.innerHTML + +attendence.innerHTML + +behavior.innerHTML + +commitment.innerHTML
+            
+                let rate = +memoriztion.innerHTML + +review.innerHTML + +attendence.innerHTML + +behavior.innerHTML + +commitment.getAttribute("Lines")
                 total.innerHTML = rate.toString().split("").slice(0 , 4).join("")
                 totalCircle.style.strokeDashoffset = `${(50 - rate) * 3.52}`
                 totalCircle.style.stroke = 'white'
                 if(rate >= 40){
-                    total.style.color = "var(--main-color)";
-                    totalCircle.style.stroke = "var(--main-color)";
+                    total.style.color = "var(--green-color)";
+                    totalCircle.style.stroke = "var(--green-color)";
                 }else if(rate < 40 && rate >= 30){
                     total.style.color = "#108fcb";
                     totalCircle.style.stroke = "#108fcb";
@@ -590,10 +597,34 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                 let appre = document.querySelector(`.${e.classList[0]}  .appre`)
                 if(rate >= 45) {
                     if (total.hasAttribute("gem")){
-                        appre.innerHTML = `<img src="IMG/red_gem.svg" alt=""><div>ممتاز</div>`
-                    }else appre.innerHTML = `<i class="fa-solid fa-crown"></i><div>ممتاز</div>`
+                        switch(total.getAttribute("gem")){
+                            case "cyan":
+                                appre.innerHTML = `<img src="IMG/gem_cyan.png" alt=""><div>ممتاز</div>`
+                                break;
+                            case "gold":
+                                appre.innerHTML = `<img src="IMG/gem_gold.png" alt=""><div>ممتاز</div>`
+                                break;
+                            case "red":
+                                appre.innerHTML = `<img src="IMG/gem_red.png" alt=""><div>ممتاز</div>`
+                                break;
+                            }
+                        }else appre.innerHTML = `<div>ممتاز</div>`
+                    }
+                else if(rate < 45 && rate >= 40){
+                    if (total.hasAttribute("gem")){
+                        switch(total.getAttribute("gem")){
+                            case "cyan":
+                                appre.innerHTML = `<img src="IMG/gem_cyan.png" alt=""><div>جيد جدًا</div>`
+                                break;
+                            case "gold":
+                                appre.innerHTML = `<img src="IMG/gem_gold.png" alt=""><div>جيد جدًا</div>`
+                                break;
+                            case "red":
+                                appre.innerHTML = `<img src="IMG/gem_red.png" alt=""><div>جيد جدًا</div>`
+                                break;
+                        }
+                    }else appre.innerHTML = `<div>جيد جدًا</div>`
                 }
-                else if(rate < 45 && rate >= 40) appre.innerHTML = "جيد جدًا"
                 else if(rate < 40 && rate >= 30) appre.innerHTML = "جيد"
                 else if(rate < 30 && rate >= 20) appre.innerHTML = "مقبول"
                 else if(rate < 20) appre.innerHTML = "ضعيف"       

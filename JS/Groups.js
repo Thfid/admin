@@ -406,7 +406,7 @@ function callData(){
       box.appendChild(contentHolder)
       content.appendChild(box)
       removeAddedStudent()
-      checkSize()
+      checkSize()  
       }
     })
   }  
@@ -483,7 +483,6 @@ function editselected(){
   let edtiTableBody = document.getElementById("edit-table")
   let tabelId = selectedTable.getAttribute("table-number")
   let closeEdit = document.getElementById("close-edit")
-  console.log(groups);
 
 // Buttons
   let addstudentBtnE = document.getElementById("add-student-edit")

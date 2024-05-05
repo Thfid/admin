@@ -424,6 +424,7 @@ function setAtLocalStorage() {
 // Getting Studint data
 let arrayOfStudint = [];
 let lastTsmee = [];
+let hearingStudents = [];
 let table = document.getElementById("table-body");
 let tableCount = 0;
 let checkedRotate = false
@@ -693,6 +694,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let firstFrom = document.getElementById("from-first")
           let firstTo = document.getElementById("to-first")
           let firstListener = document.getElementById("first-listener")
+          let firstHearing = document.getElementById("hearing-holder-f")
           // Memoriztion Inputs
           let memoSec = document.querySelector(".memoriztion");
           let surah = document.getElementById("surah");
@@ -700,6 +702,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let memoTo = document.getElementById("to-memo");
           let memoLines = document.getElementById("counter-memo");
           let memoListener = document.getElementById("memo-listener")
+          let memoHearing = document.getElementById("hearing-holder-m")
           let memoRate = document.querySelector(".box.daily-grade span");
           let timeCalc = document.getElementById("timecalc");
           let firstTime = document.getElementById("firstTime");
@@ -719,6 +722,36 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let noRev = document.querySelector(".review .title");
           let tableControl = document.querySelector(".table-control .container")
 
+          // Hearing Student Fuction
+          function hearingComplete(field , box){
+            hearingStudents.map(e=>{
+              if(selectedName.innerHTML == e.name){
+                let leader = e.leader
+                let deputy = e.deputy
+                let leaderDepuryHolder = [leader , deputy]
+                field.addEventListener("focus" , ()=>{
+                  box.innerHTML = ""
+                  leaderDepuryHolder.map(ele=>{
+                    box.innerHTML += `<span class="leader-deputy">${ele}</span>`
+                  })
+                  let results = document.querySelectorAll(".leader-deputy")
+                  results.forEach(ele=>{
+                    ele.onclick = ()=>{field.value = ele.innerHTML}
+                  })
+                })
+                field.addEventListener("blur" , ()=>{
+                  setTimeout(() => {
+                    box.innerHTML = ""
+                  }, 200);
+                })
+                field.addEventListener("keydown" , ()=>{
+                  box.innerHTML = ""
+                })
+              }
+            })
+          }
+          hearingComplete(memoListener , memoHearing)
+          hearingComplete(firstListener , firstHearing)
           // Naser Lock
           if(e.classList[0].slice(1) == 372187){
             if(naserEdit){
@@ -1331,9 +1364,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   if (typeof data.memoRate == "number") {
                     let timeDec = 0;
                     data.memoClass == "ب"
-                      ? (timeDec = 0.5)
-                      : data.memoClass == "ج"
                       ? (timeDec = 1)
+                      : data.memoClass == "ج"
+                      ? (timeDec = 1.5)
                       : (timeDec = 0);
                     data.memoRate = 10 - data.misteaks - data.hesitateds / 2 - secondTime - timeDec  - firstSurahDeci;
                     if(data.memoRate > 10){
@@ -1545,11 +1578,11 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 let data = e[Object.keys(e)];
                 console.log(`DataBase : ${data.memoListen}`);
                 if (data.memoClass != "-") {
-                  if (h == 16) {
+                  if (h == 16 || (h == 17 && m <= 30)) {
                     data.memoClass = "أ";
-                  } else if (h == 17 && m < 25) {
+                  } else if (h == 17 && m > 30 && m <= 59) {
                     data.memoClass = "ب";
-                  } else if (h == 17 && m < 50) {
+                  } else if (h == 18) {
                     data.memoClass = "ج";
                   } else data.memoClass = "ج";
                 }
@@ -1869,39 +1902,76 @@ fetch("https://thfid.github.io/DataBase/Students.json")
 }).catch(rej=> components.popup("warning" , "حصل خطأ .. التعبئة التلقائية للمراجعة غير مغعلة"))
 
 // console.log(availableResult.indexOf("المجادلة"))
+
 revFrom.addEventListener("blur" , function(){
+  let lastsurah = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
   let value = revFrom.value
-  let selectedStudent = document.querySelector("tr.active").classList[0].slice(1)
+  let selectedStudent = document.querySelector("tr.active .name-body").innerHTML.trim()
 
   let currentSurah = ""
-  let indexOfSurah = 0
-  currentStudentSurah.map(e=>{
-    if (e.match(/\d+/gm).join("") == selectedStudent){
-      currentSurah = e.match(/\D+/gm).join("")
-      indexOfSurah = availableResult.indexOf(currentSurah)
+  let indexOfCurrent = 0
+
+
+  lastsurah.map(e=>{
+    if(selectedStudent == Object.keys(e)){
+      let surah = e[Object.keys(e)].memoSurah
+      indexOfCurrent = availableResult.reverse().indexOf(surah)
+      console.log(indexOfCurrent);
     }
   })
-
-    if(value != ""){
-      availableReviews.map((review , index , array)=>{
-        if (value === review[0]){
-          // for studen that has memorized (المجادلة)
-          if(indexOfSurah >= 56  && index == 0){
-            revTo.value = array[index + 1][1]
-          } else if(indexOfSurah >= 56  && index == 2){
-            revTo.value = array[index + 1][1]
-          }else if(indexOfSurah >= 56  && index == 4){
-            revTo.value = array[index + 1][1]
-          }
-          else if(indexOfSurah >= 56  && index == 6){
-            revTo.value = array[index + 1][1]
-          }
-          else{
-            revTo.value = review[1]
-          }
-          setTimeout(() => {
-            listiner.focus()
-          }, 100); 
+  let reviewsdue = []
+  surahData.reviews.forEach(e=>{
+      if(availableResult.indexOf(e[0]) > indexOfCurrent){
+          reviewsdue.push(e)
+      }
+  })
+  if(indexOfCurrent < 57){
+      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
+      reviewsdue.splice(1 , 1);
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1)
+  }
+  if(indexOfCurrent < 50){
+      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
+      reviewsdue.splice(1 , 1);
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1)
+      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
+      reviewsdue.splice(3 , 1)
+  }
+  if(indexOfCurrent < 40){
+      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+  }
+  if(indexOfCurrent < 34){
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1);
+      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
+      reviewsdue.splice(3 , 1);
+      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+  }
+  if(indexOfCurrent < 32){
+      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+  }
+  if(indexOfCurrent < 28){
+      reviewsdue[5] = [reviewsdue[5][0] , reviewsdue [6][0]]
+      reviewsdue.splice(6 , 1);
+  }
+  let tosurah = ""
+  let revvalue = revFrom.value
+  if(revFrom.value != ""){
+    revTo.value = ""
+    reviewsdue.map((review , index , array)=>{
+      if(revFrom.value == array[index][0]){
+              revTo.value = review[1]
         }
       })
     }
@@ -2007,8 +2077,37 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
 }else{
   lastTsmee = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
 }
+fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Groups.json`)
+.then(res=> res.json()).then(res=>{
+  res.map(e=>{
+    let groub = e
+    let leader = ""
+    let deputy = ""
+    let limit = Object.keys(groub).length
+    for(let i = 1 ; i < limit ; i++){
+      let member = groub[`members${i}`]
+      if(member.memberRank == "قائد"){
+        leader = member.membername
+      }
+      if(member.memberRank == "نائب"){
+        deputy = member.membername
+      }
+    }
+    for(let i = 1 ; i < limit ; i++){
+      let member = groub[`members${i}`]
+      if(member.memberRank == "عضو"){
+        hearingStudents.push({
+          name: member.membername,
+          leader: leader , 
+          deputy: deputy
+        })
+      }
+    }
+  })
+})
 
-// Start Enter foucs {
+
+// Start Enter foucs 
 let firstSec = document.querySelector(".first-surah")
 let firstSurah = document.getElementById("first-surah")
 firstFrom = document.getElementById("from-first")

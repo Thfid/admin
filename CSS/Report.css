@@ -135,7 +135,6 @@
 .student-table .container{
     padding: 0;
     padding-bottom: 20px;
-    overflow: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
 }
@@ -160,7 +159,9 @@
 .student-table .container table thead{
     background-color: var(--main-color);
     color: white;
-    position: relative;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
 }
 
 .student-table .container table thead tr{
@@ -168,6 +169,8 @@
     text-align: center;
     font-size: 20px;
     font-weight: bold;
+    position: sticky;
+    top: 0;
 }
 .student-table .container table th.col-sticky,
 .student-table .container table td.col-sticky{

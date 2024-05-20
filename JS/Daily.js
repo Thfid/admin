@@ -736,7 +736,11 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   })
                   let results = document.querySelectorAll(".leader-deputy")
                   results.forEach(ele=>{
-                    ele.onclick = ()=>{field.value = ele.innerHTML}
+                    ele.onclick = ()=>{
+                      field.value = ele.innerHTML
+                      updateValue()
+                      calldata()
+                    }
                   })
                 })
                 field.addEventListener("blur" , ()=>{
@@ -807,17 +811,15 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 }
                 memoLines.innerHTML = data.memoSurahLines;
                 selectedMC.innerHTML = data.memoClass;
-                if (
-                  (data.memoClass === "-" || data.memoClass === "جاري التسميع") &&
-                  surah.value
-                ) {
+                if ((data.memoClass === "-" || data.memoClass === "جاري التسميع") && surah.value ) {
                   data.memoClass = "جاري التسميع";
+                } else if(!surah.value){
+                  data.memoClass = "-";
                 }
-                if (
-                  typeof +memoRate.innerHTML == "number" &&
-                  data.memoRate != ""
-                ) {
+                if (typeof +memoRate.innerHTML == "number" && data.memoRate != "") {
                   selectedMR.innerHTML = memoRate.innerText;
+                } else{
+                  selectedMR.innerHTML = ""
                 }
                 //------------------------- Review -------------------------
                 data.reviewSurahFrom = revFrom.value;
@@ -1438,7 +1440,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                 }else if(data.rereview == false){
                   noRev.style.backgroundColor = ""
                 }
-                // Start from here boy
+                
                 
                 nu.onclick = () => {
                   let deleteData = document.querySelector(".active td.number-body .delete-day");
@@ -1544,6 +1546,25 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   data.memoFirstTime = true;
                   firstTime.checked = false;
                 }
+              }
+            });
+            updateValue();
+            calldata();
+            // clickSelf()
+          };
+          // Start delete data of memoraztion
+          let deletememo = document.getElementById("deletememo")
+          deletememo.onclick = function () {
+            console.log(deletememo);
+            arrayOfToday.map((e) => {
+              if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
+                let data = e[Object.keys(e)];
+                surahInput.value = ""
+                memoFrom.value = ""
+                memoTo.value = ""
+                memoLines.value = ""
+                data.memoRate = ""
+                data.memoClass = "-"
               }
             });
             updateValue();
@@ -1961,18 +1982,90 @@ revFrom.addEventListener("blur" , function(){
       reviewsdue[5] = [reviewsdue[5][0] , reviewsdue [6][0]]
       reviewsdue.splice(6 , 1);
   }
-  let tosurah = ""
-  let revvalue = revFrom.value
   if(revFrom.value != ""){
-    revTo.value = ""
     reviewsdue.map((review , index , array)=>{
       if(revFrom.value == array[index][0]){
-          if(review[1]){
+        if(review[1]){
+          revTo.value = review[1]
+        } else{
+          revTo.value = ""
+        }
+      }
+    })  
+  }
+})
+revTo.addEventListener("focus" , function(){
+  let lastsurah = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
+  let value = revFrom.value
+  let selectedStudent = document.querySelector("tr.active .name-body").innerHTML.trim()
+
+  let currentSurah = ""
+  let indexOfCurrent = 0
+
+
+  lastsurah.map(e=>{
+    if(selectedStudent == Object.keys(e)){
+      let surah = e[Object.keys(e)].memoSurah
+      indexOfCurrent = availableResult.reverse().indexOf(surah)
+    }
+  })
+  let reviewsdue = []
+  surahData.reviews.forEach(e=>{
+      if(availableResult.indexOf(e[0]) > indexOfCurrent){
+          reviewsdue.push(e)
+      }
+  })
+  if(indexOfCurrent < 57){
+      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
+      reviewsdue.splice(1 , 1);
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1)
+  }
+  if(indexOfCurrent < 50){
+      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
+      reviewsdue.splice(1 , 1);
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1)
+      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
+      reviewsdue.splice(3 , 1)
+  }
+  if(indexOfCurrent < 40){
+      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+  }
+  if(indexOfCurrent < 34){
+      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
+      reviewsdue.splice(2 , 1);
+      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
+      reviewsdue.splice(3 , 1);
+      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+    }
+  if(indexOfCurrent < 32){
+      reviewsdue[3] = [reviewsdue[3][0] , "الذاريات"]
+      reviewsdue.splice(4 , 1);
+      reviewsdue[4] = ["ق" , reviewsdue [5][1]]
+      reviewsdue.splice(5 , 1);
+  }
+  if(indexOfCurrent < 28){
+      reviewsdue[5] = [reviewsdue[5][0] , reviewsdue [6][0]]
+      reviewsdue.splice(6 , 1);
+  }
+  if(revFrom.value != ""){
+    reviewsdue.map((review , index , array)=>{
+      if(revFrom.value == array[index][0]){
+        if(review[1]){
             revTo.value = review[1]
+          } else{
+            revTo.value = ""
           }
         }
-      })
-    }
+    })  
+  }
 })
 
 // Start Fetch YesterDay Info

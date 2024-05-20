@@ -659,18 +659,19 @@ h1.day-date{
     border: 1px var(--main-color) solid;
 }
 .first-surah .decisiveness-first {
-    flex-basis: 15%;
+    margin-top: 20px;
+    flex-basis: 10%;
     display: grid;
-    grid-template-columns: repeat(2 , minmax(50px , 1fr));
-    grid-template-rows: repeat(2 , minmax(75px , 1fr));
+    grid-template-columns: repeat(2 ,60px);
+    grid-template-rows: repeat(2 ,60px);
     gap: 10px;
 }
 .first-surah .decisiveness-first .yes-no{
     display: flex;
     justify-content: center;   
     align-items: center;
-    height: 100%;
-    width: 100%;
+    height: 50px;
+    width: 55px;
     border-radius: 10px;
     font-size: 18px;
     font-weight: bold;
@@ -1068,21 +1069,30 @@ h1.day-date{
 .memoriztion .decisiveness .try .memo-list-holder ul li{
     height: 35px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.memoriztion .decisiveness .try .memo-list-holder ul li input{
+.memoriztion .decisiveness .try .memo-list-holder ul li input,
+#deletememo{
     width: 100%;
 }
 
-
+#deletememo{
+    height: 30px;
+}
 .memoriztion .decisiveness .try #firstTime,
+#deletememo,
 #rememo{
     background-color: var(--main-color);   
 }
 .memoriztion .decisiveness .try #firstTime:hover,
+#deletememo:hover,
 #rememo:hover{
     background-color: transparent;
 }
 .memoriztion .decisiveness .try #firstTime:hover::after,
+#deletememo::after,
 #rememo:hover::after{
     color: var(--main-color);
 }

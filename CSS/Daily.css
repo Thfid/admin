@@ -909,19 +909,24 @@ h1.day-date{
     transition: var(--main-transition);
 }
 #hearing-holder-f span:hover,
-#hearing-holder-m span:hover{
+#hearing-holder-f span.selected,
+#hearing-holder-m span:hover,
+#hearing-holder-m span.selected{
     background-color: var(--main-hover);
     color: white;
 }
-#hearing-holder-f span:not(:last-of-type),
-#hearing-holder-m span:not(:last-of-type){
-    border-bottom: 2px dashed var(--main-hover);
+#hearing-holder-f span:first-of-type,
+#hearing-holder-m span:first-of-type{
     padding-bottom: 5px;
     border-top-left-radius:10px ;
     border-top-right-radius:10px ;
 }
-#hearing-holder-f span:not(:first-of-type),
-#hearing-holder-m span:not(:first-of-type){
+#hearing-holder-f span:not(:last-of-type),
+#hearing-holder-m span:not(:last-of-type){
+    border-bottom: 2px dashed var(--main-hover);
+}
+#hearing-holder-f span:last-of-type,
+#hearing-holder-m span:last-of-type{
     padding-bottom: 5px;
     border-bottom-left-radius:10px ;
     border-bottom-right-radius:10px ;

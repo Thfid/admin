@@ -724,6 +724,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
 
           // Hearing Student Fuction
           function hearingComplete(field , box){
+            let resultcounter = -1
             hearingStudents.map(e=>{
               if(selectedName.innerHTML == e.name){
                 let leader = e.leader
@@ -740,16 +741,62 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                       field.value = ele.innerHTML
                       updateValue()
                       calldata()
+                      return 0
                     }
                   })
                 })
                 field.addEventListener("blur" , ()=>{
                   setTimeout(() => {
                     box.innerHTML = ""
+                    return 0
                   }, 200);
                 })
-                field.addEventListener("keydown" , ()=>{
-                  box.innerHTML = ""
+                field.addEventListener("keydown" , (eve)=>{
+                  if(eve.keyCode != 40 && eve.keyCode != 38 && eve.keyCode != 13){
+                    box.innerHTML = ""
+                    return 0
+                  } else if(box.innerHTML != "") {
+                    let results = document.querySelectorAll(`#${field.id} ~ .hearing-box span`);
+                    results.forEach(e=>{
+                      if(e.classList.contains("selected")){
+                        e.classList.remove("selected")
+                      }
+                    })
+                    if (eve.keyCode == 40) {
+                      switch (resultcounter) {
+                        case -1:
+                          resultcounter = 0;
+                          break;
+                        case results.length - 1:
+                          resultcounter = 0;
+                          break;
+                        default:
+                          resultcounter++;
+                      }
+                    }
+                    if (eve.keyCode == 38) {
+                      switch (resultcounter) {
+                        case -1:
+                          resultcounter = results.length - 1;
+                          break;
+                        case 0:
+                          resultcounter = results.length - 1;
+                          break;
+                        default:
+                          resultcounter--;
+                      }
+                    }
+                    results[resultcounter].classList.add("selected")
+                    if (eve.keyCode == 13 && resultcounter != -1){
+                      if(results[resultcounter].classList.contains("selected")){
+                        results[resultcounter].click()
+                        box.innerHTML = ""
+                        updateValue()
+                        calldata()
+                        return 0
+                      }
+                    }
+                  } // here is the end
                 })
               }
             })

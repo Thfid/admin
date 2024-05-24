@@ -722,14 +722,25 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let noRev = document.querySelector(".review .title");
           let tableControl = document.querySelector(".table-control .container")
 
+          // Auto Compolete From Place Holder
+          function autoPlaceHolder(field , extend , nextField){
+            field.addEventListener("keydown" , (eve)=>{
+              if (eve.keyCode == 16){
+                if(field == extend){
+                  field.value = extend.placeholder
+                } else field.value = (+(extend.placeholder) + 1)
+                nextField.focus()
+              }
+            })
+          }
+          autoPlaceHolder(firstSurah , firstSurah , firstFrom)
+          autoPlaceHolder(firstFrom , firstTo , firstTo)
+          autoPlaceHolder(surah , surah , memoFrom)
+          autoPlaceHolder(memoFrom , memoTo , memoTo)
           // Hearing Student Fuction
           function hearingComplete(field , box){
             let resultcounter = -1
-            hearingStudents.map(e=>{
-              if(selectedName.innerHTML == e.name){
-                let leader = e.leader
-                let deputy = e.deputy
-                let leaderDepuryHolder = [leader , deputy]
+                let leaderDepuryHolder = hearingStudents
                 field.addEventListener("focus" , ()=>{
                   box.innerHTML = ""
                   leaderDepuryHolder.map(ele=>{
@@ -752,7 +763,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                   }, 200);
                 })
                 field.addEventListener("keydown" , (eve)=>{
-                  if(eve.keyCode != 40 && eve.keyCode != 38 && eve.keyCode != 13){
+                  if(eve.keyCode != 40 && eve.keyCode != 38){
                     box.innerHTML = ""
                     return 0
                   } else if(box.innerHTML != "") {
@@ -787,19 +798,9 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
                       }
                     }
                     results[resultcounter].classList.add("selected")
-                    if (eve.keyCode == 13 && resultcounter != -1){
-                      if(results[resultcounter].classList.contains("selected")){
-                        results[resultcounter].click()
-                        box.innerHTML = ""
-                        updateValue()
-                        calldata()
-                        return 0
-                      }
-                    }
+                    field.value = results[resultcounter].innerHTML
                   } // here is the end
                 })
-              }
-            })
           }
           hearingComplete(memoListener , memoHearing)
           hearingComplete(firstListener , firstHearing)
@@ -2133,6 +2134,7 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
       database[dbc][Object.keys(database[dbc])].daily.map((e , i)=>{
         let data = e[Object.keys(e)]
         if(data.teatcherId == teatcherId){
+          console.log(data);
         let firstSurah = data.firstSurah
         let firstFrom = data.firstFrom;
         let firstTo = data.firstTo;
@@ -2160,6 +2162,7 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
         }})
       }
       })
+      // console.log(lastTsmee);
 
     lastTsmee.forEach(e=>{
       let data = e[Object.keys(e)]
@@ -2219,28 +2222,30 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Groups.json`)
 .then(res=> res.json()).then(res=>{
   res.map(e=>{
     let groub = e
-    let leader = ""
-    let deputy = ""
+    let leader = []
+    let deputy = []
     let limit = Object.keys(groub).length
     for(let i = 1 ; i < limit ; i++){
       let member = groub[`members${i}`]
       if(member.memberRank == "قائد"){
-        leader = member.membername
+        leader.push(member.membername)
       }
       if(member.memberRank == "نائب"){
-        deputy = member.membername
+        deputy.push(member.membername)
       }
     }
-    for(let i = 1 ; i < limit ; i++){
-      let member = groub[`members${i}`]
-      if(member.memberRank == "عضو"){
-        hearingStudents.push({
-          name: member.membername,
-          leader: leader , 
-          deputy: deputy
-        })
-      }
-    }
+    // for(let i = 1 ; i < limit ; i++){
+    //   let member = groub[`members${i}`]
+    //   if(member.memberRank == "عضو"){
+    //     hearingStudents.push({
+    //       name: member.membername,
+    //       leader: leader , 
+    //       deputy: deputy
+    //     })
+    //   }
+    // }
+    leader.map(e=>hearingStudents.push(e))
+    deputy.map(e=>hearingStudents.push(e))
   })
 })
 
@@ -2288,3 +2293,4 @@ entergoto(revTo , revlistener1)
 entergoto(revlistener1 , revlistener2)
 
 // End Enter Foucs }
+let name = "Essam"

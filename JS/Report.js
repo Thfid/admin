@@ -419,7 +419,6 @@ rej=>{return components.popup("info" , "لا يوجد بيانات للشهر ا
                                    } else{
                                     commLiNe = 5
                                    }
-
                                 }
                             }
 

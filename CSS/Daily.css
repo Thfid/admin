@@ -543,7 +543,7 @@ h1.day-date{
 .result-box.first-surah-r{
     position: absolute;
     background-color: white;
-    width: 30%;
+    width: 65%;
     z-index: 5;
     bottom: 0;
     transform: translate(0,100%);

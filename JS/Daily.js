@@ -321,6 +321,7 @@ function eleonkeyup(inputbox, availableResult, autobox, click) {
     } else autoComplete(inputbox, availableResult, autobox, click);
     
   });
+  inputbox.addEventListener("blur" , ()=>autobox.innerHTML = "")
 }
 // Fisrt Surah.
 eleonkeyup(
@@ -656,8 +657,8 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
       var sn = document.querySelector(".active .name-body");
       // sessionStorage.setItem("hidecells" , )
       //  Add click event
-      rows.forEach((e) => {
-        e.addEventListener("click", function (eve) {
+      rows.forEach((row) => {
+        row.addEventListener("click", function (eve) {
           hideColumnAssis(hideFirstMemo , fHead , fBody)
           hideColumnAssis(hideMemoListen , mLHead , mLBody)
           hideColumnAssis(hideRevListen , rLHead , rLBody)   
@@ -722,10 +723,18 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           let noRev = document.querySelector(".review .title");
           let tableControl = document.querySelector(".table-control .container")
 
-          // Auto Compolete From Place Holder
+          // Back to contorol ( Up Page )
+          row.addEventListener("dblclick" , (eve)=>{
+            window.scrollTo(0 , 0)
+            if(firstSec.classList.contains("active")) firstSurah.focus()
+            if(memoSec.classList.contains("active")) surah.focus()
+            if(revSec.classList.contains("active")) revFrom.focus()
+          })
+
+          // Auto Compolete From Place Holder ( Memoriztion - First Of Memo)
           function autoPlaceHolder(field , extend , nextField){
             field.addEventListener("keydown" , (eve)=>{
-              if (eve.keyCode == 16){
+              if (eve.keyCode == 16 && field.value == ""){
                 if(field == extend){
                   field.value = extend.placeholder
                 } else field.value = (+(extend.placeholder) + 1)
@@ -737,6 +746,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           autoPlaceHolder(firstFrom , firstTo , firstTo)
           autoPlaceHolder(surah , surah , memoFrom)
           autoPlaceHolder(memoFrom , memoTo , memoTo)
+  
           // Hearing Student Fuction
           function hearingComplete(field , box){
             let resultcounter = -1
@@ -805,7 +815,7 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           hearingComplete(memoListener , memoHearing)
           hearingComplete(firstListener , firstHearing)
           // Naser Lock
-          if(e.classList[0].slice(1) == 372187){
+          if(row.classList[0].slice(1) == 372187){
             if(naserEdit){
               if(tableControl.children.length < 4){
                 tableControl.appendChild(btnclose)
@@ -1603,7 +1613,6 @@ fetch(`https://thfid.github.io/DataBase/${mosqueNumber}/Students.json`)
           // Start delete data of memoraztion
           let deletememo = document.getElementById("deletememo")
           deletememo.onclick = function () {
-            console.log(deletememo);
             arrayOfToday.map((e) => {
               if (e[Object.keys(e)].studintname == selectedName.innerHTML) {
                 let data = e[Object.keys(e)];
@@ -1967,14 +1976,9 @@ fetch("https://thfid.github.io/DataBase/Students.json")
   
 }).catch(rej=> components.popup("warning" , "حصل خطأ .. التعبئة التلقائية للمراجعة غير مغعلة"))
 
-// console.log(availableResult.indexOf("المجادلة"))
-
-revFrom.addEventListener("blur" , function(){
+function getRivews (){
   let lastsurah = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
-  let value = revFrom.value
   let selectedStudent = document.querySelector("tr.active .name-body").innerHTML.trim()
-
-  let currentSurah = ""
   let indexOfCurrent = 0
 
 
@@ -2030,11 +2034,16 @@ revFrom.addEventListener("blur" , function(){
       reviewsdue[5] = [reviewsdue[5][0] , reviewsdue [6][0]]
       reviewsdue.splice(6 , 1);
   }
+    return reviewsdue
+}
+revFrom.addEventListener("blur" , function(){
+  let reviewsdue = getRivews()
   if(revFrom.value != ""){
     reviewsdue.map((review , index , array)=>{
       if(revFrom.value == array[index][0]){
         if(review[1]){
           revTo.value = review[1]
+          revL1Input.focus()
         } else{
           revTo.value = ""
         }
@@ -2043,71 +2052,13 @@ revFrom.addEventListener("blur" , function(){
   }
 })
 revTo.addEventListener("focus" , function(){
-  let lastsurah = JSON.parse(localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatcherId}`))
-  let value = revFrom.value
-  let selectedStudent = document.querySelector("tr.active .name-body").innerHTML.trim()
-
-  let currentSurah = ""
-  let indexOfCurrent = 0
-
-
-  lastsurah.map(e=>{
-    if(selectedStudent == Object.keys(e)){
-      let surah = e[Object.keys(e)].memoSurah
-      indexOfCurrent = availableResult.reverse().indexOf(surah)
-    }
-  })
-  let reviewsdue = []
-  surahData.reviews.forEach(e=>{
-      if(availableResult.indexOf(e[0]) > indexOfCurrent){
-          reviewsdue.push(e)
-      }
-  })
-  if(indexOfCurrent < 57){
-      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
-      reviewsdue.splice(1 , 1);
-      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
-      reviewsdue.splice(2 , 1)
-  }
-  if(indexOfCurrent < 50){
-      reviewsdue[0] = [reviewsdue[0][0] , reviewsdue [1][1]]
-      reviewsdue.splice(1 , 1);
-      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
-      reviewsdue.splice(2 , 1)
-      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
-      reviewsdue.splice(3 , 1)
-  }
-  if(indexOfCurrent < 40){
-      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
-      reviewsdue.splice(4 , 1);
-      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
-      reviewsdue.splice(5 , 1);
-  }
-  if(indexOfCurrent < 34){
-      reviewsdue[1] = [reviewsdue[1][0] , reviewsdue [2][1]]
-      reviewsdue.splice(2 , 1);
-      reviewsdue[2] = [reviewsdue[2][0] , reviewsdue [3][1]]
-      reviewsdue.splice(3 , 1);
-      reviewsdue[3] = [reviewsdue[3][0] , reviewsdue [4][1]]
-      reviewsdue.splice(4 , 1);
-      reviewsdue[4] = [reviewsdue[4][0] , reviewsdue [5][1]]
-      reviewsdue.splice(5 , 1);
-    }
-  if(indexOfCurrent < 32){
-      reviewsdue[3] = [reviewsdue[3][0] , "الذاريات"]
-      reviewsdue.splice(4 , 1);
-      reviewsdue[4] = ["ق" , reviewsdue [5][1]]
-      reviewsdue.splice(5 , 1);
-  }
-  if(indexOfCurrent < 28){
-      reviewsdue[5] = [reviewsdue[5][0] , reviewsdue [6][0]]
-      reviewsdue.splice(6 , 1);
-  }
+  let reviewsdue = getRivews()  
   if(revFrom.value != ""){
     reviewsdue.map((review , index , array)=>{
       if(revFrom.value == array[index][0]){
         if(review[1]){
             revTo.value = review[1]
+            revL1Input.focus()
           } else{
             revTo.value = ""
           }
@@ -2115,6 +2066,21 @@ revTo.addEventListener("focus" , function(){
     })  
   }
 })
+revFromInput.addEventListener("keydown" , (eve)=>{
+  if(eve.code == "ShiftLeft"){
+    let reviewsdue = getRivews()  
+    let lastRevTo = revToInput.placeholder
+    reviewsdue.map((review , index , array)=>{
+      if(review.includes(lastRevTo)){
+        if(array[index + 1]){
+          revFrom.value = array[index + 1][0]
+          revToInput.focus()  
+        }
+      }
+    })
+  }
+})
+
 
 // Start Fetch YesterDay Info
 let selectedDay = HijriJS.today().toString().split("/")[0]
@@ -2134,7 +2100,6 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
       database[dbc][Object.keys(database[dbc])].daily.map((e , i)=>{
         let data = e[Object.keys(e)]
         if(data.teatcherId == teatcherId){
-          console.log(data);
         let firstSurah = data.firstSurah
         let firstFrom = data.firstFrom;
         let firstTo = data.firstTo;
@@ -2162,7 +2127,6 @@ if(!localStorage.getItem(`LT-${HijriJS.today().toString().split("/")[0]}-${teatc
         }})
       }
       })
-      // console.log(lastTsmee);
 
     lastTsmee.forEach(e=>{
       let data = e[Object.keys(e)]

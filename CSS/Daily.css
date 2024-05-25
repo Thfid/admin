@@ -2038,6 +2038,7 @@ width: 100%;
     transition: var(--main-transition);
     cursor: pointer;
     background-color: white;
+    user-select: none;
 }
 .studint-taple .container table tbody tr td.number-body .delete-day{
     width: 100%;
